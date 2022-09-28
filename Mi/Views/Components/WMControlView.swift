@@ -1,0 +1,141 @@
+//
+//  WMControlView.swift
+//  Mi
+//
+//  Created by Vonley on 9/25/22.
+//
+
+import SwiftUI
+class WMControlViewModel: ObservableObject {
+
+    private var console: Console
+    
+    @Published var controls: [WebMan.Commands] = []
+    
+    init(console: Console) {
+        self.console = console
+    }
+    
+    func beep() async {
+        WebMan.beep(ip: console.ip) { res in
+            
+        }
+    }
+    
+    func reboot() async  {
+        WebMan.reboot(ip: console.ip, boot: .reboot ) { res in
+            
+        }
+    }
+
+    func shutdown() async {
+        WebMan.shutdown(ip: console.ip) { res in
+            
+        }
+    }
+    
+    func refresh() async {
+        WebMan.refresh(ip: console.ip) { res in
+            
+        }
+    }
+    
+    func insert() async {
+        WebMan.insert(ip: console.ip) { res in
+            
+        }
+    }
+    
+    func eject() async  {
+        WebMan.eject(ip: console.ip) { res in
+            
+        }
+    }
+    
+    func unmount() async {
+        WebMan.unmount(ip: console.ip) { res in
+            
+        }
+    }
+    
+    
+    func populate() {
+        let enums = [
+            WebMan.Commands.beep,
+            WebMan.Commands.reboot,
+            WebMan.Commands.shutdown,
+            WebMan.Commands.refresh,
+            WebMan.Commands.insert,
+            WebMan.Commands.eject,
+            WebMan.Commands.unmount,
+        ]
+        self.controls = enums
+    }
+    
+}
+
+
+struct WMControlView: View {
+    var console: Console
+    
+    @StateObject var vm: WMControlViewModel
+    
+    var body: some View {
+        VStack {
+            Text("Controls")
+                .font(.title2)
+                .fontWeight(.bold)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), spacing: 16)], spacing: 16) {
+                ForEach(vm.controls) { control in
+                    VStack {
+                        Image(systemName: "gear")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 90)
+                        Text(control.getTitle()).lineLimit(1)
+                    }
+                    .onTapGesture {
+                        Task {
+                            switch(control) {
+                                case .beep:
+                                await vm.beep()
+                                    break;
+                                case .reboot:
+                                await vm.reboot()
+                                    break;
+                                case .shutdown:
+                                await vm.shutdown()
+                                    break;
+                                case .refresh:
+                                await vm.refresh()
+                                    break;
+                                case .insert:
+                                await vm.insert()
+                                    break;
+                                case .eject:
+                                await vm.eject()
+                                    break;
+                                case .unmount:
+                                await vm.unmount()
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        .padding()
+        .onAppear {
+                vm.populate()
+        }
+    }
+}
+
+struct WMControlView_Previews: PreviewProvider {
+    static var previews: some View {
+        WMControlView(console: fakeConsoles[0], vm: WMControlViewModel(console: fakeConsoles[0]))
+    }
+}

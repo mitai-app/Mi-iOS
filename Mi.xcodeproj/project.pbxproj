@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17480A8D28DFC3B8000DF33F /* SmallCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A8C28DFC3B8000DF33F /* SmallCardView.swift */; };
+		17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A8E28E0B5CD000DF33F /* Changelog.swift */; };
+		17480A9228E0B6B9000DF33F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9128E0B6B9000DF33F /* Constants.swift */; };
+		17480A9628E0BC33000DF33F /* ConsoleListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9528E0BC33000DF33F /* ConsoleListItem.swift */; };
+		17480A9928E0BCBE000DF33F /* ConsoleSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */; };
+		17480A9B28E0D48D000DF33F /* ConsoleFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */; };
+		17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9C28E0D5EA000DF33F /* FakeData.swift */; };
+		17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480AA028E10AA0000DF33F /* WMGameView.swift */; };
+		17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480AA228E10C6F000DF33F /* WMControlView.swift */; };
+		174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 174DD76A28E3E66D007244B5 /* SwiftEntryKit */; };
+		174DD76E28E3E68F007244B5 /* BlueSocketTestCommonLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */; };
+		174DD77028E3E68F007244B5 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 174DD76F28E3E68F007244B5 /* Socket */; };
+		174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77428E3F1CC007244B5 /* SimplePing.m */; };
+		174DD77828E40421007244B5 /* PS3MAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77728E40421007244B5 /* PS3MAPI.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
 		17F1783728DE552B001E010A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783628DE552B001E010A /* ContentView.swift */; };
 		17F1783928DE5532001E010A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17F1783828DE5532001E010A /* Assets.xcassets */; };
@@ -16,6 +30,25 @@
 		17F1784B28DE5532001E010A /* MiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1784A28DE5532001E010A /* MiTests.swift */; };
 		17F1785528DE5533001E010A /* MiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1785428DE5533001E010A /* MiUITests.swift */; };
 		17F1785728DE5533001E010A /* MiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1785628DE5533001E010A /* MiUITestsLaunchTests.swift */; };
+		17F1786528DE6D3A001E010A /* HotReloading in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786428DE6D3A001E010A /* HotReloading */; };
+		17F1786828DE6EFD001E010A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786728DE6EFD001E010A /* Alamofire */; };
+		17F1786B28DE6F12001E010A /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786A28DE6F12001E010A /* SWXMLHash */; };
+		17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786D28DE6F24001E010A /* Kingfisher */; };
+		17F1787028DE7A17001E010A /* ChangelogFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */; };
+		17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787228DE7E26001E010A /* ChangelogCardView.swift */; };
+		17F1787528DE7F55001E010A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787428DE7F55001E010A /* HomeView.swift */; };
+		17F1787728DE82B4001E010A /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787628DE82B4001E010A /* ListView.swift */; };
+		17F1787928DE84C7001E010A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787828DE84C7001E010A /* ListItem.swift */; };
+		17F1787D28DE8A8F001E010A /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787C28DE8A8F001E010A /* Console.swift */; };
+		17F1788028DE8B3A001E010A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787F28DE8B3A001E010A /* Game.swift */; };
+		17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788128DE8B5A001E010A /* PlatformType.swift */; };
+		17F1788428DE8B7F001E010A /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788328DE8B7F001E010A /* Feature.swift */; };
+		17F1788628DE8BB3001E010A /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788528DE8BB3001E010A /* GameType.swift */; };
+		17F1788828DE8BC7001E010A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788728DE8BC7001E010A /* Protocols.swift */; };
+		17F1788C28DEB087001E010A /* Webman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788B28DEB087001E010A /* Webman.swift */; };
+		17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788D28DEB0A8001E010A /* PSXService.swift */; };
+		17F1789028DEB0DD001E010A /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788F28DEB0DD001E010A /* SyncService.swift */; };
+		17F1789228DEB160001E010A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1789128DEB160001E010A /* SettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +69,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17480A8C28DFC3B8000DF33F /* SmallCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallCardView.swift; sourceTree = "<group>"; };
+		17480A8E28E0B5CD000DF33F /* Changelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changelog.swift; sourceTree = "<group>"; };
+		17480A9128E0B6B9000DF33F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		17480A9528E0BC33000DF33F /* ConsoleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleListItem.swift; sourceTree = "<group>"; };
+		17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleSectionView.swift; sourceTree = "<group>"; };
+		17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleFeatureView.swift; sourceTree = "<group>"; };
+		17480A9C28E0D5EA000DF33F /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
+		17480AA028E10AA0000DF33F /* WMGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WMGameView.swift; sourceTree = "<group>"; };
+		17480AA228E10C6F000DF33F /* WMControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WMControlView.swift; sourceTree = "<group>"; };
+		174DD77228E3F1CB007244B5 /* Mi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mi-Bridging-Header.h"; sourceTree = "<group>"; };
+		174DD77328E3F1CC007244B5 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		174DD77428E3F1CC007244B5 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		174DD77728E40421007244B5 /* PS3MAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS3MAPI.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F1783428DE552B001E010A /* MiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiApp.swift; sourceTree = "<group>"; };
 		17F1783628DE552B001E010A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,6 +94,21 @@
 		17F1785028DE5533001E010A /* MiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F1785428DE5533001E010A /* MiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiUITests.swift; sourceTree = "<group>"; };
 		17F1785628DE5533001E010A /* MiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogFeatureView.swift; sourceTree = "<group>"; };
+		17F1787228DE7E26001E010A /* ChangelogCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogCardView.swift; sourceTree = "<group>"; };
+		17F1787428DE7F55001E010A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		17F1787628DE82B4001E010A /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		17F1787828DE84C7001E010A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		17F1787C28DE8A8F001E010A /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
+		17F1787F28DE8B3A001E010A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		17F1788128DE8B5A001E010A /* PlatformType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformType.swift; sourceTree = "<group>"; };
+		17F1788328DE8B7F001E010A /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
+		17F1788528DE8BB3001E010A /* GameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
+		17F1788728DE8BC7001E010A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		17F1788B28DEB087001E010A /* Webman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webman.swift; sourceTree = "<group>"; };
+		17F1788D28DEB0A8001E010A /* PSXService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSXService.swift; sourceTree = "<group>"; };
+		17F1788F28DEB0DD001E010A /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		17F1789128DEB160001E010A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +116,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */,
+				17F1786B28DE6F12001E010A /* SWXMLHash in Frameworks */,
+				174DD77028E3E68F007244B5 /* Socket in Frameworks */,
+				174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */,
+				17F1786528DE6D3A001E010A /* HotReloading in Frameworks */,
+				174DD76E28E3E68F007244B5 /* BlueSocketTestCommonLibrary in Frameworks */,
+				17F1786828DE6EFD001E010A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +143,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17480A9028E0B696000DF33F /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				17480A9128E0B6B9000DF33F /* Constants.swift */,
+				17480A9C28E0D5EA000DF33F /* FakeData.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		17480A9728E0BCAC000DF33F /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
+		17480A9E28E0DAEF000DF33F /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				17F1788728DE8BC7001E010A /* Protocols.swift */,
+				17F1788128DE8B5A001E010A /* PlatformType.swift */,
+				17F1788328DE8B7F001E010A /* Feature.swift */,
+				17F1788528DE8BB3001E010A /* GameType.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		17480A9F28E0E8BB000DF33F /* DetailViews */ = {
+			isa = PBXGroup;
+			children = (
+				17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */,
+				17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */,
+			);
+			path = DetailViews;
+			sourceTree = "<group>";
+		};
+		174DD77128E3F1AE007244B5 /* SimplePing */ = {
+			isa = PBXGroup;
+			children = (
+				174DD77328E3F1CC007244B5 /* SimplePing.h */,
+				174DD77428E3F1CC007244B5 /* SimplePing.m */,
+				174DD77228E3F1CB007244B5 /* Mi-Bridging-Header.h */,
+			);
+			path = SimplePing;
+			sourceTree = "<group>";
+		};
 		17F1782828DE552A001E010A = {
 			isa = PBXGroup;
 			children = (
@@ -98,10 +213,15 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				174DD77128E3F1AE007244B5 /* SimplePing */,
+				17480A9028E0B696000DF33F /* Constants */,
+				17F1788928DEB035001E010A /* Network */,
+				17F1787E28DE8B2B001E010A /* Models */,
 				17F1783428DE552B001E010A /* MiApp.swift */,
-				17F1783628DE552B001E010A /* ContentView.swift */,
-				17F1783828DE5532001E010A /* Assets.xcassets */,
+				17F1787128DE7E08001E010A /* Navigation */,
+				17F1787A28DE89E9001E010A /* Views */,
 				17F1783D28DE5532001E010A /* Persistence.swift */,
+				17F1783828DE5532001E010A /* Assets.xcassets */,
 				17F1783F28DE5532001E010A /* Mi.xcdatamodeld */,
 				17F1783A28DE5532001E010A /* Preview Content */,
 			);
@@ -133,6 +253,70 @@
 			path = MiUITests;
 			sourceTree = "<group>";
 		};
+		17F1787128DE7E08001E010A /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				17F1783628DE552B001E010A /* ContentView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		17F1787A28DE89E9001E010A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17F1787B28DE8A1D001E010A /* Components */,
+				17480A9F28E0E8BB000DF33F /* DetailViews */,
+				17480A9728E0BCAC000DF33F /* Sections */,
+				17F1787428DE7F55001E010A /* HomeView.swift */,
+				17F1787628DE82B4001E010A /* ListView.swift */,
+				17F1789128DEB160001E010A /* SettingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		17F1787B28DE8A1D001E010A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				17F1787228DE7E26001E010A /* ChangelogCardView.swift */,
+				17F1787828DE84C7001E010A /* ListItem.swift */,
+				17480A8C28DFC3B8000DF33F /* SmallCardView.swift */,
+				17480A9528E0BC33000DF33F /* ConsoleListItem.swift */,
+				17480AA028E10AA0000DF33F /* WMGameView.swift */,
+				17480AA228E10C6F000DF33F /* WMControlView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		17F1787E28DE8B2B001E010A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				17480A9E28E0DAEF000DF33F /* Enums */,
+				17F1787C28DE8A8F001E010A /* Console.swift */,
+				17F1787F28DE8B3A001E010A /* Game.swift */,
+				17480A8E28E0B5CD000DF33F /* Changelog.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		17F1788928DEB035001E010A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				17F1788A28DEB064001E010A /* Protocols */,
+				17F1788D28DEB0A8001E010A /* PSXService.swift */,
+				17F1788F28DEB0DD001E010A /* SyncService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		17F1788A28DEB064001E010A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				17F1788B28DEB087001E010A /* Webman.swift */,
+				174DD77728E40421007244B5 /* PS3MAPI.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -149,6 +333,15 @@
 			dependencies = (
 			);
 			name = Mi;
+			packageProductDependencies = (
+				17F1786428DE6D3A001E010A /* HotReloading */,
+				17F1786728DE6EFD001E010A /* Alamofire */,
+				17F1786A28DE6F12001E010A /* SWXMLHash */,
+				17F1786D28DE6F24001E010A /* Kingfisher */,
+				174DD76A28E3E66D007244B5 /* SwiftEntryKit */,
+				174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */,
+				174DD76F28E3E68F007244B5 /* Socket */,
+			);
 			productName = Mi;
 			productReference = 17F1783128DE552A001E010A /* Mi.app */;
 			productType = "com.apple.product-type.application";
@@ -201,6 +394,7 @@
 				TargetAttributes = {
 					17F1783028DE552A001E010A = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1320;
 					};
 					17F1784528DE5532001E010A = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -221,6 +415,14 @@
 				Base,
 			);
 			mainGroup = 17F1782828DE552A001E010A;
+			packageReferences = (
+				17F1786328DE6D3A001E010A /* XCRemoteSwiftPackageReference "HotReloading" */,
+				17F1786628DE6EFD001E010A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				17F1786928DE6F12001E010A /* XCRemoteSwiftPackageReference "SWXMLHash" */,
+				17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
+				174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */,
+			);
 			productRefGroup = 17F1783228DE552A001E010A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -263,9 +465,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17480A8D28DFC3B8000DF33F /* SmallCardView.swift in Sources */,
+				17480A9228E0B6B9000DF33F /* Constants.swift in Sources */,
+				17480A9B28E0D48D000DF33F /* ConsoleFeatureView.swift in Sources */,
+				17F1788828DE8BC7001E010A /* Protocols.swift in Sources */,
+				17F1788C28DEB087001E010A /* Webman.swift in Sources */,
+				17F1789028DEB0DD001E010A /* SyncService.swift in Sources */,
+				17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */,
+				17F1787728DE82B4001E010A /* ListView.swift in Sources */,
+				17480A9928E0BCBE000DF33F /* ConsoleSectionView.swift in Sources */,
+				17480A9628E0BC33000DF33F /* ConsoleListItem.swift in Sources */,
+				17F1787D28DE8A8F001E010A /* Console.swift in Sources */,
+				17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */,
+				17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */,
+				174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */,
+				17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */,
 				17F1783E28DE5532001E010A /* Persistence.swift in Sources */,
+				17F1787528DE7F55001E010A /* HomeView.swift in Sources */,
+				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
 				17F1784128DE5532001E010A /* Mi.xcdatamodeld in Sources */,
+				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
+				17F1789228DEB160001E010A /* SettingView.swift in Sources */,
+				17F1788028DE8B3A001E010A /* Game.swift in Sources */,
+				17F1787028DE7A17001E010A /* ChangelogFeatureView.swift in Sources */,
+				174DD77828E40421007244B5 /* PS3MAPI.swift in Sources */,
+				17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */,
+				17F1788628DE8BB3001E010A /* GameType.swift in Sources */,
 				17F1783728DE552B001E010A /* ContentView.swift in Sources */,
+				17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */,
+				17F1788428DE8B7F001E010A /* Feature.swift in Sources */,
 				17F1783528DE552B001E010A /* MiApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,10 +582,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -409,9 +638,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-interposable",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -424,6 +657,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mi/Preview Content\"";
@@ -443,6 +677,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.mrsmyx.Mi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Mi/SimplePing/Mi-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -453,6 +689,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mi/Preview Content\"";
@@ -472,6 +709,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.mrsmyx.Mi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Mi/SimplePing/Mi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -593,6 +831,95 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huri000/SwiftEntryKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/BlueSocket.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		17F1786328DE6D3A001E010A /* XCRemoteSwiftPackageReference "HotReloading" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnno1962/HotReloading.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+		17F1786628DE6EFD001E010A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		17F1786928DE6F12001E010A /* XCRemoteSwiftPackageReference "SWXMLHash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/drmohundro/SWXMLHash.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		174DD76A28E3E66D007244B5 /* SwiftEntryKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */;
+			productName = SwiftEntryKit;
+		};
+		174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */;
+			productName = BlueSocketTestCommonLibrary;
+		};
+		174DD76F28E3E68F007244B5 /* Socket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */;
+			productName = Socket;
+		};
+		17F1786428DE6D3A001E010A /* HotReloading */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17F1786328DE6D3A001E010A /* XCRemoteSwiftPackageReference "HotReloading" */;
+			productName = HotReloading;
+		};
+		17F1786728DE6EFD001E010A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17F1786628DE6EFD001E010A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		17F1786A28DE6F12001E010A /* SWXMLHash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17F1786928DE6F12001E010A /* XCRemoteSwiftPackageReference "SWXMLHash" */;
+			productName = SWXMLHash;
+		};
+		17F1786D28DE6F24001E010A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		17F1783F28DE5532001E010A /* Mi.xcdatamodeld */ = {

@@ -1,0 +1,24 @@
+Pods
+DerivedData/
+build/
+
+*~.nib
+.DS_Store
+.Trashes
+*.swp
+*.pbxuser
+*.model1v3
+*.model2v3
+*.perspectivev3
+
+!default.pbxuser
+!default.model1v3
+!default.model2v3
+!default.perspectivev3
+
+*.xccheckout
+xcuserdata/
+*.move-aside
+
+## Xcode 8 and earlier
+*.xcscmblueprint

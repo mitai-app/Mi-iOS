@@ -1,0 +1,115 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "8dd85aee02e39dd280c75eef88ffdb86eed4b07b",
+          "version": "5.6.2"
+        }
+      },
+      {
+        "package": "Socket",
+        "repositoryURL": "https://github.com/Kitura/BlueSocket.git",
+        "state": {
+          "branch": null,
+          "revision": "270f7bd2ea9d81878022d604f4f3577ce6c1703d",
+          "version": "2.0.3"
+        }
+      },
+      {
+        "package": "DLKit",
+        "repositoryURL": "https://github.com/johnno1962/DLKit",
+        "state": {
+          "branch": null,
+          "revision": "0c419bc7e248aa426712b52cb14e39ca4a5e7ecc",
+          "version": "1.2.1"
+        }
+      },
+      {
+        "package": "HotReloading",
+        "repositoryURL": "https://github.com/johnno1962/HotReloading.git",
+        "state": {
+          "branch": null,
+          "revision": "e08532463e55cf075ca06e4ef5d04dd0f4113044",
+          "version": "4.5.1"
+        }
+      },
+      {
+        "package": "InjectionScratch",
+        "repositoryURL": "https://github.com/johnno1962/InjectionScratch",
+        "state": {
+          "branch": null,
+          "revision": "6c158cd2e9233dad709f1ac0b4e6ed6e4d3e6184",
+          "version": "1.2.12"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher",
+        "state": {
+          "branch": "master",
+          "revision": "5ffd3e5db7a18873a9bbaa3cea25a7ba52d7bd8a",
+          "version": null
+        }
+      },
+      {
+        "package": "RemotePlugin",
+        "repositoryURL": "https://github.com/johnno1962/Remote",
+        "state": {
+          "branch": null,
+          "revision": "2a03313297a15f31b354dbf2b40c62ca9630b0a1",
+          "version": "2.3.5"
+        }
+      },
+      {
+        "package": "SwiftEntryKit",
+        "repositoryURL": "https://github.com/huri000/SwiftEntryKit.git",
+        "state": {
+          "branch": null,
+          "revision": "5ad36cccf0c4b9fea32f4e9b17a8e38f07563ef0",
+          "version": "2.0.0"
+        }
+      },
+      {
+        "package": "SwiftRegex",
+        "repositoryURL": "https://github.com/johnno1962/SwiftRegex5",
+        "state": {
+          "branch": null,
+          "revision": "8ecb4a8570757b7f8bce72f82242742e13891f99",
+          "version": "5.2.3"
+        }
+      },
+      {
+        "package": "SwiftTrace",
+        "repositoryURL": "https://github.com/johnno1962/SwiftTrace",
+        "state": {
+          "branch": null,
+          "revision": "21aaa8b6d0f70d92e155300c45d4059ec93a952a",
+          "version": "8.2.14"
+        }
+      },
+      {
+        "package": "SWXMLHash",
+        "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
+        "state": {
+          "branch": "main",
+          "revision": "eacfa68203c7595f7988e36a037a0decfc74dc33",
+          "version": null
+        }
+      },
+      {
+        "package": "XprobePlugin",
+        "repositoryURL": "https://github.com/johnno1962/XprobePlugin",
+        "state": {
+          "branch": null,
+          "revision": "069a8c03ae6663175c369e3858a8372ea3ee95f4",
+          "version": "2.9.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
