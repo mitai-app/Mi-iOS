@@ -10,6 +10,7 @@ import SwiftUI
 struct ConsoleSectionView: View {
     
     @StateObject var sync: SyncService
+    @State var show: Bool = false
     
     var body: some View {
         ScrollView(.vertical) {
@@ -17,11 +18,19 @@ struct ConsoleSectionView: View {
                 .font(.title2).bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-            ForEach(sync.active) { item in
-                NavigationLink(destination: ConsoleFeatureView(item: item)) {
+            VStack {
+                ForEach(sync.active) { item in
                     ConsoleListItem(console: item)
+                    .onTapGesture {
+                        print("Setting Console: \(item.ip)")
+                        sync.target = item
+                        show.toggle()
+                    }
+                    
                 }
-            }
+            }.sheet(isPresented: $show, content: {
+                ConsoleFeatureView(item: sync.target!)
+            })
         }
     }
 }

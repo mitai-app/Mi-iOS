@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PlatformType: CaseIterable {
+enum PlatformType: CaseIterable, Equatable {
     static var allCases: [PlatformType] {
         return [unknown(), ps3(), ps4()]
     }

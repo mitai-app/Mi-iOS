@@ -11,50 +11,31 @@ import Kingfisher
 
 struct ConsoleFeatureView: View {
     
-    var item: Console = fakeConsoles[0]
+    @State var item: Console
     
     var body: some View {
         ScrollView {
             ConsoleHeaderView(item: item)
             
             VStack(alignment: .leading, spacing: 20) {
-                Text(item.name)
-                    .font(.title)
-                    .fontWeight(.bold).padding()
-                
-                Text("SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on.").padding()
-                
-                WMControlView(console: item, vm: WMControlViewModel(console: item))
-                WMGameView(console: item)
-                
+                if item.type == .ps3() {
+                    WMControlView(console: item, vm: WMControlViewModel(console: item))
+                    PS3MControlView(console: item, vm: PS3MControlViewModel(console: item))
+                    WMGameView(console: item)
+                } else {
+                    GoldhenBinView(vm: GoldhenBinViewModel(console: item))
+                }
+            }.onAppear {
+                SyncService.shared.target = item
+                print("Current Target \(SyncService.shared.target)")
             }
-        }
+        }.foregroundColor(.black)
     }
 }
 
 struct ConsoleFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        ConsoleFeatureView()
+        ConsoleFeatureView(item: fakeConsoles[0])
     }
 }
 
-struct ConsoleHeaderView: View {
-    var item: Console = fakeConsoles[0]
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Image("karl_marx")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .frame(height: 128)
-            Text(item.name)
-                .font(.title2)
-                .fontWeight(.bold)
-            Text(item.ip)
-                .opacity(0.7)
-        }.padding(.all)
-            .foregroundColor(.white)
-            .background(grads[0])
-    }
-}

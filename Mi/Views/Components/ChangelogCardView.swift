@@ -11,22 +11,25 @@ struct ChangelogCardView: View {
     var item: Changelog = fakeChangeLogs[0]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        
+        HStack(alignment: .center) {
             Image(systemName: "gear")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .frame(height: 128)
-                .padding(.vertical)
-            Text(item.title)
-                .font(.title2)
-                .fontWeight(.bold)
-            Text(item.summary)
-                .opacity(0.7)
-        }.padding(.all)
+                .frame(width: 48, height: 48)
+            VStack(alignment: .leading) {
+                
+                Text(item.title)
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Text(item.summary)
+                    .opacity(0.7)
+            }
+            
+        }.frame(width: 300, height: 80)
+            .background(grads[1])
+            .cornerRadius(16)
             .foregroundColor(.white)
-            .frame(width: 252, height: 270)
-            .background(grads[2]).cornerRadius(30)
     }
 }
 

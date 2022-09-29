@@ -8,9 +8,9 @@
 import Foundation
 import Alamofire
 
-class WebMan: NSObject {
+class Webman: NSObject {
 
-    static let shared = WebMan()
+    static let shared = Webman()
     var service: PSXService!
     
     private func buildGameURL(targetIp: String) -> String {
@@ -43,6 +43,12 @@ class WebMan: NSObject {
         let url = "http://\(ip)\(Commands.beep.rawValue)\(code)"
         shared.service.getRequest(url: url, onComplete: onComplete)
     }
+    
+    
+    static func buildScreenshotURL(ip: String) -> String {
+        return "http://\(ip)\(Commands.screenshot.rawValue)"
+    }
+    
     
     static func reboot(ip: String, boot: BootModes, onComplete: @escaping (AFDataResponse<Data?>) -> Void) {
         let url = "http://\(ip)\(Commands.reboot.rawValue)\(boot.rawValue)"
@@ -133,7 +139,7 @@ class WebMan: NSObject {
 }
 
 
-extension WebMan.Commands: Identifiable {
+extension Webman.Commands: Identifiable {
     var id: Self { self }
     
     func getTitle() -> String {

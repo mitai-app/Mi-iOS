@@ -21,13 +21,15 @@ struct HomeView: View {
     
     @StateObject private var vm: HomeViewModel = HomeViewModel()
     
+    @StateObject var sync: SyncService
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 
-                ConsoleSectionView(sync: SyncService.shared)
+                ConsoleSectionView(sync: sync)
                 
-                Text("Change Logs")
+                Text("Changelogs")
                     .font(.title2).bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
@@ -54,15 +56,15 @@ struct HomeView: View {
                         }
                     }
                 }.padding()
-            }.onAppear {
+            }.background(grads[0]).onAppear {
                 vm.getChangelogs()
-            }.navigationTitle("Home")
+            }.navigationTitle("Home").foregroundColor(Color.white)
         }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(sync: SyncService.test())
     }
 }

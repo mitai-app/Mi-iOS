@@ -21,13 +21,13 @@ class WebmanGameViewModel: ObservableObject {
     }
     
     func playGame(console: Console, game: Game) async {
-        WebMan.play(ip: console.ip, game: game) { response in
+        Webman.play(ip: console.ip, game: game) { response in
             
         }
     }
     
     func getGames(console: Console) async {
-        WebMan.getGames(ip: console.ip, onComplete: { res in
+        Webman.getGames(ip: console.ip, onComplete: { res in
             do {
                 if let data = try res.result.get() {
                     let games = Game.parse(ip: console.ip, data: data)

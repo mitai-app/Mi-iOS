@@ -16,9 +16,11 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    @StateObject var sync: SyncService = SyncService.shared
+    
     var body: some View {
         TabView {
-            HomeView().tabItem {
+            HomeView(sync: sync).tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
             }
@@ -44,7 +46,7 @@ private let itemFormatter: DateFormatter = {
 
 class ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView(sync: SyncService.test()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
     
 #if DEBUG

@@ -16,8 +16,6 @@ protocol PSXService {
 }
 
 class PSXServiceImpl: PSXService {
-   
-    
     
     func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void) {
         return getRequest(url: url, params: [:], onComplete: onComplete)

@@ -10,50 +10,50 @@ class WMControlViewModel: ObservableObject {
 
     private var console: Console
     
-    @Published var controls: [WebMan.Commands] = []
+    @Published var controls: [Webman.Commands] = []
     
     init(console: Console) {
         self.console = console
     }
     
     func beep() async {
-        WebMan.beep(ip: console.ip) { res in
+        Webman.beep(ip: console.ip) { res in
             
         }
     }
     
     func reboot() async  {
-        WebMan.reboot(ip: console.ip, boot: .reboot ) { res in
+        Webman.reboot(ip: console.ip, boot: .reboot ) { res in
             
         }
     }
 
     func shutdown() async {
-        WebMan.shutdown(ip: console.ip) { res in
+        Webman.shutdown(ip: console.ip) { res in
             
         }
     }
     
     func refresh() async {
-        WebMan.refresh(ip: console.ip) { res in
+        Webman.refresh(ip: console.ip) { res in
             
         }
     }
     
     func insert() async {
-        WebMan.insert(ip: console.ip) { res in
+        Webman.insert(ip: console.ip) { res in
             
         }
     }
     
     func eject() async  {
-        WebMan.eject(ip: console.ip) { res in
+        Webman.eject(ip: console.ip) { res in
             
         }
     }
     
     func unmount() async {
-        WebMan.unmount(ip: console.ip) { res in
+        Webman.unmount(ip: console.ip) { res in
             
         }
     }
@@ -61,13 +61,13 @@ class WMControlViewModel: ObservableObject {
     
     func populate() {
         let enums = [
-            WebMan.Commands.beep,
-            WebMan.Commands.reboot,
-            WebMan.Commands.shutdown,
-            WebMan.Commands.refresh,
-            WebMan.Commands.insert,
-            WebMan.Commands.eject,
-            WebMan.Commands.unmount,
+            Webman.Commands.beep,
+            Webman.Commands.reboot,
+            Webman.Commands.shutdown,
+            Webman.Commands.refresh,
+            Webman.Commands.insert,
+            Webman.Commands.eject,
+            Webman.Commands.unmount,
         ]
         self.controls = enums
     }

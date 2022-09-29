@@ -14,10 +14,10 @@ struct ListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(0 ..< 5) { item in
+                ForEach(fakeConsoles) { item in
                     ListItem()
                         .sheet(isPresented: $show, content: {
-                            ConsoleFeatureView()
+                            ConsoleFeatureView(item: item)
                         }).onTapGesture {
                             show.toggle()
                         }

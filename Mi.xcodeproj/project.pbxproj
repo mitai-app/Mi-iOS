@@ -16,11 +16,16 @@
 		17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9C28E0D5EA000DF33F /* FakeData.swift */; };
 		17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480AA028E10AA0000DF33F /* WMGameView.swift */; };
 		17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480AA228E10C6F000DF33F /* WMControlView.swift */; };
+		174BF30628E4F4EA00D6DDF2 /* PS3MControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BF30528E4F4EA00D6DDF2 /* PS3MControlView.swift */; };
+		174BF30828E5134400D6DDF2 /* ConsoleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */; };
+		174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BF30928E5185E00D6DDF2 /* GoldhenBinView.swift */; };
 		174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 174DD76A28E3E66D007244B5 /* SwiftEntryKit */; };
 		174DD76E28E3E68F007244B5 /* BlueSocketTestCommonLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */; };
 		174DD77028E3E68F007244B5 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 174DD76F28E3E68F007244B5 /* Socket */; };
 		174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77428E3F1CC007244B5 /* SimplePing.m */; };
 		174DD77828E40421007244B5 /* PS3MAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77728E40421007244B5 /* PS3MAPI.swift */; };
+		174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */; };
+		174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
 		17F1783728DE552B001E010A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783628DE552B001E010A /* ContentView.swift */; };
 		17F1783928DE5532001E010A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17F1783828DE5532001E010A /* Assets.xcassets */; };
@@ -78,10 +83,15 @@
 		17480A9C28E0D5EA000DF33F /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		17480AA028E10AA0000DF33F /* WMGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WMGameView.swift; sourceTree = "<group>"; };
 		17480AA228E10C6F000DF33F /* WMControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WMControlView.swift; sourceTree = "<group>"; };
+		174BF30528E4F4EA00D6DDF2 /* PS3MControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS3MControlView.swift; sourceTree = "<group>"; };
+		174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleHeaderView.swift; sourceTree = "<group>"; };
+		174BF30928E5185E00D6DDF2 /* GoldhenBinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoldhenBinView.swift; sourceTree = "<group>"; };
 		174DD77228E3F1CB007244B5 /* Mi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mi-Bridging-Header.h"; sourceTree = "<group>"; };
 		174DD77328E3F1CC007244B5 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
 		174DD77428E3F1CC007244B5 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		174DD77728E40421007244B5 /* PS3MAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS3MAPI.swift; sourceTree = "<group>"; };
+		174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Enums.swift"; sourceTree = "<group>"; };
+		174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Structs.swift"; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F1783428DE552B001E010A /* MiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiApp.swift; sourceTree = "<group>"; };
 		17F1783628DE552B001E010A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -176,8 +186,34 @@
 			children = (
 				17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */,
 				17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */,
+				174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */,
 			);
 			path = DetailViews;
+			sourceTree = "<group>";
+		};
+		174BF30328E4F4B400D6DDF2 /* Webman */ = {
+			isa = PBXGroup;
+			children = (
+				17480AA028E10AA0000DF33F /* WMGameView.swift */,
+				17480AA228E10C6F000DF33F /* WMControlView.swift */,
+			);
+			path = Webman;
+			sourceTree = "<group>";
+		};
+		174BF30428E4F4C900D6DDF2 /* PS3M */ = {
+			isa = PBXGroup;
+			children = (
+				174BF30528E4F4EA00D6DDF2 /* PS3MControlView.swift */,
+			);
+			path = PS3M;
+			sourceTree = "<group>";
+		};
+		174BF30B28E5186300D6DDF2 /* Goldhen */ = {
+			isa = PBXGroup;
+			children = (
+				174BF30928E5185E00D6DDF2 /* GoldhenBinView.swift */,
+			);
+			path = Goldhen;
 			sourceTree = "<group>";
 		};
 		174DD77128E3F1AE007244B5 /* SimplePing */ = {
@@ -188,6 +224,24 @@
 				174DD77228E3F1CB007244B5 /* Mi-Bridging-Header.h */,
 			);
 			path = SimplePing;
+			sourceTree = "<group>";
+		};
+		174DD77928E4BEF2007244B5 /* PS3MAPI */ = {
+			isa = PBXGroup;
+			children = (
+				174DD77728E40421007244B5 /* PS3MAPI.swift */,
+				174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */,
+				174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */,
+			);
+			path = PS3MAPI;
+			sourceTree = "<group>";
+		};
+		174DD77E28E4C4DB007244B5 /* Webman */ = {
+			isa = PBXGroup;
+			children = (
+				17F1788B28DEB087001E010A /* Webman.swift */,
+			);
+			path = Webman;
 			sourceTree = "<group>";
 		};
 		17F1782828DE552A001E010A = {
@@ -277,12 +331,13 @@
 		17F1787B28DE8A1D001E010A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				174BF30B28E5186300D6DDF2 /* Goldhen */,
+				174BF30428E4F4C900D6DDF2 /* PS3M */,
+				174BF30328E4F4B400D6DDF2 /* Webman */,
 				17F1787228DE7E26001E010A /* ChangelogCardView.swift */,
 				17F1787828DE84C7001E010A /* ListItem.swift */,
 				17480A8C28DFC3B8000DF33F /* SmallCardView.swift */,
 				17480A9528E0BC33000DF33F /* ConsoleListItem.swift */,
-				17480AA028E10AA0000DF33F /* WMGameView.swift */,
-				17480AA228E10C6F000DF33F /* WMControlView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -311,8 +366,8 @@
 		17F1788A28DEB064001E010A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				17F1788B28DEB087001E010A /* Webman.swift */,
-				174DD77728E40421007244B5 /* PS3MAPI.swift */,
+				174DD77E28E4C4DB007244B5 /* Webman */,
+				174DD77928E4BEF2007244B5 /* PS3MAPI */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -480,6 +535,8 @@
 				17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */,
 				174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */,
 				17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */,
+				174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */,
+				174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */,
 				17F1783E28DE5532001E010A /* Persistence.swift in Sources */,
 				17F1787528DE7F55001E010A /* HomeView.swift in Sources */,
 				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
@@ -487,14 +544,17 @@
 				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
 				17F1789228DEB160001E010A /* SettingView.swift in Sources */,
 				17F1788028DE8B3A001E010A /* Game.swift in Sources */,
+				174BF30628E4F4EA00D6DDF2 /* PS3MControlView.swift in Sources */,
 				17F1787028DE7A17001E010A /* ChangelogFeatureView.swift in Sources */,
 				174DD77828E40421007244B5 /* PS3MAPI.swift in Sources */,
 				17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */,
+				174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */,
 				17F1788628DE8BB3001E010A /* GameType.swift in Sources */,
 				17F1783728DE552B001E010A /* ContentView.swift in Sources */,
 				17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */,
 				17F1788428DE8B7F001E010A /* Feature.swift in Sources */,
 				17F1783528DE552B001E010A /* MiApp.swift in Sources */,
+				174BF30828E5134400D6DDF2 /* ConsoleHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

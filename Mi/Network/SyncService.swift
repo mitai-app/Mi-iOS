@@ -20,11 +20,7 @@ class SyncService: ObservableObject {
     
     static func test() -> SyncService {
         let sync = SyncService()
-        sync.active = [
-            Console.init(ip: "192.168.11.45", name: "PS5"),
-            Console.init(ip: "192.168.11.46", name: "PS4")
-            
-        ]
+        sync.active = fakeConsoles
         return sync
     }
     
@@ -40,7 +36,24 @@ class SyncService: ObservableObject {
     
     func getSocket(feat: Feature) -> Socket? {
         if let ip = self.ip {
-            return map[ip]![feat]
+            if map[ip] == nil {
+                map[ip] = [:]
+            }
+            var socket = map[ip]?[feat]
+            if socket == nil || socket?.isConnected == false || (socket?.isConnected == true && socket?.remoteConnectionClosed == true) {
+                do {
+                    let ports = Feature.getPort(feat: feat)
+                    for port in ports {
+                        socket = try Socket.create()
+                        try socket?.connect(to: ip, port: Int32(port), timeout: 200)
+                        map[ip]![feat] = socket
+                        return socket
+                    }
+                } catch  {
+                    print("Socket error \(error)")
+                }
+            }
+            return socket
         }
         return nil
     }
@@ -182,7 +195,6 @@ class SyncService: ObservableObject {
                                 print("OK: \(String(describing: line))")
                                 let line2 = try socket.readString()
                                 print("RAD: \(String(describing: line2))")
-                                try socket.write(from: "PS3 BUZZER1\r\n")
                             }
                             if feat == .orbisapi() || feat == .klog() {
                                 print("Found PS4")

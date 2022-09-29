@@ -42,6 +42,32 @@ extension Feature {
         return Feature.allCases[id]
     }
 
+    static func getPort(feat: Feature) -> [Int] {
+        switch feat {
+            
+        case .none(protocoll: _, port: let port):
+            return port
+        case .netcat(protocoll: _, port: let port):
+            return port
+        case .goldhen(protocoll: _, port: let port):
+            return port
+        case .orbisapi(protocoll: _, port: let port):
+            return port
+        case .rpi(protocoll: _, port: let port):
+            return port
+        case .ps3mapi(protocoll: _, port: let port):
+            return port
+        case .ccapi(protocoll: _, port: let port):
+            return port
+        case .webman(protocoll: _, port: let port):
+            return port
+        case .klog(protocoll: _, port: let port):
+            return port
+        case .ftp(protocoll: _, port: let port):
+            return port
+        }
+    }
+    
         /**
          * These fields are for client
          * Due to GoldenHen & NetCat being the payload sender,
