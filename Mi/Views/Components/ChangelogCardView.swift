@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChangelogCardView: View {
-    var item: Changelog = fakeChangeLogs[0]
+    @State var item: Changes
     
     var body: some View {
         
@@ -17,13 +17,15 @@ struct ChangelogCardView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 48, height: 48)
-            VStack(alignment: .leading) {
-                
-                Text(item.title)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                Text(item.summary)
-                    .opacity(0.7)
+            if let change = item {
+                VStack(alignment: .leading) {
+                    
+                    Text(change.name)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    Text(change.build)
+                        .opacity(0.7)
+                }
             }
             
         }.frame(width: 300, height: 80)
@@ -35,6 +37,6 @@ struct ChangelogCardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangelogCardView()
+        ChangelogCardView(item: fakeChangeLogs[0].changelogs[0])
     }
 }

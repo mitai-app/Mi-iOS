@@ -9,47 +9,48 @@ import SwiftUI
 
 struct ChangelogFeatureView: View {
     
-    var item: Changelog = fakeChangeLogs[0]
+    var changelog: Changelog
+    var item: Changes
     
     var body: some View {
         ScrollView {
             HeaderView(item: item)
             
-            VStack(alignment: .leading, spacing: 20) {
-                Text(item.version)
-                    .font(.title)
-                    .fontWeight(.bold)
+            if let change = item {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(change.name)
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    ForEach(0..<change.changes.count) { id in
+                        Text(change.changes[id])
+                    }
+                    Text(change.build)
                 
-                Text("SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on.")
-                
-                ForEach(0 ..< 2) { item in
-                    Text("SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on. SwiftUI is hands on.")
-                }
-            }.padding()
+                }.padding()
+            }
         }
     }
 }
 
 struct ChangelogFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangelogFeatureView()
+        ChangelogFeatureView(changelog: fakeChangeLogs[0], item: Changes(name: "Hello", changes: [], build: ""))
     }
 }
 
 struct HeaderView: View {
-    var item: Changelog = fakeChangeLogs[0]
+    var item: Changes
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Image("karl_marx")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .frame(height: 128)
-            Text(item.title)
+            Text(item.name)
                 .font(.title2)
                 .fontWeight(.bold)
-            Text(item.summary)
+            Text(item.build)
                 .opacity(0.7)
         }.padding(.all)
             .foregroundColor(.white)

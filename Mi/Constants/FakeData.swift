@@ -8,9 +8,9 @@
 import Foundation
 
 let fakeChangeLogs: [Changelog] = [
-    Changelog(title: "Initial Release", summary: "This is the first release", version: "1.0.0", released: Date()),
-    Changelog(title: "Alpha Release", summary: "This is the first alpha release", version: "0.9.0", released: Date()),
-    Changelog(title: "Pre-Alpha Release", summary: "This is the first pre-alpha release", version: "0.1.0", released: Date())
+    Changelog(name: "Mi PS4/PS3 Tool iOS", author: "Mr Smithy x", version: "1.0.0-alpha", contributors: ["Mr Smithy x"], changelog: ["New version"], build: "github.com", changelogs: [
+    Changes(name: "1.0.0-alpha", changes: ["Changes"], build: "github")
+    ], thanks: ["Jb team"])
 ]
 
 let fakeConsoles = [

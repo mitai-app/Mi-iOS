@@ -7,10 +7,17 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+import UIKit
 
 struct InputDoument: FileDocument {
 
-    static var readableContentTypes: [UTType] { [.plainText] }
+    static var bookDocument: UTType {
+        UTType(importedAs: "com.mrsmithyx.mi", conformingTo: UTType.data)
+        
+        }
+    static var readableContentTypes: [UTType] { return [bookDocument, UTType.archive, UTType.data]
+        
+    }
 
     var input: String
 
@@ -71,9 +78,19 @@ struct GoldhenBinView: View {
             do {
                 guard let selectedFile: URL = try result.get().first else { return }
                     if selectedFile.startAccessingSecurityScopedResource() {
-                    guard let input = String(data: try Data(contentsOf: selectedFile), encoding: .utf8) else { return }
-                        defer { selectedFile.stopAccessingSecurityScopedResource() }
-                            document.input = input
+                    let data = try Data(contentsOf: selectedFile)
+                    guard let input = String(data: data, encoding: .utf8) else {
+                            return
+                        }
+                        defer {
+                            selectedFile.stopAccessingSecurityScopedResource()
+                        }
+                        document.input = input
+                        DispatchQueue.global().async {
+                            
+                            Goldhen.uploadData(data: data)
+                        }
+                        
                 } else {
                     // Handle denied access
                 }

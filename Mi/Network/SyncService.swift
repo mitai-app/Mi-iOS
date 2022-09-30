@@ -180,20 +180,20 @@ class SyncService: ObservableObject {
             do {
                 if (proto == Protocols.socket){
                     for port in ports {
-                        let socket = try Socket.create()
-                        try socket.connect(to: ip, port: Int32(port), timeout: 200)
-                        print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
-                        ret = true
-                        features.append(feat)
-                        
                         do {
+                            let socket = try Socket.create()
+                            try socket.connect(to: ip, port: Int32(port), timeout: 200)
+                            print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
+                            ret = true
+                            features.append(feat)
+                        
                             if feat == .ps3mapi() {
                                 console.name = "Playstation 3"
                                 platform = PlatformType.ps3()
                                 print("Authenticating PS3MAPI")
                                 let line = try socket.readString()
-                                print("OK: \(String(describing: line))")
                                 let line2 = try socket.readString()
+                                print("OK: \(String(describing: line))")
                                 print("RAD: \(String(describing: line2))")
                             }
                             if feat == .orbisapi() || feat == .klog() {
@@ -201,17 +201,18 @@ class SyncService: ObservableObject {
                                 console.name = "Playstation 4"
                                 platform = PlatformType.ps4()
                             }
+                            
+                            if self.map[ip] == nil {
+                                self.map[ip] = [feat: socket]
+                            } else if(self.map[ip]![feat] == nil) {
+                                self.map[ip]![feat] = socket
+                            } else if(!self.map[ip]![feat]!.isConnected){
+                                self.map[ip]![feat] = socket
+                            } else {
+                                socket.close()
+                            }
                         } catch {
                             print("FUCK: \(error)")
-                        }
-                        if self.map[ip] == nil {
-                            self.map[ip] = [feat: socket]
-                        } else if(self.map[ip]![feat] == nil) {
-                            self.map[ip]![feat] = socket
-                        } else if(!self.map[ip]![feat]!.isConnected){
-                            self.map[ip]![feat] = socket
-                        } else {
-                            socket.close()
                         }
                     }
                     continue

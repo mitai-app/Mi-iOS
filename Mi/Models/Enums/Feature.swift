@@ -84,7 +84,7 @@ extension Feature {
             case .netcat(_, _):
                     return false
             case .goldhen(_, _):
-                    return false
+                    return true
             case .orbisapi(protocoll: _, port: _):
                     return true
             case .rpi(protocoll: _, port: _):

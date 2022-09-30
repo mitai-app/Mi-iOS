@@ -9,12 +9,14 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     
-    @Published var changelogs: [Changelog] = []
+    @Published var changelogs: Changelog? = nil
+    
     
     func getChangelogs() {
-        self.changelogs = fakeChangeLogs
+        Update.getMeta { response in
+            self.changelogs = response
+        }
     }
-        
 }
 
 struct HomeView: View {
@@ -24,41 +26,20 @@ struct HomeView: View {
     @StateObject var sync: SyncService
     
     var body: some View {
-        NavigationView {
+        CustomNavView {
             ScrollView {
                 
                 ConsoleSectionView(sync: sync)
                 
-                Text("Changelogs")
-                    .font(.title2).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
-                        ForEach(vm.changelogs) { item in
-                            NavigationLink(destination: ChangelogFeatureView(item: item)) {
-                                ChangelogCardView(item: item)
-                            }
-                        }
-                    }
-                    .padding()
+                if let change = vm.changelogs {
+                    ChangelogSectionView(change: change)
                 }
                 
                 
-                Text("Recent courses")
-                    .font(.title2).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160), spacing: 16)], spacing: 16) {
-                    ForEach(fakeConsoles) { item in
-                        NavigationLink(destination: ConsoleFeatureView(item: item)) {
-                            SmallCardView(item: item)
-                        }
-                    }
-                }.padding()
-            }.background(grads[0]).onAppear {
+            }.onAppear {
                 vm.getChangelogs()
-            }.navigationTitle("Home").foregroundColor(Color.white)
+            }.customNavigationTitle("Home")
+                .customNavigationBarBackButtonHidden(true)
         }
     }
 }

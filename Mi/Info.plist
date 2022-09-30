@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>rip-22x29.png</string>
+				<string>rip-44x58.png</string>
+				<string>ripf-64x64.png</string>
+				<string>ripf-320x320.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Binary File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.mrsmithyx.mi</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.content</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Binary File</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.mrsmithyx.mi</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>bin</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/octet-stream</string>
+					<string>com.apple.macbinary-archive</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

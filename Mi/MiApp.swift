@@ -24,7 +24,7 @@ struct MiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppTabBarView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext).onAppear {
                     
                     let sync = SyncService.shared
