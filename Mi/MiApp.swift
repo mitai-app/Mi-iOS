@@ -24,8 +24,7 @@ struct MiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppTabBarView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext).onAppear {
+            AppTabBarView(color: Color("quinary")).onAppear {
                     
                     let sync = SyncService.shared
                     DispatchQueue.global().async {

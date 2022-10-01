@@ -85,13 +85,13 @@ struct WMControlView: View {
             Text("Controls")
                 .font(.title2)
                 .fontWeight(.bold)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), spacing: 16)], spacing: 16) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 30), spacing: 16)], spacing: 16) {
                 ForEach(vm.controls) { control in
                     VStack {
                         Image(systemName: "gear")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 90)
+                            .frame(width:30)
                         Text(control.getTitle()).lineLimit(1)
                     }
                     .onTapGesture {

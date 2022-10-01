@@ -12,6 +12,7 @@ struct CustomNavBarView: View {
     let showBackButton: Bool
     let title: String
     let subtitle: String?
+    let background: Color = Color("quinary")
     
     var body: some View {
         HStack {
@@ -29,14 +30,14 @@ struct CustomNavBarView: View {
         .accentColor(.white)
         .foregroundColor(.white)
         .font(.headline)
-        .background(Color.blue.ignoresSafeArea(edges: .top))
+        .background(background.ignoresSafeArea(edges: .top))
     }
 }
 
 struct CustomNavBarView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            CustomNavBarView(showBackButton: true, title: "Title here", subtitle: "Subtitle")
+            CustomNavBarView(showBackButton: true, title: "Title here", subtitle: "")
             Spacer()
         }
     }
@@ -54,12 +55,14 @@ extension CustomNavBarView {
     }
     
     private var titleSection: some View {
-        VStack (spacing: self.subtitle == nil ? 0 : 4) {
+        VStack (spacing: 4) {
             Text(title)
-                .font(.title)
+                .font(.title3)
                 .fontWeight(.semibold)
             if let subtitle = self.subtitle {
-                Text(subtitle)
+                if(!subtitle.isEmpty) {
+                    Text(subtitle)
+                }
             }
         }
     }

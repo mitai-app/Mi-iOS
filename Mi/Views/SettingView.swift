@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct SettingView: View {
+    
     @State var jbService = false
     
+    @StateObject var sync: SyncService
+    @State var background: Color = Color("quinary")
+    
     var body: some View {
-        List {
+        CustomNavView {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 8) {
             Toggle(isOn: $jbService) {
-                HStack(alignment: .center, spacing: 4) {
-                    Image(systemName: "karl_marx")
+                HStack(alignment: .center, spacing: 20) {
+                    Image(systemName: "house")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 24, height: 24)
@@ -27,12 +33,17 @@ struct SettingView: View {
                     }
                 }.padding(8)
             }
+            }.padding()
+        }.customNavigationTitle("Settings")
+                .customNavigationBarBackButtonHidden(true)
+                .background(background)
+            .foregroundColor(.white)
         }
     }
 }
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView()
+        SettingView(sync: SyncService.test())
     }
 }

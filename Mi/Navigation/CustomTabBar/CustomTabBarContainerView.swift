@@ -11,7 +11,7 @@ struct CustomTabBarContainerView<Content:View> : View {
     
     @Binding var selection: TabBarItem
     @State private var tabs: [TabBarItem] = [
-        .home, .favorites, .profile
+        .home, .package, .settings
     ]
     let content: Content
     var background: Color
@@ -29,11 +29,13 @@ struct CustomTabBarContainerView<Content:View> : View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            content.ignoresSafeArea()
+        VStack(spacing: 0) {
+            ZStack(alignment: .bottom) {
+                content.ignoresSafeArea()
+            }.onPreferenceChange(TabBarItemsPreferenceKey.self) { value in
+                self.tabs = value
+            }
             CustomTabBarView(tabs: tabs, selection: $selection, localSelection: selection, background: background)
-        }.onPreferenceChange(TabBarItemsPreferenceKey.self) { value in
-            self.tabs = value
         }
     }
     
@@ -41,10 +43,10 @@ struct CustomTabBarContainerView<Content:View> : View {
 
 struct CustomTabBarContainerView_Previews: PreviewProvider {
     static let tabs: [TabBarItem] = [
-        .home, .favorites, .profile
+        .home, .package, .settings
     ]
     static var previews: some View {
-        CustomTabBarContainerView(selection: .constant(tabs.first!)) {
+        CustomTabBarContainerView(selection: .constant(tabs.first!), background: Color("quinary")) {
             
         }
     }

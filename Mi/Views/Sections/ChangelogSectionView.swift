@@ -46,7 +46,7 @@ struct ChangelogSectionView: View {
                             }
                     }
                     .padding()
-        }.padding(.bottom, 60).onAppear {
+        }.onAppear {
             vm.setChanges(change: change)
         }
         

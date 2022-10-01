@@ -19,11 +19,11 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            ListView().tabItem {
+            FTPView(sync: SyncService.test()).tabItem {
                 Image(systemName: "paperplane.fill")
                 Text("Payload")
             }
-            SettingView().tabItem {
+            SettingView(sync: SyncService.test()).tabItem {
                 Image(systemName: "gear")
                 Text("Settings")
             }

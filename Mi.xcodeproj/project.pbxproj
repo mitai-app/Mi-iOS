@@ -14,8 +14,10 @@
 		173CBA9328E65DC300983E18 /* CustomNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9228E65DC300983E18 /* CustomNavView.swift */; };
 		173CBA9528E65F0F00983E18 /* CustomNavLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9428E65F0F00983E18 /* CustomNavLink.swift */; };
 		173CBA9728E6623F00983E18 /* CustomNavBarPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9628E6623F00983E18 /* CustomNavBarPreferenceKey.swift */; };
-		173CBA9928E6840100983E18 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9828E6840100983E18 /* Update.swift */; };
+		173CBA9928E6840100983E18 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9828E6840100983E18 /* Package.swift */; };
 		173CBA9B28E6972D00983E18 /* ChangelogSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9A28E6972B00983E18 /* ChangelogSectionView.swift */; };
+		173CBA9E28E74DFB00983E18 /* FilesProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 173CBA9D28E74DFB00983E18 /* FilesProvider */; };
+		173CBAA028E79E6400983E18 /* PackageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9F28E79E6200983E18 /* PackageView.swift */; };
 		17480A8D28DFC3B8000DF33F /* SmallCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A8C28DFC3B8000DF33F /* SmallCardView.swift */; };
 		17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A8E28E0B5CD000DF33F /* Changelog.swift */; };
 		17480A9228E0B6B9000DF33F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9128E0B6B9000DF33F /* Constants.swift */; };
@@ -56,7 +58,7 @@
 		17F1787028DE7A17001E010A /* ChangelogFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */; };
 		17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787228DE7E26001E010A /* ChangelogCardView.swift */; };
 		17F1787528DE7F55001E010A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787428DE7F55001E010A /* HomeView.swift */; };
-		17F1787728DE82B4001E010A /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787628DE82B4001E010A /* ListView.swift */; };
+		17F1787728DE82B4001E010A /* FTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787628DE82B4001E010A /* FTPView.swift */; };
 		17F1787928DE84C7001E010A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787828DE84C7001E010A /* ListItem.swift */; };
 		17F1787D28DE8A8F001E010A /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787C28DE8A8F001E010A /* Console.swift */; };
 		17F1788028DE8B3A001E010A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787F28DE8B3A001E010A /* Game.swift */; };
@@ -95,8 +97,9 @@
 		173CBA9228E65DC300983E18 /* CustomNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavView.swift; sourceTree = "<group>"; };
 		173CBA9428E65F0F00983E18 /* CustomNavLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavLink.swift; sourceTree = "<group>"; };
 		173CBA9628E6623F00983E18 /* CustomNavBarPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarPreferenceKey.swift; sourceTree = "<group>"; };
-		173CBA9828E6840100983E18 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
+		173CBA9828E6840100983E18 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		173CBA9A28E6972B00983E18 /* ChangelogSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogSectionView.swift; sourceTree = "<group>"; };
+		173CBA9F28E79E6200983E18 /* PackageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageView.swift; sourceTree = "<group>"; };
 		17480A8C28DFC3B8000DF33F /* SmallCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallCardView.swift; sourceTree = "<group>"; };
 		17480A8E28E0B5CD000DF33F /* Changelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changelog.swift; sourceTree = "<group>"; };
 		17480A9128E0B6B9000DF33F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -136,7 +139,7 @@
 		17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogFeatureView.swift; sourceTree = "<group>"; };
 		17F1787228DE7E26001E010A /* ChangelogCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogCardView.swift; sourceTree = "<group>"; };
 		17F1787428DE7F55001E010A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		17F1787628DE82B4001E010A /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		17F1787628DE82B4001E010A /* FTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPView.swift; sourceTree = "<group>"; };
 		17F1787828DE84C7001E010A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		17F1787C28DE8A8F001E010A /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		17F1787F28DE8B3A001E010A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 				17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */,
 				17F1786B28DE6F12001E010A /* SWXMLHash in Frameworks */,
 				174DD77028E3E68F007244B5 /* Socket in Frameworks */,
+				173CBA9E28E74DFB00983E18 /* FilesProvider in Frameworks */,
 				174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */,
 				17F1786528DE6D3A001E010A /* HotReloading in Frameworks */,
 				174DD76E28E3E68F007244B5 /* BlueSocketTestCommonLibrary in Frameworks */,
@@ -388,8 +392,9 @@
 				17480A9F28E0E8BB000DF33F /* DetailViews */,
 				17480A9728E0BCAC000DF33F /* Sections */,
 				17F1787428DE7F55001E010A /* HomeView.swift */,
-				17F1787628DE82B4001E010A /* ListView.swift */,
+				17F1787628DE82B4001E010A /* FTPView.swift */,
 				17F1789128DEB160001E010A /* SettingView.swift */,
+				173CBA9F28E79E6200983E18 /* PackageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -425,7 +430,7 @@
 				17F1788A28DEB064001E010A /* Protocols */,
 				17F1788D28DEB0A8001E010A /* PSXService.swift */,
 				17F1788F28DEB0DD001E010A /* SyncService.swift */,
-				173CBA9828E6840100983E18 /* Update.swift */,
+				173CBA9828E6840100983E18 /* Package.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -464,6 +469,7 @@
 				174DD76A28E3E66D007244B5 /* SwiftEntryKit */,
 				174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */,
 				174DD76F28E3E68F007244B5 /* Socket */,
+				173CBA9D28E74DFB00983E18 /* FilesProvider */,
 			);
 			productName = Mi;
 			productReference = 17F1783128DE552A001E010A /* Mi.app */;
@@ -545,6 +551,7 @@
 				17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 				174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */,
+				173CBA9C28E74DF900983E18 /* XCRemoteSwiftPackageReference "FileProvider" */,
 			);
 			productRefGroup = 17F1783228DE552A001E010A /* Products */;
 			projectDirPath = "";
@@ -598,7 +605,7 @@
 				17F1788C28DEB087001E010A /* Webman.swift in Sources */,
 				17F1789028DEB0DD001E010A /* SyncService.swift in Sources */,
 				17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */,
-				17F1787728DE82B4001E010A /* ListView.swift in Sources */,
+				17F1787728DE82B4001E010A /* FTPView.swift in Sources */,
 				173CBA8D28E6579E00983E18 /* AppBarNavView.swift in Sources */,
 				17480A9928E0BCBE000DF33F /* ConsoleSectionView.swift in Sources */,
 				174BF31228E63BD900D6DDF2 /* AppTabBarView.swift in Sources */,
@@ -607,6 +614,7 @@
 				174BF31428E63D2F00D6DDF2 /* CustomTabBarView.swift in Sources */,
 				17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */,
 				17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */,
+				173CBAA028E79E6400983E18 /* PackageView.swift in Sources */,
 				174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */,
 				17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */,
 				17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */,
@@ -631,7 +639,7 @@
 				174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */,
 				17F1788628DE8BB3001E010A /* GameType.swift in Sources */,
 				17F1783728DE552B001E010A /* ContentView.swift in Sources */,
-				173CBA9928E6840100983E18 /* Update.swift in Sources */,
+				173CBA9928E6840100983E18 /* Package.swift in Sources */,
 				17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */,
 				17F1788428DE8B7F001E010A /* Feature.swift in Sources */,
 				173CBA9128E65C4100983E18 /* CustomNavBarContainerView.swift in Sources */,
@@ -977,6 +985,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		173CBA9C28E74DF900983E18 /* XCRemoteSwiftPackageReference "FileProvider" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amosavian/FileProvider.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
 		174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/huri000/SwiftEntryKit.git";
@@ -1028,6 +1044,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		173CBA9D28E74DFB00983E18 /* FilesProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 173CBA9C28E74DF900983E18 /* XCRemoteSwiftPackageReference "FileProvider" */;
+			productName = FilesProvider;
+		};
 		174DD76A28E3E66D007244B5 /* SwiftEntryKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */;

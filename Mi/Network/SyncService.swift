@@ -212,7 +212,7 @@ class SyncService: ObservableObject {
                                 socket.close()
                             }
                         } catch {
-                            print("FUCK: \(error)")
+                            //print("FUCK: \(error)")
                         }
                     }
                     continue

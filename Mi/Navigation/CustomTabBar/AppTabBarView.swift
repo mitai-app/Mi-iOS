@@ -14,17 +14,18 @@ import SwiftUI
 
 struct AppTabBarView: View {
     
-    @Environment(\.managedObjectContext) private var viewContext
     @State private var selection: String = "home"
     @State var tabSelection: TabBarItem = .home
-    
+    @State var color: Color = Color("quinary")
     @StateObject var sync: SyncService = SyncService.shared
     var body: some View {
-        CustomTabBarContainerView(selection: $tabSelection, background: Color.white) {
+        CustomTabBarContainerView(selection: $tabSelection, background: color) {
             
-            HomeView(sync: sync).tabBarItem(tab: .home, selection: $tabSelection)
-                ListView().tabBarItem(tab: .favorites, selection: $tabSelection)
-                SettingView().tabBarItem(tab: .profile, selection: $tabSelection)
+            HomeView(sync: sync).tabBarItem(tab: .home, selection: $tabSelection).foregroundColor(.white)
+            PackageView(sync: sync, background: color)
+                .tabBarItem(tab: .package, selection: $tabSelection)
+            SettingView(sync: sync)
+                .tabBarItem(tab: .settings, selection: $tabSelection)
             
         }
     }
@@ -32,15 +33,8 @@ struct AppTabBarView: View {
 
 class AppTabBarView_Previews: PreviewProvider {
     
-#if DEBUG
-    @objc class func injected() {
-        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        windowScene?.windows.first?.rootViewController =
-                UIHostingController(rootView: ContentView())
-    }
-#endif
     static var previews: some View {
-        AppTabBarView(tabSelection: .home).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        AppTabBarView(tabSelection: .home, color: Color("quinary"), sync: SyncService.test())
     }
 }
 

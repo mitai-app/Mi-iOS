@@ -35,7 +35,7 @@ struct ChangelogFeatureView: View {
 
 struct ChangelogFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangelogFeatureView(changelog: fakeChangeLogs[0], item: Changes(name: "Hello", changes: [], build: ""))
+        ChangelogFeatureView(changelog: fakeChangeLogs[0], item: Changes(name: "Hello", changes: [], build: "Welcome"))
     }
 }
 
@@ -43,17 +43,20 @@ struct HeaderView: View {
     var item: Changes
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading) {
             Image("karl_marx")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-            Text(item.name)
-                .font(.title2)
-                .fontWeight(.bold)
-            Text(item.build)
-                .opacity(0.7)
-        }.padding(.all)
+            VStack(alignment: .leading, spacing: 8) {
+               
+                Text(item.name)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Text(item.build)
+                    .opacity(0.7)
+            }.padding()
+        }
             .foregroundColor(.white)
-            .background(grads[0])
+            .background(grads[1])
     }
 }

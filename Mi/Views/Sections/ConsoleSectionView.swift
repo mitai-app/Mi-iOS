@@ -19,11 +19,11 @@ struct ConsoleSectionView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
             VStack {
-                ForEach(sync.active) { item in
-                    ConsoleListItem(console: item)
+                ForEach($sync.active) { item in
+                    ConsoleListItem(console: item.wrappedValue)
                     .onTapGesture {
                         print("Setting Console: \(item.ip)")
-                        sync.target = item
+                        sync.target = item.wrappedValue
                         show.toggle()
                     }
                     
@@ -31,6 +31,10 @@ struct ConsoleSectionView: View {
             }.sheet(isPresented: $show, content: {
                 ConsoleFeatureView(item: sync.target!)
             })
+        }.refreshable {
+            DispatchQueue.global().async {
+                SyncService.shared.findDevices()
+            }
         }
     }
 }

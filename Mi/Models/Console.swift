@@ -18,6 +18,16 @@ struct Console: Identifiable {
     var pinned: Bool = false
 }
 
+extension Console {
+    var isPs4: Bool {
+        return type == .ps4()
+    }
+    
+    var isPs3: Bool {
+        return type == .ps3()
+    }
+}
+
 enum ConsoleType {
     case UNK, CEX, DEX, DEX_COBRA, TOOL
 }

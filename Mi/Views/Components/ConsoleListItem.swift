@@ -10,12 +10,11 @@ import SwiftUI
 struct ConsoleListItem: View {
     var console: Console
     
-    
     var body: some View {
         VStack {
             HStack {
                 HStack {
-                    if console.type == .ps4() || console.type == .ps3() {
+                    if console.isPs4 || console.isPs3 {
                         Image(systemName: "gamecontroller.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -46,7 +45,9 @@ struct ConsoleListItem: View {
 }
 
 struct ConsoleListItem_Previews: PreviewProvider {
+    
+    
     static var previews: some View {
-        ConsoleListItem(console: fakeConsoles[1])
+        ConsoleListItem(console: fakeConsoles[0])
     }
 }

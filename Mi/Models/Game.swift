@@ -40,7 +40,7 @@ extension Game {
                         continue
                     }
                     
-                    print("ELEMENT1: \(g)")
+                    //print("ELEMENT1: \(g)")
                     guard let icon = g["P"][0].element?.text
                         else {continue}
                     guard let title = g["P"][1].element?.text else { continue}
@@ -56,6 +56,7 @@ extension Game {
         //print(" BITCH: \(xml)")
         //print(" SHIT: \(xml["X"]["V"])")
         //print(" SHIT: \(xml["X"]["V"]["A"])")
+        debugPrint(games)
         return games
     }
 }

@@ -13,22 +13,23 @@ struct ChangelogCardView: View {
     var body: some View {
         
         HStack(alignment: .center) {
-            Image(systemName: "gear")
+            Image(systemName: "info")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 48, height: 48)
+                .frame(width: 32, height: 32)
             if let change = item {
                 VStack(alignment: .leading) {
                     
                     Text(change.name)
                         .font(.title3)
                         .fontWeight(.bold)
-                    Text(change.build)
+                    Text("New changes added")
                         .opacity(0.7)
                 }
             }
             
-        }.frame(width: 300, height: 80)
+        }.frame(height: 80)
+            .frame(maxWidth: .infinity)
             .background(grads[1])
             .cornerRadius(16)
             .foregroundColor(.white)

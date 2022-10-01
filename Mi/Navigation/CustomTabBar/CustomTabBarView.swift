@@ -15,7 +15,7 @@ struct CustomTabBarView: View {
     var background: Color = .white
     
     var body: some View {
-        tabBarVersion2
+        tabBarVersion1
             .onChange(of: selection, perform: { value in  withAnimation(.easeInOut) {
                     localSelection = value
                 }
@@ -25,7 +25,7 @@ struct CustomTabBarView: View {
 
 struct CustomTabBarView_Previews: PreviewProvider {
     static let tabs: [TabBarItem] = [
-        .home, .favorites, .profile
+        .home, .package, .settings
     ]
     static var previews: some View {
         VStack {
@@ -95,7 +95,7 @@ extension CustomTabBarView {
                 }
             }
         }.padding()
-            .background(Color.white.ignoresSafeArea(edges: .bottom))
+            .background(background.ignoresSafeArea(edges: .bottom))
     }
     
     

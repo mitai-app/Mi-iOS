@@ -17,29 +17,29 @@ struct TabBarItem: Hashable {
 
 
 enum TabBarItem: Hashable {
-    case home, favorites, profile
+    case home, package, settings
     
     var iconName: String {
         switch self {
         case .home: return "house"
-        case .favorites: return "heart"
-        case .profile: return "person"
+        case .package: return "icloud"
+        case .settings: return "gear"
         }
     }
     
     var title: String {
         switch self {
         case .home: return "Home"
-        case .favorites: return "Favorites"
-        case .profile: return "Profile"
+        case .package: return "Package"
+        case .settings: return "Settings"
         }
     }
     
     var color: Color {
         switch self {
         case .home: return Color.red
-        case .favorites: return Color.blue
-        case .profile: return Color.green
+        case .package: return Color.blue
+        case .settings: return Color.green
         }
     }
     

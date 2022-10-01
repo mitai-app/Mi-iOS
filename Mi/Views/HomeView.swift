@@ -13,7 +13,7 @@ class HomeViewModel: ObservableObject {
     
     
     func getChangelogs() {
-        Update.getMeta { response in
+        Package.getMeta { response in
             self.changelogs = response
         }
     }
@@ -36,7 +36,7 @@ struct HomeView: View {
                 }
                 
                 
-            }.onAppear {
+            }.background(Color("quinary")).onAppear {
                 vm.getChangelogs()
             }.customNavigationTitle("Home")
                 .customNavigationBarBackButtonHidden(true)
@@ -47,5 +47,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(sync: SyncService.test())
+            .foregroundColor(.white)
     }
 }
