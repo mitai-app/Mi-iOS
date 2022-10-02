@@ -186,6 +186,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1704AE0228EA09C100B1DF53 /* RemotePI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RemotePI;
+			sourceTree = "<group>";
+		};
 		173CBA8B28E6577800983E18 /* CustomNavBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +409,7 @@
 		17F1787B28DE8A1D001E010A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				1704AE0228EA09C100B1DF53 /* RemotePI */,
 				174BF30B28E5186300D6DDF2 /* Goldhen */,
 				174BF30428E4F4C900D6DDF2 /* PS3M */,
 				174BF30328E4F4B400D6DDF2 /* Webman */,

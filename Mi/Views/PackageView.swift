@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FilesProvider
+import Kingfisher
 
 class PackageViewModel: ObservableObject {
     
@@ -14,7 +15,7 @@ class PackageViewModel: ObservableObject {
         return SyncService.shared.target
     }
     
-    @Published var response: PackageResponse!
+    @Published var response: PackageResponse?
     
     init() {}
     
@@ -58,12 +59,10 @@ struct PackageView: View {
                             .shadow(color: Color.black.opacity(1), radius: 5, x:0, y:4)
                     }
                         .padding()
-                    
-                    ForEach(0..<5) { item in
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("\(item)")
-                        }.background(.white)
-                            .cornerRadius(20).padding()
+                    if vm.response != nil {
+                        ForEach(vm.response!.packages) { item in
+                            PackageViewItem(package: item)
+                        }
                     }
                 }
             }
@@ -84,6 +83,13 @@ struct PackageView: View {
 struct PackageView_Previews: PreviewProvider {
     static var previews: some View {
         PackageView(sync: SyncService.test(), background: Color("quinary"))
+        PackageViewItem(package: PackageModel(
+            name: "GoldHen",
+            author: "SiStRo",
+            version: "2.2.4",
+            type: PackageType.plugin,
+            icon: "https://avatars.githubusercontent.com/u/91367123?s=200&v=4",
+            link: "https://github.com/GoldHEN/GoldHEN/blob/19d768eef604b5df16f4be87755c9877c70a0b55/goldhen_2.2.4_900.bin?raw=true"))
     }
 }
 
@@ -99,4 +105,27 @@ extension View {
                 self
             }
         }
+}
+
+struct PackageViewItem: View {
+    
+    var package: PackageModel
+    
+    var body: some View {
+        HStack(spacing: 16) {
+            
+            KFImage(URL(string: package.icon))
+                .placeholder {
+                        Image(systemName: "paperplane.circle")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                }
+                .resizable()
+                .frame(width: 50, height: 50)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("\(package.name) \(package.type.rawValue) by \(package.author)")
+                Text("Version: \(package.version)")
+            }
+        }.padding().cornerRadius(20)
+    }
 }

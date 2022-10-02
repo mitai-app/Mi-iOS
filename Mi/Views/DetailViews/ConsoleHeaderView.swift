@@ -39,7 +39,7 @@ struct ConsoleHeaderView: View {
                     .opacity(0.7)
             }.padding(.all)
         }.foregroundColor(.white)
-        .background(grads[0])
+        .background(grads[1])
     }
 }
 

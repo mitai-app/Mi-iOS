@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import SwiftUI
 
 class Webman: NSObject {
 
@@ -133,6 +134,90 @@ class Webman: NSObject {
         notify = "/popup.ps3",
         beep = "/beep.ps3?",
         unmount = "/mount.ps3/unmount"
+        
+        var iconName: String {
+            switch self {
+                
+            case .refresh:
+                return "arrow.triangle.2.circlepath.circle"
+            case .reloadxmb:
+                return "arrow.clockwise.circle"
+            case .restart:
+                return "restart.circle"
+            case .reboot:
+                return "togglepower"
+            case .shutdown:
+                return "power.circle"
+            case .quit:
+                return "xmark.circle"
+            case .xmb:
+                return "arrow.down.right.and.arrow.up.left.circle"
+            case .play:
+                return "opticaldisc"
+            case .fixgame:
+                return "opticaldisc"
+            case .eject:
+                return "eject.circle"
+            case .insert:
+                return "opticaldisc"
+            case .mount:
+                return "opticaldisc"
+            case .screenshot:
+                return "sparkles.tv"
+            case .screenshot_fast:
+                return "sparkles.tv"
+            case .notify:
+                return "paperplane"
+            case .beep:
+                return "speaker.wave.2.circle"
+            case .unmount:
+                return "eject.circle"
+            }
+        }
+        
+        var title: String {
+            switch self {
+            case .refresh:
+                return "Refresh"
+            case .reloadxmb:
+                return "Reload XMB"
+            case .restart:
+                return "Restart"
+            case .reboot:
+                return "Reboot"
+            case .shutdown:
+                return "Shutdown"
+            case .quit:
+                return "Quit"
+            case .play:
+                return "Play"
+            case .mount:
+                return "Mount"
+            case .fixgame:
+                return "Fix Game"
+            case .insert:
+                return "Insert"
+            case .eject:
+                return "Eject"
+            case .xmb:
+                return "XMB"
+            case .screenshot:
+                return "Screenshot"
+            case .screenshot_fast:
+                return "Screenshit"
+            case .notify:
+                return "Notify"
+            case .beep:
+                return "Beep"
+            case .unmount:
+                return "Unmount"
+            }
+        }
+        
+        var color: Color {
+            return Color("quarnary")
+        }
+        
     }
     
     

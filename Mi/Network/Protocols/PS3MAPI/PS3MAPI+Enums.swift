@@ -33,6 +33,23 @@ enum cmds: String, Identifiable, CaseIterable {
          temperature = "PS3 GETTEMP",
          disconnect = "DISCONNECT",
          processes = "PROCESS GETALLPID"
+    
+    var icon: String {
+        switch(self) {
+        case .idps:
+            return "lock.circle"
+        case .psid:
+            return "lock.circle"
+        case .notify:
+            return "bubble.right.circle"
+        case .processes:
+            return "list.bullet.circle"
+        case .temperature:
+            return "sun.max.circle"
+        default:
+            return "gear"
+        }
+    }
 }
 
 extension cmds {

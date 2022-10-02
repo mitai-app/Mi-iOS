@@ -52,26 +52,36 @@ struct WMGameView: View {
     var console: Console = fakeConsoles[0]
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Games")
                 .font(.title2)
                 .fontWeight(.bold)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), spacing: 16)], spacing: 16) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 120), spacing: 16)], spacing: 16) {
                 ForEach(vm.games) { game in
-                    VStack {
-                        KFImage(URL(string: game.icon))
-                            .placeholder {
-                                
-                                Image(systemName: "gear")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 90)
-                            }
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 90)
-                        Text(game.title).lineLimit(1)
-                    }.onTapGesture {
+                    VStack(spacing: 0) {
+                        VStack {
+                            KFImage(URL(string: game.icon))
+                                .placeholder {
+                                    
+                                    Image(systemName: "gear")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(maxWidth: .infinity)
+                                }
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxWidth: .infinity)
+                        }.background(Color("grayDark"))
+                        VStack {
+                            Text(game.title)
+                                .lineLimit(1)
+                                .padding()
+                                .foregroundColor(Color.white)
+                        }
+                    }.background(Color("quinary"))
+                    .cornerRadius(20)
+                    .shadow(color: .black, radius: 9, x: 0, y: 5)
+                    .onTapGesture {
                         Task {
                             await vm.playGame(console: console, game: game)
                         }

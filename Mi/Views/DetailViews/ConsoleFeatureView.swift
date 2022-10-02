@@ -15,10 +15,11 @@ struct ConsoleFeatureView: View {
     
     var body: some View {
         ScrollView {
-            ConsoleHeaderView(item: item)
             
             VStack(alignment: .leading, spacing: 20) {
                 if item.type == .ps3() {
+                    
+                    ConsoleHeaderView(item: item)
                     WMControlView(console: item, vm: WMControlViewModel(console: item))
                     PS3MControlView(console: item, vm: PS3MControlViewModel(console: item))
                     WMGameView(console: item)
@@ -27,15 +28,16 @@ struct ConsoleFeatureView: View {
                 }
             }.onAppear {
                 SyncService.shared.target = item
-                print("Current Target \(SyncService.shared.target)")
+                print("Current Target: \(SyncService.shared.target?.ip ?? "no target")")
             }
-        }.foregroundColor(.black)
+        }.foregroundColor(.white)
+            .background(Color("quinary"))
     }
 }
 
 struct ConsoleFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        ConsoleFeatureView(item: fakeConsoles[0])
+        ConsoleFeatureView(item: fakeConsoles[1])
     }
 }
 

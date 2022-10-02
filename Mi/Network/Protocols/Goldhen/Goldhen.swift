@@ -32,6 +32,7 @@ class Goldhen {
     
     
     func write(string: Data) -> Bool {
+        print("Lets write")
         if socket != nil {
             print("Socket is not nil")
             do {
@@ -39,7 +40,7 @@ class Goldhen {
                 print("Bytes: Written: \(bytesWritten)")
                 return bytesWritten > 0
             } catch {
-                print("Unable to write string: \(string) - \(error)")
+                print("Unable to write string:  \(error)")
             }
         } else {
             print("Socket is nil")

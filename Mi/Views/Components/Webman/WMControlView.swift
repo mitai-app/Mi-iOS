@@ -81,18 +81,18 @@ struct WMControlView: View {
     @StateObject var vm: WMControlViewModel
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Controls")
                 .font(.title2)
                 .fontWeight(.bold)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 30), spacing: 16)], spacing: 16) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 60), spacing: 16)], spacing: 16) {
                 ForEach(vm.controls) { control in
                     VStack {
-                        Image(systemName: "gear")
+                        Image(systemName:control.iconName)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width:30)
-                        Text(control.getTitle()).lineLimit(1)
+                            .frame(width:60)
+                        Text(control.title).lineLimit(1)
                     }
                     .onTapGesture {
                         Task {

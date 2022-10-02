@@ -18,7 +18,6 @@ struct PackageResponse: Decodable, Identifiable {
     let description: String
     let packages: [PackageModel]
     let lastUpdated: String
-    let source: String
 }
 
 struct PackageModel: Decodable, Identifiable {
@@ -29,13 +28,13 @@ struct PackageModel: Decodable, Identifiable {
     let author: String
     let version: String
     let type: PackageType
-    let icon: String?
+    let icon: String
     let link: String
     
 }
 
-enum PackageType: Decodable, CodingKey {
-    case app, tool, plugin
+enum PackageType: String, Decodable, CodingKey {
+    case app = "app", tool = "tool", plugin = "plugin"
 }
 
 class Package {
@@ -51,7 +50,7 @@ class Package {
     }
     
     static func searchBin(search: String, onComplete: @escaping (PackageResponse) -> Void) {
-        let url = "https://raw.githubusercontent.com/Mr-Smithy-x/Mi/main/packages.json"
+        let url = "https://raw.githubusercontent.com/mitai-app/Versioning/main/packages.json"
         AF.request(url, method: .get)
             .validate()
             .responseDecodable(of: PackageResponse.self) { response in

@@ -103,27 +103,26 @@ class SyncService: ObservableObject {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
     }
+    
+    
+    private let log: Bool = false
        /**
         * Fetch All Connected Clients on the network
         * for potential match (IPV4 Clients Only)
         * TODO: Accommodate for IPV6 Clients
         */
-    func findDevices() {
-        do {
-            "[FetchClients::Start] Active Network: $activeNetworkInfo"
-            let localDeviceIp = getAddress(for: Network.wifi)!
-            let last = localDeviceIp.lastIndex(of: ".")!
-            let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
-            print("Constructed: \(pre)")
-            for i in 45..<256 {
-                let ip = "\(pre)\(i)"
-                checkIp(ip: ip)
-            }
-            "[FetchClients::End] End of scan, #: ${clients.size}"//.v(TAG)
-        } catch {
-            //Log.e(TAG, "[Error] Hmmm. that's not good. ${t.message}", t)
-            print("ping failed \(error)")
+    func findDevices() -> [String: Bool] {
+        let localDeviceIp = getAddress(for: Network.wifi)!
+        let last = localDeviceIp.lastIndex(of: ".")!
+        let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
+        print("Constructed: \(pre)")
+        var found: [String: Bool] = [:]
+        for i in 0..<256 {
+            let ip = "\(pre)\(i)"
+            let res = checkIp(ip: ip)
+            found[ip] = res
         }
+        return found
     }
     
     private func checkIp(ip: String) -> Bool {
@@ -177,70 +176,68 @@ class SyncService: ObservableObject {
                 break
             }
             
-            do {
-                if (proto == Protocols.socket){
-                    for port in ports {
-                        do {
-                            let socket = try Socket.create()
-                            try socket.connect(to: ip, port: Int32(port), timeout: 200)
-                            print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
-                            ret = true
-                            features.append(feat)
-                        
-                            if feat == .ps3mapi() {
-                                console.name = "Playstation 3"
-                                platform = PlatformType.ps3()
-                                print("Authenticating PS3MAPI")
-                                let line = try socket.readString()
-                                let line2 = try socket.readString()
-                                print("OK: \(String(describing: line))")
-                                print("RAD: \(String(describing: line2))")
-                            }
-                            if feat == .orbisapi() || feat == .klog() {
-                                print("Found PS4")
-                                console.name = "Playstation 4"
-                                platform = PlatformType.ps4()
-                            }
-                            
-                            if self.map[ip] == nil {
-                                self.map[ip] = [feat: socket]
-                            } else if(self.map[ip]![feat] == nil) {
-                                self.map[ip]![feat] = socket
-                            } else if(!self.map[ip]![feat]!.isConnected){
-                                self.map[ip]![feat] = socket
-                            } else {
-                                socket.close()
-                            }
-                        } catch {
-                            //print("FUCK: \(error)")
-                        }
-                    }
-                    continue
-                } else if(proto == Protocols.http) {
-                    if (true) {
-                        continue
-                    }
-                    for port in ports {
-                        SyncService.psx.getRequest(url: "http://\(ip):\(port)/") { data in
-                            do {
-                                if let result = try data.result.get() {
-                                    let response = String(decoding: result, as: UTF8.self)
-                                    let validated = Feature.validateResponse(s: response)
-                                    print("\(feat): validated")
-                                    if(validated){
-                                        features.append(feat)
-                                    }
-                                }
-                            }catch {
-                                print("Error: \(error)")
-                            }
-                        }
-                    }
-                } else if(proto == Protocols.ftp) {
+            if (proto == Protocols.socket){
+                for port in ports {
+                    do {
+                        let socket = try Socket.create()
+                        try socket.connect(to: ip, port: Int32(port), timeout: 200)
+                        print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
+                        ret = true
+                        features.append(feat)
                     
+                        if feat == .ps3mapi() {
+                            console.name = "Playstation 3"
+                            platform = PlatformType.ps3()
+                            print("Authenticating PS3MAPI")
+                            let line = try socket.readString()
+                            let line2 = try socket.readString()
+                            print("OK: \(String(describing: line))")
+                            print("RAD: \(String(describing: line2))")
+                        }
+                        if feat == .orbisapi() || feat == .klog() {
+                            print("Found PS4")
+                            console.name = "Playstation 4"
+                            platform = PlatformType.ps4()
+                        }
+                        
+                        if self.map[ip] == nil {
+                            self.map[ip] = [feat: socket]
+                        } else if(self.map[ip]![feat] == nil) {
+                            self.map[ip]![feat] = socket
+                        } else if(!self.map[ip]![feat]!.isConnected){
+                            self.map[ip]![feat] = socket
+                        } else {
+                            socket.close()
+                        }
+                    } catch {
+                        //print("FUCK: \(error)")
+                    }
                 }
-            } catch {
-                //print("This is bad: \(error)")
+                continue
+            }
+            else if(proto == Protocols.http) {
+                if (true) {
+                    continue
+                }
+                for port in ports {
+                    SyncService.psx.getRequest(url: "http://\(ip):\(port)/") { data in
+                        do {
+                            if let result = try data.result.get() {
+                                let response = String(decoding: result, as: UTF8.self)
+                                let validated = Feature.validateResponse(s: response)
+                                print("\(feat): validated")
+                                if(validated){
+                                    features.append(feat)
+                                }
+                            }
+                        }catch {
+                            print("Error: \(error)")
+                        }
+                    }
+                }
+            }
+            else if(proto == Protocols.ftp) {
+                    
             }
         }
         console.type = platform

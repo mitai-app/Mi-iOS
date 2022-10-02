@@ -63,17 +63,17 @@ struct PS3MControlView: View {
     @StateObject var vm: PS3MControlViewModel
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("PS3 Manager API")
                 .font(.title2)
                 .fontWeight(.bold)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), spacing: 16)], spacing: 16) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 60), spacing: 16)], spacing: 16) {
                 ForEach(vm.controls) { control in
                     VStack {
-                        Image(systemName: "gear")
+                        Image(systemName: control.icon)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 90)
+                            .frame(width: 60)
                         Text(control.getTitle()).lineLimit(1)
                     }
                     .onTapGesture {
@@ -82,21 +82,21 @@ struct PS3MControlView: View {
                             switch(control) {
                                 
                                 case .notify:
-                                    await vm.notify(msg: "Welcome")
+                                    let notify = await vm.notify(msg: "Welcome")
+                                    debugPrint("Notify: \(String(describing: notify))")
                                 break;
                                 case .idps:
-                                    var idps = await vm.getIDPS()
-                                    print("IDPS: \(idps)")
+                                    let idps = await vm.getIDPS()
+                                    debugPrint("IDPS: \(String(describing: idps))")
                                 break
                                 case .psid:
-                                    var psid = await vm.getPSID()
-                                    print("PSID: \(psid)")
+                                    let psid = await vm.getPSID()
+                                    debugPrint("PSID: \(String(describing: psid))")
                                 break
                                 
                                 case .temperature:
-                                    var temp = await vm.getConsoleInfo()
-                                
-                                    print("Console Info: \(temp)")
+                                    let temp = await vm.getConsoleInfo()
+                                    debugPrint("Console Info: \(String(describing: temp))")
                                 break
                                 
                             default:
