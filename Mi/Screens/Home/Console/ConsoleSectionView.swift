@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConsoleSectionView: View {
     
-    @StateObject var sync: SyncService
+    @EnvironmentObject var sync: SyncService
     @State var show: Bool = false
     
     var body: some View {
@@ -41,6 +41,7 @@ struct ConsoleSectionView: View {
 
 struct ConsoleSectionView_Previews: PreviewProvider {
     static var previews: some View {
-        ConsoleSectionView(sync: SyncService.test())
+        ConsoleSectionView()
+            .environmentObject(SyncService.test())
     }
 }

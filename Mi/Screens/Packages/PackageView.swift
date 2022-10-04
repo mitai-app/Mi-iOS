@@ -74,7 +74,7 @@ struct PackageView: View {
     @State var search = ""
     @State var source = ""
     
-    @StateObject var sync: SyncService
+    @EnvironmentObject var sync: SyncService
     @State var background: Color
     @State var showingOptions: Bool = false
     @State var showingAlert: Bool = false
@@ -195,7 +195,8 @@ struct PackageView: View {
 
 struct PackageView_Previews: PreviewProvider {
     static var previews: some View {
-        PackageView(sync: SyncService.test(), background: Color("quinary"))
+        PackageView(background: Color("quinary"))
+            .environmentObject( SyncService.test())
         PackageViewItem(package: PackageModel(
             name: "GoldHen",
             author: "SiStRo",

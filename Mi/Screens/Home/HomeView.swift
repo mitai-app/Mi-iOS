@@ -23,13 +23,13 @@ struct HomeView: View {
     
     @StateObject private var vm: HomeViewModel = HomeViewModel()
     
-    @StateObject var sync: SyncService
+    @EnvironmentObject var sync: SyncService
     
     var body: some View {
         CustomNavView {
             ScrollView {
                 
-                ConsoleSectionView(sync: sync)
+                ConsoleSectionView()
                 
                 if let change = vm.changelogs {
                     ChangelogSectionView(change: change)
@@ -46,7 +46,8 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(sync: SyncService.test())
+        HomeView()
             .foregroundColor(.white)
+            .environmentObject(SyncService.test())
     }
 }

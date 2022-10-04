@@ -12,6 +12,7 @@ import Kingfisher
 struct ConsoleFeatureView: View {
     
     @State var item: Console
+    @EnvironmentObject var sync: SyncService
     
     var body: some View {
         ScrollView {
@@ -27,8 +28,8 @@ struct ConsoleFeatureView: View {
                     GoldhenBinView(vm: GoldhenBinViewModel(console: item))
                 }
             }.onAppear {
-                SyncService.shared.target = item
-                print("Current Target: \(SyncService.shared.target?.ip ?? "no target")")
+                sync.target = item
+                print("Current Target: \(sync.target?.ip ?? "no target")")
             }
         }.foregroundColor(.white)
             .background(Color("quinary"))
@@ -37,7 +38,7 @@ struct ConsoleFeatureView: View {
 
 struct ConsoleFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        ConsoleFeatureView(item: fakeConsoles[1])
+        ConsoleFeatureView(item: fakeConsoles[1]).environmentObject(SyncService.test())
     }
 }
 

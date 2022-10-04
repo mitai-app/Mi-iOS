@@ -17,14 +17,14 @@ struct AppTabBarView: View {
     @State private var selection: String = "home"
     @State var tabSelection: TabBarItem = .home
     @State var color: Color = Color("quinary")
-    @StateObject var sync: SyncService = SyncService.shared
+    @EnvironmentObject var sync: SyncService
     var body: some View {
         CustomTabBarContainerView(selection: $tabSelection, background: color) {
             
-            HomeView(sync: sync).tabBarItem(tab: .home, selection: $tabSelection).foregroundColor(.white)
-            PackageView(sync: sync, background: color)
+            HomeView().tabBarItem(tab: .home, selection: $tabSelection).foregroundColor(.white)
+            PackageView(background: color)
                 .tabBarItem(tab: .package, selection: $tabSelection)
-            SettingView(sync: sync)
+            SettingView()
                 .tabBarItem(tab: .settings, selection: $tabSelection)
             
         }
@@ -34,7 +34,7 @@ struct AppTabBarView: View {
 class AppTabBarView_Previews: PreviewProvider {
     
     static var previews: some View {
-        AppTabBarView(tabSelection: .home, color: Color("quinary"), sync: SyncService.test())
+        AppTabBarView(tabSelection: .home, color: Color("quinary")).environmentObject(SyncService.test())
     }
 }
 

@@ -11,7 +11,7 @@ struct SettingView: View {
     
     @State var jbService = false
     
-    @StateObject var sync: SyncService
+    @EnvironmentObject var sync: SyncService
     @State var background: Color = Color("quinary")
     
     var body: some View {
@@ -44,6 +44,6 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView(sync: SyncService.test())
+        SettingView().environmentObject(SyncService.test())
     }
 }

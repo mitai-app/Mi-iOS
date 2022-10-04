@@ -105,7 +105,7 @@ struct FTPView: View {
     
     @State var show = false
     
-    @StateObject var sync: SyncService
+    @EnvironmentObject var sync: SyncService
     
     @StateObject var vm: FTPViewModel = FTPViewModel()
     
@@ -144,7 +144,7 @@ struct FTPView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        FTPView(sync: SyncService.test())
+        FTPView().environmentObject(SyncService.test())
     }
 }
 
