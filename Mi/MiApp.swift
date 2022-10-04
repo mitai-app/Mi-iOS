@@ -10,25 +10,17 @@ import SwiftUI
 @main
 struct MiApp: App {
     let persistenceController = PersistenceController.shared
-    init() {
-            #if DEBUG
-            var injectionBundlePath = "/Applications/InjectionIII.app/Contents/Resources"
-            #if targetEnvironment(macCatalyst)
-            injectionBundlePath = "\(injectionBundlePath)/macOSInjection.bundle"
-            #elseif os(iOS)
-            injectionBundlePath = "\(injectionBundlePath)/iOSInjection.bundle"
-            #endif
-            Bundle(path: injectionBundlePath)?.load()
-            #endif
-        }
-    
+   
     var body: some Scene {
         WindowGroup {
-            AppTabBarView(color: Color("quinary")).onAppear {
-                    
+            AppTabBarView(color: Color("quinary"))
+                .environmentObject(SyncService.shared)
+                .onAppear {
                     let sync = SyncService.shared
                     DispatchQueue.global().async {
-                        sync.findDevices()
+                        sync.findDevices { consoles in
+                            debugPrint(consoles)
+                        }
                     }
                 }
         }

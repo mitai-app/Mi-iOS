@@ -10,7 +10,7 @@ import Alamofire
 import Socket
 import SwiftUI
 
-
+@MainActor
 class SyncService: ObservableObject {
     
     
@@ -111,23 +111,30 @@ class SyncService: ObservableObject {
         * for potential match (IPV4 Clients Only)
         * TODO: Accommodate for IPV6 Clients
         */
-    func findDevices() -> [String: Bool] {
+    func findDevices(_ onCallback: (([Console]) -> Void)? = nil) {
+        var consoles: [Console] = []
         let localDeviceIp = getAddress(for: Network.wifi)!
         let last = localDeviceIp.lastIndex(of: ".")!
         let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
         print("Constructed: \(pre)")
-        var found: [String: Bool] = [:]
-        for i in 0..<256 {
-            let ip = "\(pre)\(i)"
-            let res = checkIp(ip: ip)
-            found[ip] = res
+        Task {
+            for i in 0..<256 {
+                let ip = "\(pre)\(i)"
+                guard let console = await checkIp(ip: ip) else
+                {
+                    continue
+                }
+                self.active.append(console)
+            }
+            if onCallback != nil {
+                onCallback!(self.active)
+            }
         }
-        return found
     }
     
-    private func checkIp(ip: String) -> Bool {
-        var ret = false
+    private func checkIp(ip: String) async -> Console? {
         var console: Console =  Console(ip: ip, name: "Device")
+        var name: String = ""
         var features: [Feature] = []
         var platform = PlatformType.unknown()
         for feat in Feature.allowedToOpen {
@@ -182,21 +189,15 @@ class SyncService: ObservableObject {
                         let socket = try Socket.create()
                         try socket.connect(to: ip, port: Int32(port), timeout: 200)
                         print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
-                        ret = true
                         features.append(feat)
-                    
                         if feat == .ps3mapi() {
-                            console.name = "Playstation 3"
+                            name = "Playstation 3"
                             platform = PlatformType.ps3()
-                            print("Authenticating PS3MAPI")
                             let line = try socket.readString()
                             let line2 = try socket.readString()
-                            print("OK: \(String(describing: line))")
-                            print("RAD: \(String(describing: line2))")
                         }
                         if feat == .orbisapi() || feat == .klog() {
-                            print("Found PS4")
-                            console.name = "Playstation 4"
+                            name = "Playstation 4"
                             platform = PlatformType.ps4()
                         }
                         
@@ -240,15 +241,14 @@ class SyncService: ObservableObject {
                     
             }
         }
-        console.type = platform
-        console.features = features
-        if !console.features.isEmpty {
-            print("Adding console \(console)")
-            DispatchQueue.main.async { [weak self] in
-                self?.active.append(console)
-            }
+        if !features.isEmpty {
+            console.type = platform
+            console.features = features
+            console.name = name
+            print("Found console \(console)")
+            return console
         }
-        return ret
+        return nil
     }
 }
 
