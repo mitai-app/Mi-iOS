@@ -10,9 +10,7 @@ import Alamofire
 import Socket
 import SwiftUI
 
-@MainActor
 class SyncService: ObservableObject {
-    
     
     static let shared: SyncService = SyncService()
     
@@ -112,22 +110,25 @@ class SyncService: ObservableObject {
         * TODO: Accommodate for IPV6 Clients
         */
     func findDevices(_ onCallback: (([Console]) -> Void)? = nil) {
-        var consoles: [Console] = []
         let localDeviceIp = getAddress(for: Network.wifi)!
         let last = localDeviceIp.lastIndex(of: ".")!
         let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
         print("Constructed: \(pre)")
         Task {
+            var consoles: [Console] = []
             for i in 0..<256 {
                 let ip = "\(pre)\(i)"
                 guard let console = await checkIp(ip: ip) else
                 {
                     continue
                 }
-                self.active.append(console)
+                consoles.append(console)
             }
-            if onCallback != nil {
-                onCallback!(self.active)
+            self.active = consoles
+            await MainActor.run {
+                if onCallback != nil {
+                    onCallback!(self.active)
+                }
             }
         }
     }
@@ -193,8 +194,8 @@ class SyncService: ObservableObject {
                         if feat == .ps3mapi() {
                             name = "Playstation 3"
                             platform = PlatformType.ps3()
-                            let line = try socket.readString()
-                            let line2 = try socket.readString()
+                            print(try socket.readString() ?? "first")
+                            print(try socket.readString() ?? "second")
                         }
                         if feat == .orbisapi() || feat == .klog() {
                             name = "Playstation 4"

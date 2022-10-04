@@ -32,8 +32,8 @@ struct ConsoleSectionView: View {
                 ConsoleFeatureView(item: sync.target!)
             })
         }.refreshable {
-            DispatchQueue.global().async {
-                SyncService.shared.findDevices()
+            sync.findDevices { consoles in
+                    
             }
         }
     }
