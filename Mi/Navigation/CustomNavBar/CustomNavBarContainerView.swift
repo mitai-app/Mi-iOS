@@ -35,6 +35,10 @@ struct CustomNavBarContainerView<Content: View>: View {
     }
 }
 
+protocol onNavigationCallback: Equatable {
+    func onClick()
+}
+
 struct CustomNavBarContainerView_Previews: PreviewProvider {
     static var previews: some View {
         CustomNavBarContainerView() {

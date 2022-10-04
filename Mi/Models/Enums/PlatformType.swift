@@ -28,4 +28,15 @@ enum PlatformType: CaseIterable, Equatable {
             Feature.klog()
         ]
     )
+    
+    var title: String {
+        switch(self) {
+        case .unknown(_):
+            return "Unknown"
+        case .ps4(_):
+            return "PS4"
+        case .ps3(_):
+            return "PS3"
+        }
+    }
 }

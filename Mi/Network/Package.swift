@@ -30,6 +30,7 @@ struct PackageModel: Decodable, Identifiable {
     let type: PackageType
     let icon: String
     let link: String
+    let dl: [String: String]
     
 }
 
@@ -50,7 +51,7 @@ class Package {
     }
     
     static func searchBin(search: String, onComplete: @escaping (PackageResponse) -> Void) {
-        let url = "https://raw.githubusercontent.com/mitai-app/Versioning/main/packages.json"
+        let url = "https://raw.githubusercontent.com/mitai-app/versioning/main/packages.json"
         AF.request(url, method: .get)
             .validate()
             .responseDecodable(of: PackageResponse.self) { response in

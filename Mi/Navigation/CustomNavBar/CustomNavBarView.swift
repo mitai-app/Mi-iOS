@@ -18,17 +18,20 @@ struct CustomNavBarView: View {
         HStack {
             if showBackButton {
                 backButton
+                Spacer()
             }
-            Spacer()
             titleSection
-            Spacer()
+                .frame(alignment: .center)
+                .frame(maxWidth: .infinity)
             if showBackButton {
+                Spacer()
                 backButton.opacity(0)
             }
         }
         .padding()
         .accentColor(.white)
         .foregroundColor(.white)
+        .frame(maxWidth: .infinity)
         .font(.headline)
         .background(background.ignoresSafeArea(edges: .top))
     }
@@ -37,7 +40,7 @@ struct CustomNavBarView: View {
 struct CustomNavBarView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            CustomNavBarView(showBackButton: true, title: "Title here", subtitle: "")
+            CustomNavBarView(showBackButton: false, title: "The Title here", subtitle: "")
             Spacer()
         }
     }

@@ -39,7 +39,23 @@ struct CustomNavBarBackButtonHiddenPreferenceKey: PreferenceKey {
     }
 }
 
+
+
+struct CustomNavBarIconPreferenceKey: PreferenceKey {
+    
+    static var defaultValue: String? = ""
+    
+    static func reduce(value: inout String?, nextValue: () -> String?) {
+        value = nextValue()
+    }
+}
+
+
 extension View {
+        
+    func customNavigationIcon(icon: String?) -> some View {
+        preference(key: CustomNavBarIconPreferenceKey.self, value: icon)
+    }
     
     func customNavigationTitle(_ title: String) -> some View {
         preference(key: CustomNavBarTitlePreferenceKey.self, value: title)

@@ -193,6 +193,59 @@
 			path = RemotePI;
 			sourceTree = "<group>";
 		};
+		1704AE0328EBAE1B00B1DF53 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				173CBA9F28E79E6200983E18 /* PackageView.swift */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		1704AE0428EBAEA300B1DF53 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				17480A8C28DFC3B8000DF33F /* SmallCardView.swift */,
+				17F1787828DE84C7001E010A /* ListItem.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		1704AE0528EBAECF00B1DF53 /* Changelog */ = {
+			isa = PBXGroup;
+			children = (
+				17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */,
+				17F1787228DE7E26001E010A /* ChangelogCardView.swift */,
+				173CBA9A28E6972B00983E18 /* ChangelogSectionView.swift */,
+			);
+			path = Changelog;
+			sourceTree = "<group>";
+		};
+		1704AE0628EBAF7800B1DF53 /* FTP */ = {
+			isa = PBXGroup;
+			children = (
+				17F1787628DE82B4001E010A /* FTPView.swift */,
+			);
+			path = FTP;
+			sourceTree = "<group>";
+		};
+		1704AE0728EBAF8D00B1DF53 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				17F1787B28DE8A1D001E010A /* Console */,
+				17F1787428DE7F55001E010A /* HomeView.swift */,
+				1704AE0528EBAECF00B1DF53 /* Changelog */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		1704AE0828EBAFD400B1DF53 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				17F1789128DEB160001E010A /* SettingView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		173CBA8B28E6577800983E18 /* CustomNavBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,15 +268,6 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		17480A9728E0BCAC000DF33F /* Sections */ = {
-			isa = PBXGroup;
-			children = (
-				17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */,
-				173CBA9A28E6972B00983E18 /* ChangelogSectionView.swift */,
-			);
-			path = Sections;
-			sourceTree = "<group>";
-		};
 		17480A9E28E0DAEF000DF33F /* Enums */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,16 +277,6 @@
 				17F1788528DE8BB3001E010A /* GameType.swift */,
 			);
 			path = Enums;
-			sourceTree = "<group>";
-		};
-		17480A9F28E0E8BB000DF33F /* DetailViews */ = {
-			isa = PBXGroup;
-			children = (
-				17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */,
-				17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */,
-				174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */,
-			);
-			path = DetailViews;
 			sourceTree = "<group>";
 		};
 		174BF30328E4F4B400D6DDF2 /* Webman */ = {
@@ -346,9 +380,9 @@
 				17480A9028E0B696000DF33F /* Constants */,
 				17F1788928DEB035001E010A /* Network */,
 				17F1787E28DE8B2B001E010A /* Models */,
-				17F1783428DE552B001E010A /* MiApp.swift */,
 				17F1787128DE7E08001E010A /* Navigation */,
-				17F1787A28DE89E9001E010A /* Views */,
+				17F1787A28DE89E9001E010A /* Screens */,
+				17F1783428DE552B001E010A /* MiApp.swift */,
 				17F1783D28DE5532001E010A /* Persistence.swift */,
 				17F1783828DE5532001E010A /* Assets.xcassets */,
 				17F1783F28DE5532001E010A /* Mi.xcdatamodeld */,
@@ -392,33 +426,31 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		17F1787A28DE89E9001E010A /* Views */ = {
+		17F1787A28DE89E9001E010A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				17F1787B28DE8A1D001E010A /* Components */,
-				17480A9F28E0E8BB000DF33F /* DetailViews */,
-				17480A9728E0BCAC000DF33F /* Sections */,
-				17F1787428DE7F55001E010A /* HomeView.swift */,
-				17F1787628DE82B4001E010A /* FTPView.swift */,
-				17F1789128DEB160001E010A /* SettingView.swift */,
-				173CBA9F28E79E6200983E18 /* PackageView.swift */,
+				1704AE0728EBAF8D00B1DF53 /* Home */,
+				1704AE0628EBAF7800B1DF53 /* FTP */,
+				1704AE0328EBAE1B00B1DF53 /* Packages */,
+				1704AE0828EBAFD400B1DF53 /* Settings */,
+				1704AE0428EBAEA300B1DF53 /* Common */,
 			);
-			path = Views;
+			path = Screens;
 			sourceTree = "<group>";
 		};
-		17F1787B28DE8A1D001E010A /* Components */ = {
+		17F1787B28DE8A1D001E010A /* Console */ = {
 			isa = PBXGroup;
 			children = (
+				17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */,
+				174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */,
+				17480A9528E0BC33000DF33F /* ConsoleListItem.swift */,
+				17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */,
 				1704AE0228EA09C100B1DF53 /* RemotePI */,
 				174BF30B28E5186300D6DDF2 /* Goldhen */,
 				174BF30428E4F4C900D6DDF2 /* PS3M */,
 				174BF30328E4F4B400D6DDF2 /* Webman */,
-				17F1787228DE7E26001E010A /* ChangelogCardView.swift */,
-				17F1787828DE84C7001E010A /* ListItem.swift */,
-				17480A8C28DFC3B8000DF33F /* SmallCardView.swift */,
-				17480A9528E0BC33000DF33F /* ConsoleListItem.swift */,
 			);
-			path = Components;
+			path = Console;
 			sourceTree = "<group>";
 		};
 		17F1787E28DE8B2B001E010A /* Models */ = {
