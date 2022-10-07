@@ -20,39 +20,12 @@
         }
       },
       {
-        "package": "DLKit",
-        "repositoryURL": "https://github.com/johnno1962/DLKit",
-        "state": {
-          "branch": null,
-          "revision": "0c419bc7e248aa426712b52cb14e39ca4a5e7ecc",
-          "version": "1.2.1"
-        }
-      },
-      {
         "package": "FilesProvider",
         "repositoryURL": "https://github.com/amosavian/FileProvider.git",
         "state": {
           "branch": null,
           "revision": "abf68a62541a4193c8d106367ddb3648e8ab693f",
           "version": "0.26.0"
-        }
-      },
-      {
-        "package": "HotReloading",
-        "repositoryURL": "https://github.com/johnno1962/HotReloading.git",
-        "state": {
-          "branch": null,
-          "revision": "e08532463e55cf075ca06e4ef5d04dd0f4113044",
-          "version": "4.5.1"
-        }
-      },
-      {
-        "package": "InjectionScratch",
-        "repositoryURL": "https://github.com/johnno1962/InjectionScratch",
-        "state": {
-          "branch": null,
-          "revision": "6c158cd2e9233dad709f1ac0b4e6ed6e4d3e6184",
-          "version": "1.2.12"
         }
       },
       {
@@ -65,15 +38,6 @@
         }
       },
       {
-        "package": "RemotePlugin",
-        "repositoryURL": "https://github.com/johnno1962/Remote",
-        "state": {
-          "branch": null,
-          "revision": "2a03313297a15f31b354dbf2b40c62ca9630b0a1",
-          "version": "2.3.5"
-        }
-      },
-      {
         "package": "SwiftEntryKit",
         "repositoryURL": "https://github.com/huri000/SwiftEntryKit.git",
         "state": {
@@ -83,39 +47,12 @@
         }
       },
       {
-        "package": "SwiftRegex",
-        "repositoryURL": "https://github.com/johnno1962/SwiftRegex5",
-        "state": {
-          "branch": null,
-          "revision": "8ecb4a8570757b7f8bce72f82242742e13891f99",
-          "version": "5.2.3"
-        }
-      },
-      {
-        "package": "SwiftTrace",
-        "repositoryURL": "https://github.com/johnno1962/SwiftTrace",
-        "state": {
-          "branch": null,
-          "revision": "21aaa8b6d0f70d92e155300c45d4059ec93a952a",
-          "version": "8.2.14"
-        }
-      },
-      {
         "package": "SWXMLHash",
         "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
         "state": {
           "branch": "main",
           "revision": "eacfa68203c7595f7988e36a037a0decfc74dc33",
           "version": null
-        }
-      },
-      {
-        "package": "XprobePlugin",
-        "repositoryURL": "https://github.com/johnno1962/XprobePlugin",
-        "state": {
-          "branch": null,
-          "revision": "069a8c03ae6663175c369e3858a8372ea3ee95f4",
-          "version": "2.9.0"
         }
       }
     ]

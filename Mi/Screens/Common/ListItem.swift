@@ -10,10 +10,9 @@ import FilesProvider
 
 struct ListItem: View {
     
-    @State var file: FileObject? = FileObject(allValues: [:])
+    @State var file: FTPFile!
     
     var body: some View {
-        if let fo = file {
         HStack(alignment: .center) {
             Image(systemName: "house")
                 .renderingMode(.original)
@@ -22,33 +21,17 @@ struct ListItem: View {
                 .foregroundColor(Color.white)
                 .mask(Circle())
             VStack(alignment: .leading, spacing: 4.0) {
-                Text(fo.name)
+                Text(file.name)
                 
-                Text(fo.isDirectory == true ? "Folder" : "File")
+                Text(file.directory == true ? "Folder" : "File")
             }.padding()
-        }
-        .padding(.horizontal)
-        } else {
-            HStack(alignment: .center) {
-                Image(systemName: "house")
-                    .renderingMode(.original)
-                    .frame(width: 36, height: 36)
-                    .background(grads[1])
-                    .foregroundColor(Color.white)
-                    .mask(Circle())
-                VStack(alignment: .leading, spacing: 4.0) {
-                    Text("file-name.mi")
-                    
-                    Text("Folder")
-                }.padding()
-            }
-            .padding(.horizontal)
-        }
+        }.frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
     }
 }
 struct ListItem_Previews: PreviewProvider {
     
     static var previews: some View {
-        ListItem()
+        ListItem(file: FTPFile(id: 1, directory: false, permissions: "", nbfiles: 1, owner: "ps4", group: "", size: 100, date: "June 4", name: "golhen.bin"))
     }
 }
+

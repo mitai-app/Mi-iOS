@@ -39,7 +39,7 @@ struct IntroView: View {
                     ChangelogSectionView(change: change)
                         .foregroundColor(.white)
                 }
-            }.animation(Animation.spring(response: 1.0)).onAppear {
+            }.onAppear {
                 vm.getChangelogs()
             }.customNavigationTitle("Home")
                 .customNavigationBarBackButtonHidden(true)

@@ -8,15 +8,22 @@
 import SwiftUI
 import FilesProvider
 
-class FTPViewModel: ObservableObject, FileProviderDelegate {
+class FTPViewModel: ObservableObject, FTPDelegate {
     
-    private var provider: FTPFileProvider!
+    func onList(dirs: [FTPFile]) {
+        self.dir = dirs
+    }
+    
+    
     private var target: Console? {
         return SyncServiceImpl.shared.target
     }
+    
+    @Published var ftp: FTP!
+    @Published var dir: [FTPFile] = []
+    
     private var user: String
     private var password: String
-    @State var files: [FileObject] = []
     
     init(user: String = "anonymous", password: String = "anonymous") {
         self.user = user
@@ -25,79 +32,17 @@ class FTPViewModel: ObservableObject, FileProviderDelegate {
     
     func connect() -> Bool {
         print("Attempting to connect")
-        if let console = target {
-            let urlString = "ftp://\(console.ip):\(console.isPs4 ? 2121 : 21)"
-            print(urlString)
-            let url = URL(string: urlString)!
-            let cred = URLCredential(user: user, password: password, persistence: .permanent)
-            self.provider = FTPFileProvider(baseURL: url, mode: .active, credential: cred)!
-            self.provider.delegate = self
-            return true
-        } else {
-            return false
+        if(SyncServiceImpl.shared.connectFtp()) {
+            ftp = SyncServiceImpl.shared.ftp[target!.ip]
+            self.ftp.delegate = self
+            return ftp.list()
         }
+        return false
     }
-    
-    private func randomData(size: Int = 262144) -> Data {
-        var keyData = Data(count: size)
-        let count = keyData.count
-        let result = keyData.withUnsafeMutableBytes {
-            SecRandomCopyBytes(kSecRandomDefault, count, $0)
-        }
-        if result == errSecSuccess {
-            return keyData
-        } else {
-            fatalError("Problem generating random bytes")
-        }
-    }
-    
-    func dummyFile() -> URL {
-        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("dummyfile.dat")
-        
-        if !FileManager.default.fileExists(atPath: url.path) {
-            let data = randomData()
-            try! data.write(to: url)
-        }
-        return url
-    }
-    
+   
     func getDir() {
-        let desc = "Enumerating files list in \(provider.type)"
-        print("Test started: \(desc).")
-        provider.contentsOfDirectory(path: "/", rfc3659enabled: false) { (files, error) in
-            if let e = error {
-                debugPrint(e)
-            
-            }
-            debugPrint("\(files.count) list is empty")
-            debugPrint("Files \(files)")
-            self.files = files
-        }
+        ftp?.list()
     }
-    
-    func uploadFile(_ provider: FileProvider, filePath: String) {
-        // test Upload/Download
-        let desc = "Uploading file in \(provider.type)"
-        print("started: \(desc).")
-        let dummy = dummyFile()
-        provider.copyItem(localFile: dummy, to: filePath) { (error) in
-            print(error ?? "Wtf")
-        }
-        print("Uploaded.")
-    }
-    
-    func fileproviderSucceed(_ fileProvider: FileProviderOperations, operation: FileOperationType) {
-        
-    }
-    
-    func fileproviderFailed(_ fileProvider: FileProviderOperations, operation: FileOperationType, error: Error) {
-        
-    }
-    
-    func fileproviderProgress(_ fileProvider: FileProviderOperations, operation: FileOperationType, progress: Float) {
-        
-    }
-    
     
 }
 
@@ -110,30 +55,36 @@ struct FTPView: View {
     @StateObject var vm: FTPViewModel = FTPViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Consoles")
-            
+        CustomNavView {
+            VStack (spacing: 0) {
                 List {
-                    ForEach(vm.files) { item in
-                        ListItem(file: item)
-                    }
+                ForEach(vm.dir) { item in
+                    ListItem(file: item)
+                }
                 }.refreshable {
                     debugPrint("Doing the connecting thing")
                     if vm.connect() {
                         debugPrint("Connected?")
-                        vm.getDir()
                     } else {
                         debugPrint("Could not connect")
                     }
                 }
-            .navigationTitle("Consoles")
+            }.customNavigationTitle("FTP")
+            .customNavigationBarBackButtonHidden(true)
+            .onPreferenceChange(TabBarItemSelectedPreferenceKey.self) { item in
+                print(item)
+                switch item {
+                case .ftp:
+                    vm.connect()
+                    break
+                default:
+                        break
+                }
             }
             .onAppear {
                 debugPrint("Doing the connecting thing")
                 if vm.connect() {
                     debugPrint("Connected?")
-                    vm.getDir()
                 } else {
                     debugPrint("Could not connect")
                 }

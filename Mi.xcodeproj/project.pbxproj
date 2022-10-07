@@ -60,7 +60,6 @@
 		17F1784B28DE5532001E010A /* MiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1784A28DE5532001E010A /* MiTests.swift */; };
 		17F1785528DE5533001E010A /* MiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1785428DE5533001E010A /* MiUITests.swift */; };
 		17F1785728DE5533001E010A /* MiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1785628DE5533001E010A /* MiUITestsLaunchTests.swift */; };
-		17F1786528DE6D3A001E010A /* HotReloading in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786428DE6D3A001E010A /* HotReloading */; };
 		17F1786828DE6EFD001E010A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786728DE6EFD001E010A /* Alamofire */; };
 		17F1786B28DE6F12001E010A /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786A28DE6F12001E010A /* SWXMLHash */; };
 		17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786D28DE6F24001E010A /* Kingfisher */; };
@@ -177,7 +176,6 @@
 				174DD77028E3E68F007244B5 /* Socket in Frameworks */,
 				173CBA9E28E74DFB00983E18 /* FilesProvider in Frameworks */,
 				174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */,
-				17F1786528DE6D3A001E010A /* HotReloading in Frameworks */,
 				174DD76E28E3E68F007244B5 /* BlueSocketTestCommonLibrary in Frameworks */,
 				17F1786828DE6EFD001E010A /* Alamofire in Frameworks */,
 			);
@@ -547,7 +545,6 @@
 			);
 			name = Mi;
 			packageProductDependencies = (
-				17F1786428DE6D3A001E010A /* HotReloading */,
 				17F1786728DE6EFD001E010A /* Alamofire */,
 				17F1786A28DE6F12001E010A /* SWXMLHash */,
 				17F1786D28DE6F24001E010A /* Kingfisher */,
@@ -630,7 +627,6 @@
 			);
 			mainGroup = 17F1782828DE552A001E010A;
 			packageReferences = (
-				17F1786328DE6D3A001E010A /* XCRemoteSwiftPackageReference "HotReloading" */,
 				17F1786628DE6EFD001E010A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				17F1786928DE6F12001E010A /* XCRemoteSwiftPackageReference "SWXMLHash" */,
 				17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */,
@@ -1105,14 +1101,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		17F1786328DE6D3A001E010A /* XCRemoteSwiftPackageReference "HotReloading" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/johnno1962/HotReloading.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
 		17F1786628DE6EFD001E010A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -1159,11 +1147,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */;
 			productName = Socket;
-		};
-		17F1786428DE6D3A001E010A /* HotReloading */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 17F1786328DE6D3A001E010A /* XCRemoteSwiftPackageReference "HotReloading" */;
-			productName = HotReloading;
 		};
 		17F1786728DE6EFD001E010A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

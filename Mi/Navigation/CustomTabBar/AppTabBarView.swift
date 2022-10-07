@@ -24,6 +24,8 @@ struct AppTabBarView: View {
             PackageView().tabBarItem(tab: .package, selection: $tabSelection)
             FTPView().tabBarItem(tab: .ftp, selection: $tabSelection)
             SettingView().tabBarItem(tab: .settings, selection: $tabSelection)
+        }.onPreferenceChange(TabBarItemSelectedPreferenceKey.self) { res in
+            print(res)
             
         }
     }

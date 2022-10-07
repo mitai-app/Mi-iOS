@@ -1,0 +1,18 @@
+drwsrwsrws 1 ps4 ps4 512 Oct  7 00:39 .
+drwsrwsrws 1 ps4 ps4 16384 Jan  1 2000 ..
+drwsrwsrws 1 ps4 ps4 512 Oct  5 21:11 sce_coredumps
+drwsrwsrws 1 ps4 ps4 512 Mar 11 2017 sce_logs
+drwsrwsrws 1 ps4 ps4 512 Sep  6 2021 self
+drwsr-s--S 1 ps4 ps4 1024 Mar 16 2021 retroarch
+-rw-rw-rw- 1 ps4 ps4 9 Mar 17 2021 lock
+-rwxrwxrwx 1 ps4 ps4 1833 Sep  6 2021 Loader_Logs.txt
+-rwxrwxrwx 1 ps4 ps4 6619136 Mar 26 2021 IV0000-BREW00050_00-IPI0000000000000.pkg
+drwsrwsrws 1 ps4 ps4 512 Mar 27 2021 cache0002
+drwsrwsrws 1 ps4 ps4 512 Jan 24 02:11 Orbis Toolbox
+-rwxrwxrwx 1 ps4 ps4 12712 Oct  7 01:14 profile.dat
+drwsrwsrws 1 ps4 ps4 512 Jul 17 00:42 GoldHEN
+drwsrwsrws 1 ps4 ps4 512 Jul 16 23:38 Xthumbnails
+drwsrwsrws 1 ps4 ps4 512 Jul 17 03:57 store
+drwsrwsrws 1 ps4 ps4 512 Oct  7 01:12 cj
+drwsrwsrws 1 ps4 ps4 512 Feb  4 00:05 packages
+drwsrwsrws 1 ps4 ps4 512 Sep 28 08:13 cache0001

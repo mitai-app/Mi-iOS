@@ -20,6 +20,17 @@ struct TabBarItemsPreferenceKey: PreferenceKey {
 }
 
 
+struct TabBarItemSelectedPreferenceKey: PreferenceKey {
+    
+    static var defaultValue:  TabBarItem = .home
+    
+    static func reduce(value: inout TabBarItem, nextValue: () -> TabBarItem) {
+        value = nextValue()
+    }
+    
+}
+
+
 struct TabBarItemViewModifier: ViewModifier {
     
     let tab: TabBarItem
@@ -29,6 +40,8 @@ struct TabBarItemViewModifier: ViewModifier {
         content
             .opacity(selection == tab ? 1.0 : 0.0)
             .preference(key: TabBarItemsPreferenceKey.self, value: [tab])
+            .preference(key: TabBarItemSelectedPreferenceKey.self, value: tab)
+            
     }
 }
 

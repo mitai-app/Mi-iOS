@@ -6,11 +6,73 @@
 //
 
 import Foundation
-
 import Socket
 
-struct FTPFile {
+struct FTPFile: Identifiable {
     
+    var id: Int
+    let directory: Bool
+    let permissions: String
+    let nbfiles: Int
+    let owner: String
+    let group: String
+    let size: Int
+    let date: String
+    let name: String
+}
+extension FTPFile {
+    
+    
+    static func parse(testString: String) -> [FTPFile] {
+        let pattern = #"^([\-ld])([\-rwxs]{9})\s+(\d+)\s+(.+)\s+(.+)\s+(\d+)\s+(\w{3}\s+\d{1,2}\s+(?:\d{1,2}:\d{1,2}|\d{4}))\s+(.+)$"#
+        let regex = try! NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
+        let stringRange = NSRange(location: 0, length: testString.utf16.count)
+        let matches = regex.matches(in: testString, range: stringRange)
+        var result: [[String]] = []
+        for match in matches {
+            var groups: [String] = []
+            for rangeIndex in 1 ..< match.numberOfRanges {
+                let nsRange = match.range(at: rangeIndex)
+                guard !NSEqualRanges(nsRange, NSMakeRange(NSNotFound, 0)) else { continue }
+                let string = (testString as NSString).substring(with: nsRange)
+                groups.append(string)
+            }
+            if !groups.isEmpty {
+                result.append(groups)
+            }
+        }
+        var index = 0
+        let res: [FTPFile] = result.map { array in
+            
+            let directory: Bool = array[0] == "d"
+            let permisions: String = array[1]
+            let nbfiles: Int = Int(array[2]) ?? 0
+            let owner: String = array[3]
+            let group: String = array[4]
+            let size: Int = Int(array[5]) ?? 0
+            let date: String = array[6]
+            let name: String = array[7]
+            let file = FTPFile(
+                id: index,
+                directory: directory,
+                permissions:permisions,
+                nbfiles: nbfiles,
+                owner: owner,
+                group: group,
+                size: size,
+                date: date,
+                name: name
+            )
+            index += 1
+            return file
+        }
+        debugPrint(res)
+        return res
+    }
+}
+
+protocol FTPDelegate {
+    func onList(dirs: [FTPFile])
 }
 
 class FTP: ObservableObject {
@@ -20,19 +82,18 @@ class FTP: ObservableObject {
     private var data: Socket!
     private var dataPort: Int = 0
     private var res: ((String) -> Void)!
-
-    private var parseRegex = "^([\\-ld])([\\-rwxs]{9})\\s+(\\d+)\\s+(.+)\\s+(.+)\\s+(\\d+)\\s+(\\w{3}\\s+\\d{1,2}\\s+(?:\\d{1,2}:\\d{1,2}|\\d{4}))\\s+(.+)\\$"
-    var dir: [FTPFile] = []
-        private(set)
     
-    var cwd: String = "\\"
+    var delegate: FTPDelegate?
+    
+    @Published var dir: [FTPFile] = []
+    
+    @Published var cwd: String = "\\"
 
     init(socket: Socket, res: @escaping (String) -> Void) {
         self.socket = socket
         self.res = res
         self.auth()
     }
-
 
     func auth() {
         do {
@@ -44,29 +105,29 @@ class FTP: ObservableObject {
             try socket.write(from: "PASS anonymous\r\n")
             readBytes = try socket.readString()
             print("PASS: \(readBytes)")
+            Task {
+                await run()
+            }
         } catch {
             
         }
     }
 
-    func readLis() {
-        /*data = Socket()
-        data.connect(InetSocketAddress(socket.inetAddress.hostAddress, dataPort))
-        println("LETS GO")
-        data.getInputStream().use { input ->
-            val readAllBytes = input.readBytes()
-            FileOutputStream("file.txt").use {
-                it.write(readAllBytes)
-                it.flush()
-            }
-            val input1 = readAllBytes.decodeToString()
-            this.dir = FTPHelper.parseListCommand(input1)
-            dir.map {
-                "${cwd}/${it.name} - Is DIR: ${it.directory}"
-            }.forEach(::println)
+    func readFromDataSock() async {
+        data = try! Socket.create()
+        try! data.connect(to: socket.remoteHostname, port: Int32(dataPort))
+        print("LETS GO")
+        guard let bytes = try! data.readString() else {
+            data.close()
+            return
         }
-        data.close()
-        println("Closed")*/
+        await MainActor.run {
+            print(bytes)
+            self.dir = FTPFile.parse(testString: bytes)
+            delegate?.onList(dirs: dir)
+            data.close()
+            print("Closed")
+        }
 
     }
 
@@ -75,14 +136,17 @@ class FTP: ObservableObject {
             try socket.write(from: string)
             return true
         } catch {
+            print(error)
             return false
         }
     }
 
     func handled(_ string: String) -> Bool {
-        let split = string.split(separator: " ", maxSplits: 2)
+        let split = string.split(separator: " ", maxSplits: 1)
         if(split.count >= 2) {
             let code = Int.init(split[0]) ?? 0, message = split[1]
+            print(code)
+            print(message)
             switch code {
             case 150:
                 print(message)
@@ -97,16 +161,19 @@ class FTP: ObservableObject {
                 
             case 226:
                 // transfer complete
+                
                 return true
             case 227:
-                let firstBrace = message.firstIndex(of: "(")!
-                let lastBrace = message.firstIndex(of: ")")!
-                let ipPort = String(message[firstBrace..<lastBrace])
+                let firstBrace = message.firstIndex(of: "(")
+                let lastBrace = message.firstIndex(of: ")")
+                let ipPort = String(message[firstBrace!..<lastBrace!])
                 let parts = ipPort.split(separator: ",")
                 let ip = "\(parts[0]).\(parts[1]).\(parts[2]).\(parts[3])"
                 let port = (Int.init(parts[4]) ?? 0) * 256 + (Int.init(parts[5]) ?? 0)
                 self.dataPort = port
-                //Thread(readList).start()
+                Task {
+                    await self.readFromDataSock()
+                }
                 print("\(ip):\(port)")
                 return true
             case 250:  // Request file action okay
@@ -130,17 +197,17 @@ class FTP: ObservableObject {
     }
 
 
-    func run() {
+    func run() async {
         print("READING")
         while (socket.isConnected) {
             do {
-                print("Connected: ${socket.isConnected}")
+                print("Connected: \(socket.isConnected)")
                 let readAllBytes = try socket.readString()!
 
                 print("READ: \(readAllBytes)")
                 self.handled(readAllBytes)
             }catch {
-                
+                print(error)
             }
         }
     }
@@ -167,7 +234,7 @@ extension FTP {
     }
 
     func list()-> Bool {
-        return write("LIST\r\n")
+        return pasv() && write("LIST\r\n")
     }
 
     func delete(filename: String)-> Bool {

@@ -14,6 +14,7 @@ protocol SyncService {
     var target: Console? { get }
     var active: [Console] { get }
     var ip: String? { get }
+    var ftp: [String: FTP] {get set}
     
     func getPotentialClients() -> [Console]
     func getSocket(feat: Feature) -> Socket?
@@ -24,16 +25,37 @@ protocol SyncService {
 
 class SyncServiceImpl: ObservableObject, SyncService {
     
+    
     @Published var target: Console?
     @Published var active: [Console] = []
     
     private var map: [String:[Feature:Socket]] = [:]
+    @Published var ftp: [String:FTP] = [:]
     private var task: Task<(), Never>?
     
     var ip: String? {
         return target?.ip
     }
+    
+    
 
+    
+    func connectFtp() -> Bool {
+        do {
+            guard let console = target else  {
+                return false
+            }
+            if !self.ftp.keys.contains(console.ip) {
+                self.ftp[console.ip] = try FTP.create(ip: console.ip, port: console.isPs4 ? 2121 : 21) { str in
+                    print(str)
+                }
+            }
+            return true
+        } catch {
+            print(error)
+        }
+        return false
+    }
     
     static let psx = PSXService()
     static let shared: SyncServiceImpl = SyncServiceImpl()
