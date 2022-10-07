@@ -65,20 +65,21 @@ struct WMGameView: View {
                                     
                                     Image(systemName: "gear")
                                         .resizable()
+                                        .padding()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(maxWidth: .infinity)
                                 }
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: .infinity)
-                        }.background(Color("grayDark"))
+                        }.background(Color("tertiary"))
                         VStack {
                             Text(game.title)
                                 .lineLimit(1)
                                 .padding()
                                 .foregroundColor(Color.white)
                         }
-                    }.background(Color("quinary"))
+                    }.background(Color("tertiary"))
                     .cornerRadius(20)
                     .shadow(color: .black, radius: 9, x: 0, y: 5)
                     .onTapGesture {

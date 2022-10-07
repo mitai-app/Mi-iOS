@@ -1,8 +1,8 @@
 //
-//  Game.swift
+//  Webman+Structs.swift
 //  Mi
 //
-//  Created by Vonley on 9/23/22.
+//  Created by Vonley on 10/4/22.
 //
 
 import Foundation
@@ -39,7 +39,6 @@ extension Game {
                     if key == "inc" {
                         continue
                     }
-                    
                     //print("ELEMENT1: \(g)")
                     guard let icon = g["P"][0].element?.text
                         else {continue}
@@ -60,3 +59,4 @@ extension Game {
         return games
     }
 }
+

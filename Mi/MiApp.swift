@@ -12,10 +12,12 @@ struct MiApp: App {
     let persistenceController = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
-            AppTabBarView(color: Color("quinary"))
-                .environmentObject(SyncService.shared)
+            AppTabBarView(color: Color("navcolor"))
+                .foregroundColor(Color("foreground"))
+                .background(Color("background"))
+                .environmentObject(SyncServiceImpl.shared)
                 .onAppear {
-                    SyncService.shared.findDevices { consoles in
+                    SyncServiceImpl.shared.findDevices { consoles in
                         debugPrint(consoles)
                     }
                 }

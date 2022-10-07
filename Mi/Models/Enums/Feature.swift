@@ -34,10 +34,6 @@ enum Feature: CaseIterable {
 
 extension Feature: Hashable {
     
-}
-
-extension Feature {
-    
     func find(id: Int) -> Feature? {
         return Feature.allCases[id]
     }

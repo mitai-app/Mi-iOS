@@ -12,27 +12,29 @@ struct ChangelogCardView: View {
     
     var body: some View {
         
-        HStack(alignment: .center) {
-            Image(systemName: "info")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-            if let change = item {
-                VStack(alignment: .leading) {
-                    
-                    Text(change.name)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                    Text("New changes added")
-                        .opacity(0.7)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                Image(systemName: "info")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 32, height: 32)
+                    .padding(.horizontal)
+                if let change = item {
+                    VStack(alignment: .leading) {
+                        
+                        Text(change.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .frame(alignment: .leading)
+                        Text("New changes added")
+                            .opacity(0.7)
+                            .frame(alignment: .leading)
+                    }.frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            
         }.frame(height: 80)
-            .frame(maxWidth: .infinity)
-            .background(grads[1])
-            .cornerRadius(16)
-            .foregroundColor(.white)
+        .frame(maxWidth: .infinity)
+        .cornerRadius(16)
     }
 }
 

@@ -12,7 +12,7 @@ class FTPViewModel: ObservableObject, FileProviderDelegate {
     
     private var provider: FTPFileProvider!
     private var target: Console? {
-        return SyncService.shared.target
+        return SyncServiceImpl.shared.target
     }
     private var user: String
     private var password: String
@@ -29,7 +29,7 @@ class FTPViewModel: ObservableObject, FileProviderDelegate {
             let urlString = "ftp://\(console.ip):\(console.isPs4 ? 2121 : 21)"
             print(urlString)
             let url = URL(string: urlString)!
-            let cred = URLCredential(user: user, password: password, persistence: .forSession)
+            let cred = URLCredential(user: user, password: password, persistence: .permanent)
             self.provider = FTPFileProvider(baseURL: url, mode: .active, credential: cred)!
             self.provider.delegate = self
             return true
@@ -64,7 +64,7 @@ class FTPViewModel: ObservableObject, FileProviderDelegate {
     func getDir() {
         let desc = "Enumerating files list in \(provider.type)"
         print("Test started: \(desc).")
-        provider.contentsOfDirectory(path: "/") { (files, error) in
+        provider.contentsOfDirectory(path: "/", rfc3659enabled: false) { (files, error) in
             if let e = error {
                 debugPrint(e)
             
@@ -105,7 +105,7 @@ struct FTPView: View {
     
     @State var show = false
     
-    @EnvironmentObject var sync: SyncService
+    @EnvironmentObject var sync: SyncServiceImpl
     
     @StateObject var vm: FTPViewModel = FTPViewModel()
     
@@ -144,7 +144,7 @@ struct FTPView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        FTPView().environmentObject(SyncService.test())
+        FTPView().environmentObject(SyncServiceImpl.test())
     }
 }
 

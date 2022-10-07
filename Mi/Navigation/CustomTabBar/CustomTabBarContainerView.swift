@@ -11,7 +11,7 @@ struct CustomTabBarContainerView<Content:View> : View {
     
     @Binding var selection: TabBarItem
     @State private var tabs: [TabBarItem] = [
-        .home, .package, .settings
+        .consoles, .package, .settings
     ]
     let content: Content
     var background: Color
@@ -43,11 +43,20 @@ struct CustomTabBarContainerView<Content:View> : View {
 
 struct CustomTabBarContainerView_Previews: PreviewProvider {
     static let tabs: [TabBarItem] = [
-        .home, .package, .settings
+        .consoles, .package, .settings
     ]
     static var previews: some View {
-        CustomTabBarContainerView(selection: .constant(tabs.first!), background: Color("quinary")) {
-            
+        VStack {
+            Spacer()
+            CustomTabBarContainerView(selection: .constant(tabs.first!), background: Color("tabcolor")) {
+                
+            }
+        }
+        VStack {
+            Spacer()
+            CustomTabBarContainerView(selection: .constant(tabs.first!), background: Color("tabcolor")) {
+                
+            }.colorScheme(.dark)
         }
     }
 }

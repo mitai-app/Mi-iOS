@@ -8,14 +8,7 @@
 import Foundation
 import Alamofire
 
-protocol PSXService {
-    
-    func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void)
-    func getRequest(url: String, params: [String:[String]], onComplete: @escaping (AFDataResponse<Data?>) -> Void)
-    
-}
-
-class PSXServiceImpl: PSXService {
+class PSXService {
     
     func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void) {
         return getRequest(url: url, params: [:], onComplete: onComplete)

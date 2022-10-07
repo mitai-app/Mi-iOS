@@ -19,11 +19,11 @@ protocol PS3MAPI {
 class PS3MAPIImpl: PS3MAPI {
     
     var socket: Socket? {
-        return SyncService.shared.getSocket(feat: Feature.ps3mapi())
+        return SyncServiceImpl.shared.getSocket(feat: Feature.ps3mapi())
     }
     
     func getFirmwareVersion() -> String? {
-        let cmd = cmds.getfwversion.rawValue
+        let cmd = PS3MapiCommands.getfwversion.rawValue
         let response = sendCommand(cmd: cmd)
         let str = response?.response ?? "0"
         let ver = Int(str) ?? 0
@@ -33,59 +33,59 @@ class PS3MAPIImpl: PS3MAPI {
     }
     
     func getFirmwareType() -> String? {
-        let cmd = cmds.getfwtype.rawValue
+        let cmd = PS3MapiCommands.getfwtype.rawValue
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     
     func getVersion() -> String? {
-        let cmd = cmds.getversion.rawValue
+        let cmd = PS3MapiCommands.getversion.rawValue
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     
     func getMinVersion() -> String? {
-        let cmd = cmds.getminversion.rawValue
+        let cmd = PS3MapiCommands.getminversion.rawValue
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     
     func buzz(mode: Int) -> String? {
-        let cmd = "\(cmds.buzzer.rawValue)\(mode)"
+        let cmd = "\(PS3MapiCommands.buzzer.rawValue)\(mode)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     func reboot() -> String? {
-        let cmd = "\(cmds.reboot.rawValue)"
+        let cmd = "\(PS3MapiCommands.reboot.rawValue)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     func shutdown() -> String? {
-        let cmd = "\(cmds.shutdown.rawValue)"
+        let cmd = "\(PS3MapiCommands.shutdown.rawValue)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     func softboot() -> String? {
-        let cmd = "\(cmds.softboot.rawValue)"
+        let cmd = "\(PS3MapiCommands.softboot.rawValue)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     func hardboot() -> String? {
-        let cmd = "\(cmds.hardboot.rawValue)"
+        let cmd = "\(PS3MapiCommands.hardboot.rawValue)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
     
     func getTemperature() -> Temperature? {
-        let cmd = "\(cmds.temperature.rawValue)"
+        let cmd = "\(PS3MapiCommands.temperature.rawValue)"
         if let result = sendCommand(cmd: cmd) {
             if (!result.response.contains(":")) {
                 let temp = result.response.split(separator: "|")
@@ -99,31 +99,31 @@ class PS3MAPIImpl: PS3MAPI {
     }
     
     func getPSID() -> String? {
-        let cmd = "\(cmds.psid.rawValue)"
+        let cmd = "\(PS3MapiCommands.psid.rawValue)"
         let result = sendCommand(cmd: cmd)
         return result?.response
     }
     
     func getIDPS() -> String? {
-        let cmd = "\(cmds.idps.rawValue)"
+        let cmd = "\(PS3MapiCommands.idps.rawValue)"
         let result = sendCommand(cmd: cmd)
         return result?.response
     }
     
     func disconnect() -> String? {
-        let cmd = "\(cmds.disconnect.rawValue)"
+        let cmd = "\(PS3MapiCommands.disconnect.rawValue)"
         let result = sendCommand(cmd: cmd)
         return result?.response
     }
     
     func notify(msg: String) -> String? {
-        let cmd = "\(cmds.notify.rawValue) \(msg)"
+        let cmd = "\(PS3MapiCommands.notify.rawValue) \(msg)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }
     
-    func led(ledcolor: ledcolor, mode: ledstatus) -> String? {
-        let cmd = "\(cmds.notify.rawValue) \(ledcolor.rawValue) \(mode.rawValue)"
+    func led(ledcolor: LedColor, mode: LedMode) -> String? {
+        let cmd = "\(PS3MapiCommands.notify.rawValue) \(ledcolor.rawValue) \(mode.rawValue)"
         let response = sendCommand(cmd: cmd)
         return response?.response
     }

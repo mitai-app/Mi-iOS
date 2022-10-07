@@ -11,10 +11,7 @@ import Foundation
  *   PS3MAPI Socket Commands
  *   These are the basic commands for ps3mapi protocols
  */
-enum cmds: String, Identifiable, CaseIterable {
-    var id: String {
-        return self.rawValue
-    }
+enum PS3MapiCommands: String {
     
     case getfwversion = "PS3 GETFWVERSION",
          getfwtype = "PS3 GETFWTYPE",
@@ -34,72 +31,21 @@ enum cmds: String, Identifiable, CaseIterable {
          disconnect = "DISCONNECT",
          processes = "PROCESS GETALLPID"
     
-    var icon: String {
-        switch(self) {
-        case .idps:
-            return "lock.circle"
-        case .psid:
-            return "lock.circle"
-        case .notify:
-            return "bubble.right.circle"
-        case .processes:
-            return "list.bullet.circle"
-        case .temperature:
-            return "sun.max.circle"
-        default:
-            return "gear"
-        }
-    }
 }
 
-extension cmds {
-    func getTitle() -> String {
-        switch self {
-        case .getfwversion:
-            return "Get Firmware Version"
-        case .getfwtype:
-            return "Get Firmware Type"
-        case .getversion:
-            return "Get PS3 Manager Version"
-        case .getminversion:
-            return "Get PS3 Manager Min Compatible Version"
-        case .buzzer:
-            return "Buzz"
-        case .reboot:
-            return "Reboot"
-        case .shutdown:
-            return "Shutdown"
-        case .hardboot:
-            return "Hardboot"
-        case .softboot:
-            return "Softboot"
-        case .notify:
-            return "Notify"
-        case .led:
-            return "Led"
-        case .idps:
-            return "IDPS"
-        case .psid:
-            return "PSID"
-        case .temperature:
-            return "Temperature"
-        case .disconnect:
-            return "Disconnect"
-        case .processes:
-            return "Processes"
-        }
-    }
+enum ConsoleId {
+    case idps, psid
 }
 
-enum ledcolor: Int {
+enum LedColor: Int {
     case red = 0, green, yellow
 }
 
-enum ledstatus: Int {
+enum LedMode: Int {
     case off = 0, on, blink, blinkslow
 }
 
-enum syscall8mode {
+enum SysCall8mode {
     case enabled, only_cobra_mamba_and_ps3api_enabled,only_ps3api_enabled, fakedisabled, disabled
 }
 
@@ -109,17 +55,7 @@ enum DeleteHistory {
 }
 
 
-enum ps3mapi_code: CaseIterable {
-    static var allCases: [ps3mapi_code] {
-        return [
-            .ps3mapi_ok_data_connection_already_open(), .ps3mapi_ok_memory_status(), .ps3mapi_ok_successful_command(),
-            .ps3mapi_ok_server_connecting(), .ps3mapi_ok_service_closing_control(), .ps3mapi_ok_closing_data_connection(),
-            .ps3mapi_ok_entering_passive_mode(), .ps3mapi_ok_mgr_server_detected(), .ps3mapi_ok_memory_action_completed(),
-            .ps3mapi_ok_memory_action_pending(),
-            .ps3mapi_error_425(), .ps3mapi_error_451(), .ps3mapi_error_501(), .ps3mapi_error_502(), .ps3mapi_error_550()
-        ]
-    }
-    
+enum ps3mapi_code {
     case ps3mapi_ok_data_connection_already_open(code: Int = 125),
          ps3mapi_ok_memory_status(code: Int = 150, message: String = "Binary status okay; about to open connection."),
         ps3mapi_ok_successful_command(code: Int = 200, message: String = "The requested action has been successfully completed."),
@@ -137,8 +73,18 @@ enum ps3mapi_code: CaseIterable {
         ps3mapi_error_550(code: Int = 550, message: String = "Requested action not taken.")
 }
 
-
-extension ps3mapi_code {
+extension ps3mapi_code: CaseIterable {
+    
+    static var allCases: [ps3mapi_code] {
+        return [
+            .ps3mapi_ok_data_connection_already_open(), .ps3mapi_ok_memory_status(), .ps3mapi_ok_successful_command(),
+            .ps3mapi_ok_server_connecting(), .ps3mapi_ok_service_closing_control(), .ps3mapi_ok_closing_data_connection(),
+            .ps3mapi_ok_entering_passive_mode(), .ps3mapi_ok_mgr_server_detected(), .ps3mapi_ok_memory_action_completed(),
+            .ps3mapi_ok_memory_action_pending(),
+            .ps3mapi_error_425(), .ps3mapi_error_451(), .ps3mapi_error_501(), .ps3mapi_error_502(), .ps3mapi_error_550()
+        ]
+    }
+    
     private static func findResponse(value: Int) -> ps3mapi_code {
         for pcode in ps3mapi_code.allCases {
             switch pcode {
@@ -245,6 +191,64 @@ extension ps3mapi_code {
 
 }
 
-enum ConsoleId {
-    case idps, psid
+
+extension PS3MapiCommands: Identifiable, CaseIterable {
+    
+    var id: String {
+        return self.rawValue
+    }
+    
+    var icon: String {
+        switch(self) {
+        case .idps:
+            return "lock.circle"
+        case .psid:
+            return "lock.circle"
+        case .notify:
+            return "bubble.right.circle"
+        case .processes:
+            return "list.bullet.circle"
+        case .temperature:
+            return "sun.max.circle"
+        default:
+            return "gear"
+        }
+    }
+    
+    func getTitle() -> String {
+        switch self {
+        case .getfwversion:
+            return "Get Firmware Version"
+        case .getfwtype:
+            return "Get Firmware Type"
+        case .getversion:
+            return "Get PS3 Manager Version"
+        case .getminversion:
+            return "Get PS3 Manager Min Compatible Version"
+        case .buzzer:
+            return "Buzz"
+        case .reboot:
+            return "Reboot"
+        case .shutdown:
+            return "Shutdown"
+        case .hardboot:
+            return "Hardboot"
+        case .softboot:
+            return "Softboot"
+        case .notify:
+            return "Notify"
+        case .led:
+            return "Led"
+        case .idps:
+            return "IDPS"
+        case .psid:
+            return "PSID"
+        case .temperature:
+            return "Temperature"
+        case .disconnect:
+            return "Disconnect"
+        case .processes:
+            return "Processes"
+        }
+    }
 }

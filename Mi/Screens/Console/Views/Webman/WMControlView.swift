@@ -10,7 +10,7 @@ class WMControlViewModel: ObservableObject {
 
     private var console: Console
     
-    @Published var controls: [Webman.Commands] = []
+    @Published var controls: [WebmanCommands] = []
     
     init(console: Console) {
         self.console = console
@@ -61,13 +61,13 @@ class WMControlViewModel: ObservableObject {
     
     func populate() {
         let enums = [
-            Webman.Commands.beep,
-            Webman.Commands.reboot,
-            Webman.Commands.shutdown,
-            Webman.Commands.refresh,
-            Webman.Commands.insert,
-            Webman.Commands.eject,
-            Webman.Commands.unmount,
+            WebmanCommands.beep,
+            WebmanCommands.reboot,
+            WebmanCommands.shutdown,
+            WebmanCommands.refresh,
+            WebmanCommands.insert,
+            WebmanCommands.eject,
+            WebmanCommands.unmount,
         ]
         self.controls = enums
     }

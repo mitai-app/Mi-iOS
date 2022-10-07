@@ -12,7 +12,7 @@ struct CustomNavBarView: View {
     let showBackButton: Bool
     let title: String
     let subtitle: String?
-    let background: Color = Color("quinary")
+    let background: Color = Color("navcolor")
     
     var body: some View {
         HStack {
@@ -29,11 +29,13 @@ struct CustomNavBarView: View {
             }
         }
         .padding()
-        .accentColor(.white)
-        .foregroundColor(.white)
+        .accentColor(Color("navcolorFore"))
+        .foregroundColor(Color("navcolorFore"))
         .frame(maxWidth: .infinity)
         .font(.headline)
         .background(background.ignoresSafeArea(edges: .top))
+        
+        
     }
 }
 

@@ -28,24 +28,22 @@ struct ChangelogSectionView: View {
     @StateObject var vm = ChangelogViewModel()
     
     var body: some View {
-        Text("Changelogs")
-                    .font(.title2).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
         ScrollView(.horizontal, showsIndicators: false) {
-                    VStack(spacing: 16) {
-                            ForEach(vm.changes) { item in
-                                CustomNavLink(destination:
-                                                ChangelogFeatureView(changelog: change, item: item)
-                                                .customNavigationTitle("Changelogs")
-                                                .customNavigationSubtitle("Recent Improvements")
-                                                .customNavigationBarBackButtonHidden(false)
-                                ) {
-                                    ChangelogCardView(item: item)
-                                }
-                            }
+            Text("Changelogs")
+                .font(.title2).bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+            VStack(spacing: 0) {
+                ForEach(vm.changes) { item in
+                    CustomNavLink(destination: ChangelogFeatureView(changelog: change, item: item)
+                        .customNavigationTitle("Changelogs")
+                        .customNavigationSubtitle("Recent Improvements")
+                        .customNavigationBarBackButtonHidden(false)
+                    ) {
+                        ChangelogCardView(item: item)
                     }
-                    .padding()
+                }
+            }
         }.onAppear {
             vm.setChanges(change: change)
         }

@@ -10,27 +10,41 @@ import Alamofire
 import Socket
 import SwiftUI
 
-class SyncService: ObservableObject {
+protocol SyncService {
+    var target: Console? { get }
+    var active: [Console] { get }
+    var ip: String? { get }
     
-    static let shared: SyncService = SyncService()
-    
-    static let psx = PSXServiceImpl()
-    
-    static func test() -> SyncService {
-        let sync = SyncService()
-        sync.active = fakeConsoles
-        return sync
-    }
+    func getPotentialClients() -> [Console]
+    func getSocket(feat: Feature) -> Socket?
+    func findDevices(_ onCallback: (([Console]) -> Void)?)
+    func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void)
+    func getRequest(url: String, params: [String:[String]], onComplete: @escaping (AFDataResponse<Data?>) -> Void)
+}
+
+class SyncServiceImpl: ObservableObject, SyncService {
     
     @Published var target: Console?
     @Published var active: [Console] = []
     
     private var map: [String:[Feature:Socket]] = [:]
+    private var task: Task<(), Never>?
     
     var ip: String? {
         return target?.ip
     }
 
+    
+    static let psx = PSXService()
+    static let shared: SyncServiceImpl = SyncServiceImpl()
+    
+    
+    static func test() -> SyncServiceImpl {
+        let sync = SyncServiceImpl()
+        sync.active = fakeConsoles
+        sync.target = fakeConsoles[0]
+        return sync
+    }
     
     func getSocket(feat: Feature) -> Socket? {
         if let ip = self.ip {
@@ -95,7 +109,8 @@ class SyncService: ObservableObject {
 
         return address
     }
-    enum Network: String {
+    
+    private enum Network: String {
         case wifi = "en0"
         case cellular = "pdp_ip0"
         case ipv4 = "ipv4"
@@ -103,18 +118,20 @@ class SyncService: ObservableObject {
     }
     
     
-    private let log: Bool = false
-       /**
-        * Fetch All Connected Clients on the network
-        * for potential match (IPV4 Clients Only)
-        * TODO: Accommodate for IPV6 Clients
-        */
+   /**
+    * Fetch All Connected Clients on the network
+    * for potential match (IPV4 Clients Only)
+    * TODO: Accommodate for IPV6 Clients
+    */
     func findDevices(_ onCallback: (([Console]) -> Void)? = nil) {
+        if (self.task != nil) {
+            self.task!.cancel()
+        }
         let localDeviceIp = getAddress(for: Network.wifi)!
         let last = localDeviceIp.lastIndex(of: ".")!
         let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
         print("Constructed: \(pre)")
-        Task {
+        self.task = Task {
             var consoles: [Console] = []
             for i in 0..<256 {
                 let ip = "\(pre)\(i)"
@@ -123,6 +140,7 @@ class SyncService: ObservableObject {
                     continue
                 }
                 consoles.append(console)
+                self.active.append(console)
             }
             self.active = consoles
             await MainActor.run {
@@ -222,7 +240,7 @@ class SyncService: ObservableObject {
                     continue
                 }
                 for port in ports {
-                    SyncService.psx.getRequest(url: "http://\(ip):\(port)/") { data in
+                    SyncServiceImpl.psx.getRequest(url: "http://\(ip):\(port)/") { data in
                         do {
                             if let result = try data.result.get() {
                                 let response = String(decoding: result, as: UTF8.self)
@@ -250,6 +268,14 @@ class SyncService: ObservableObject {
             return console
         }
         return nil
+    }
+    
+    func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void) {
+        self.getRequest(url: url, params: [:], onComplete: onComplete)
+    }
+    
+    func getRequest(url: String, params: [String : [String]], onComplete: @escaping (AFDataResponse<Data?>) -> Void) {
+        SyncServiceImpl.psx.getRequest(url: url, params: params, onComplete: onComplete)
     }
 }
 

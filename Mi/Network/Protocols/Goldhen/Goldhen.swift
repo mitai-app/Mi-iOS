@@ -11,9 +11,10 @@ import Socket
 class Goldhen {
     
     var socket: Socket? {
-        return SyncService.shared.getSocket(feat: .goldhen())
+        return SyncServiceImpl.shared.getSocket(feat: .goldhen())
     }
     
+    static let shared = Goldhen()
     
     static func uploadData(data: Data) -> Bool {
         if(Goldhen.shared.write(string: data)) {
@@ -24,7 +25,6 @@ class Goldhen {
     }
     
     
-    static let shared = Goldhen()
     
     private init() {
         

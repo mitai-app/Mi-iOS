@@ -12,7 +12,7 @@ struct ConsoleHeaderView: View {
     var item: Console
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        ZStack(alignment: .bottom) {
             if (item.type == .ps3()) {
                 KFImage(URL(string: Webman.buildScreenshotURL(ip: item.ip)))
                     .placeholder {
@@ -25,7 +25,7 @@ struct ConsoleHeaderView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity)
             } else {
-                Image("karl_marx")
+                Image("play")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity)
@@ -34,12 +34,11 @@ struct ConsoleHeaderView: View {
                 Text(item.name)
                     .font(.title2)
                 .fontWeight(.bold)
-                
                 Text(item.ip)
                     .opacity(0.7)
-            }.padding(.all)
+            }.frame(maxWidth: .infinity, alignment:.leading).padding(.all).background(Color("tabcolor").opacity(0.3))
         }.foregroundColor(.white)
-        .background(grads[1])
+            .background(Color("tabcolor")).cornerRadius(30)
     }
 }
 
@@ -47,5 +46,6 @@ struct ConsoleHeaderView: View {
 struct ConsoleHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         ConsoleHeaderView(item: fakeConsoles[0])
+        ConsoleHeaderView(item: fakeConsoles[0]).colorScheme(.dark)
     }
 }

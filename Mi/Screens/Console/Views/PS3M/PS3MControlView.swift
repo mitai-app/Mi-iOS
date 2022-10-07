@@ -13,7 +13,7 @@ class PS3MControlViewModel: ObservableObject {
     private var console: Console
     private var api = PS3MAPIImpl.init()
     
-    @Published var controls: [cmds] = [ ]
+    @Published var controls: [PS3MapiCommands] = [ ]
     
     init(console: Console) {
         self.console = console
@@ -48,7 +48,7 @@ class PS3MControlViewModel: ObservableObject {
     }
     
     func populate() {
-        let enums: [cmds] = [
+        let enums: [PS3MapiCommands] = [
             .idps, .psid, .notify, .processes, .temperature
         ]
         self.controls = enums

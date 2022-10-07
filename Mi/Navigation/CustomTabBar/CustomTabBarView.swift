@@ -12,7 +12,7 @@ struct CustomTabBarView: View {
     @Binding var selection: TabBarItem
     @Namespace private var namespace
     @State var localSelection: TabBarItem
-    var background: Color = .white
+    @State var background: Color
     
     var body: some View {
         tabBarVersion1
@@ -25,12 +25,16 @@ struct CustomTabBarView: View {
 
 struct CustomTabBarView_Previews: PreviewProvider {
     static let tabs: [TabBarItem] = [
-        .home, .package, .settings
+        .home, .consoles, .package, .ftp, .settings
     ]
     static var previews: some View {
         VStack {
             Spacer()
-            CustomTabBarView(tabs: tabs, selection: .constant(tabs.first!), localSelection: tabs.first!, background: Color.white)
+            CustomTabBarView(tabs: tabs, selection: .constant(tabs.first!), localSelection: tabs.first!, background: Color("tabcolor"))
+        }
+        VStack {
+            Spacer()
+            CustomTabBarView(tabs: tabs, selection: .constant(tabs.first!), localSelection: tabs.first!, background: Color("tabcolor")).colorScheme(.dark)
         }
     }
 }
@@ -44,11 +48,22 @@ extension CustomTabBarView {
             Text(tab.title)
                 .font(.system(size: 10, weight: .semibold, design: .rounded))
             
-        }.foregroundColor(localSelection == tab ? tab.color : Color.gray)
-            .padding(.vertical, 8)
-            .frame(maxWidth: .infinity)
-            .background(localSelection == tab ? tab.color.opacity(0.2) : Color.clear )
-            .cornerRadius(10)
+        }.foregroundColor(
+            (
+                localSelection == tab ?
+                Color("tabtextcolor") :
+                Color("tabforecolor")
+            )
+        ).padding(.vertical, 8)
+        .frame(maxWidth: .infinity)
+        .background(
+            (
+                localSelection == tab ?
+                Color("tabforecolor") :
+                Color("tabtextcolor")
+            )
+            .opacity(0.8)
+        ).cornerRadius(10)
     }
     
     private func tabView2(tab: TabBarItem) -> some View {
@@ -58,14 +73,15 @@ extension CustomTabBarView {
             Text(tab.title)
                 .font(.system(size: 10, weight: .semibold, design: .rounded))
             
-        }.foregroundColor(localSelection == tab ? tab.color : Color.gray)
+        }.foregroundColor(localSelection == tab ? Color("tabtextcolor") : Color("tabforecolor"))
             .padding(.vertical, 8)
             .frame(maxWidth: .infinity)
             .background(ZStack {
                 
                 if localSelection == tab {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(tab.color.opacity(0.2))
+                        .fill(
+                            (localSelection == tab ? Color("tabforecolor") : Color("tabcolor")).opacity(0.2))
                         .matchedGeometryEffect(id: "background_rectable", in: namespace)
                 } else {
                     
@@ -78,8 +94,6 @@ extension CustomTabBarView {
         selection = tab
     }
     
-    
-   
 }
 
 
@@ -95,7 +109,7 @@ extension CustomTabBarView {
                 }
             }
         }.padding()
-            .background(background.ignoresSafeArea(edges: .bottom))
+            .background(Color("tabcolor").ignoresSafeArea(edges: .bottom))
     }
     
     

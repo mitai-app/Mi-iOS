@@ -11,39 +11,37 @@ struct SettingView: View {
     
     @State var jbService = false
     
-    @EnvironmentObject var sync: SyncService
-    @State var background: Color = Color("quinary")
+    @EnvironmentObject var sync: SyncServiceImpl
     
     var body: some View {
         CustomNavView {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 8) {
-            Toggle(isOn: $jbService) {
-                HStack(alignment: .center, spacing: 20) {
-                    Image(systemName: "house")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 24, height: 24)
-                    VStack(alignment: .leading) {
-                        if(jbService) {
-                            Text("Disable JB Service")
-                        } else {
-                            Text("Enable JB Service")
-                        }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle(isOn: $jbService) {
+                        HStack(alignment: .center, spacing: 20) {
+                            Image(systemName: "house")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 24, height: 24)
+                            VStack(alignment: .leading) {
+                                if(jbService) {
+                                    Text("Disable JB Service")
+                                } else {
+                                    Text("Enable JB Service")
+                                }
+                            }
+                        }.padding(8)
                     }
-                }.padding(8)
+                }.padding()
             }
-            }.padding()
-        }.customNavigationTitle("Settings")
-                .customNavigationBarBackButtonHidden(true)
-                .background(background)
-            .foregroundColor(.white)
+            .customNavigationTitle("Settings")
+            .customNavigationBarBackButtonHidden(true)
         }
     }
 }
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView().environmentObject(SyncService.test())
+        SettingView().environmentObject(SyncServiceImpl.test())
     }
 }

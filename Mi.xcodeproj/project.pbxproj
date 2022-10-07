@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		171B23E328ECB9CC0050DAB9 /* PackageViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23E228ECB9CC0050DAB9 /* PackageViewItem.swift */; };
+		171B23E528ECBA1A0050DAB9 /* RepoListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23E428ECBA1A0050DAB9 /* RepoListItem.swift */; };
+		171B23E728ECBFBB0050DAB9 /* Webman+Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23E628ECBFBB0050DAB9 /* Webman+Enums.swift */; };
+		171B23E928ECC0980050DAB9 /* Webman+Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23E828ECC0980050DAB9 /* Webman+Structs.swift */; };
+		171B23EB28ECC5930050DAB9 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23EA28ECC5930050DAB9 /* Article.swift */; };
+		171B23ED28ECC6440050DAB9 /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23EC28ECC6440050DAB9 /* IntroView.swift */; };
+		171B23F128EE60DE0050DAB9 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171B23F028EE60DD0050DAB9 /* ViewExtensions.swift */; };
 		173CBA8A28E649F100983E18 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA8928E649F100983E18 /* TabBarItem.swift */; };
 		173CBA8D28E6579E00983E18 /* AppBarNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA8C28E6579D00983E18 /* AppBarNavView.swift */; };
 		173CBA8F28E6593100983E18 /* CustomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA8E28E6593100983E18 /* CustomNavBarView.swift */; };
@@ -27,6 +34,7 @@
 		17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A9C28E0D5EA000DF33F /* FakeData.swift */; };
 		17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480AA028E10AA0000DF33F /* WMGameView.swift */; };
 		17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480AA228E10C6F000DF33F /* WMControlView.swift */; };
+		174BAE0D28EF2F060002E2E2 /* PackageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BAE0C28EF2F060002E2E2 /* PackageListView.swift */; };
 		174BF30628E4F4EA00D6DDF2 /* PS3MControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BF30528E4F4EA00D6DDF2 /* PS3MControlView.swift */; };
 		174BF30828E5134400D6DDF2 /* ConsoleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */; };
 		174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174BF30928E5185E00D6DDF2 /* GoldhenBinView.swift */; };
@@ -40,6 +48,7 @@
 		174DD77828E40421007244B5 /* PS3MAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77728E40421007244B5 /* PS3MAPI.swift */; };
 		174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */; };
 		174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */; };
+		1755336528EFBB0400F7B503 /* FTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336428EFBB0400F7B503 /* FTP.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
@@ -57,14 +66,12 @@
 		17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 17F1786D28DE6F24001E010A /* Kingfisher */; };
 		17F1787028DE7A17001E010A /* ChangelogFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */; };
 		17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787228DE7E26001E010A /* ChangelogCardView.swift */; };
-		17F1787528DE7F55001E010A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787428DE7F55001E010A /* HomeView.swift */; };
+		17F1787528DE7F55001E010A /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787428DE7F55001E010A /* ConsoleView.swift */; };
 		17F1787728DE82B4001E010A /* FTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787628DE82B4001E010A /* FTPView.swift */; };
 		17F1787928DE84C7001E010A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787828DE84C7001E010A /* ListItem.swift */; };
 		17F1787D28DE8A8F001E010A /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787C28DE8A8F001E010A /* Console.swift */; };
-		17F1788028DE8B3A001E010A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1787F28DE8B3A001E010A /* Game.swift */; };
 		17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788128DE8B5A001E010A /* PlatformType.swift */; };
 		17F1788428DE8B7F001E010A /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788328DE8B7F001E010A /* Feature.swift */; };
-		17F1788628DE8BB3001E010A /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788528DE8BB3001E010A /* GameType.swift */; };
 		17F1788828DE8BC7001E010A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788728DE8BC7001E010A /* Protocols.swift */; };
 		17F1788C28DEB087001E010A /* Webman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788B28DEB087001E010A /* Webman.swift */; };
 		17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788D28DEB0A8001E010A /* PSXService.swift */; };
@@ -90,6 +97,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		171B23E228ECB9CC0050DAB9 /* PackageViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageViewItem.swift; sourceTree = "<group>"; };
+		171B23E428ECBA1A0050DAB9 /* RepoListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoListItem.swift; sourceTree = "<group>"; };
+		171B23E628ECBFBB0050DAB9 /* Webman+Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Webman+Enums.swift"; sourceTree = "<group>"; };
+		171B23E828ECC0980050DAB9 /* Webman+Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Webman+Structs.swift"; sourceTree = "<group>"; };
+		171B23EA28ECC5930050DAB9 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		171B23EC28ECC6440050DAB9 /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
+		171B23F028EE60DD0050DAB9 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		173CBA8928E649F100983E18 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		173CBA8C28E6579D00983E18 /* AppBarNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBarNavView.swift; sourceTree = "<group>"; };
 		173CBA8E28E6593100983E18 /* CustomNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarView.swift; sourceTree = "<group>"; };
@@ -109,6 +123,7 @@
 		17480A9C28E0D5EA000DF33F /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		17480AA028E10AA0000DF33F /* WMGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WMGameView.swift; sourceTree = "<group>"; };
 		17480AA228E10C6F000DF33F /* WMControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WMControlView.swift; sourceTree = "<group>"; };
+		174BAE0C28EF2F060002E2E2 /* PackageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageListView.swift; sourceTree = "<group>"; };
 		174BF30528E4F4EA00D6DDF2 /* PS3MControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS3MControlView.swift; sourceTree = "<group>"; };
 		174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleHeaderView.swift; sourceTree = "<group>"; };
 		174BF30928E5185E00D6DDF2 /* GoldhenBinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoldhenBinView.swift; sourceTree = "<group>"; };
@@ -122,6 +137,7 @@
 		174DD77728E40421007244B5 /* PS3MAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS3MAPI.swift; sourceTree = "<group>"; };
 		174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Enums.swift"; sourceTree = "<group>"; };
 		174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Structs.swift"; sourceTree = "<group>"; };
+		1755336428EFBB0400F7B503 /* FTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTP.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,14 +154,12 @@
 		17F1785628DE5533001E010A /* MiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		17F1786F28DE7A17001E010A /* ChangelogFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogFeatureView.swift; sourceTree = "<group>"; };
 		17F1787228DE7E26001E010A /* ChangelogCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogCardView.swift; sourceTree = "<group>"; };
-		17F1787428DE7F55001E010A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		17F1787428DE7F55001E010A /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
 		17F1787628DE82B4001E010A /* FTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPView.swift; sourceTree = "<group>"; };
 		17F1787828DE84C7001E010A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		17F1787C28DE8A8F001E010A /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
-		17F1787F28DE8B3A001E010A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		17F1788128DE8B5A001E010A /* PlatformType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformType.swift; sourceTree = "<group>"; };
 		17F1788328DE8B7F001E010A /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
-		17F1788528DE8BB3001E010A /* GameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
 		17F1788728DE8BC7001E010A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		17F1788B28DEB087001E010A /* Webman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webman.swift; sourceTree = "<group>"; };
 		17F1788D28DEB0A8001E010A /* PSXService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSXService.swift; sourceTree = "<group>"; };
@@ -197,6 +211,9 @@
 			isa = PBXGroup;
 			children = (
 				173CBA9F28E79E6200983E18 /* PackageView.swift */,
+				171B23E228ECB9CC0050DAB9 /* PackageViewItem.swift */,
+				171B23E428ECBA1A0050DAB9 /* RepoListItem.swift */,
+				174BAE0C28EF2F060002E2E2 /* PackageListView.swift */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -228,14 +245,13 @@
 			path = FTP;
 			sourceTree = "<group>";
 		};
-		1704AE0728EBAF8D00B1DF53 /* Home */ = {
+		1704AE0728EBAF8D00B1DF53 /* Console */ = {
 			isa = PBXGroup;
 			children = (
-				17F1787B28DE8A1D001E010A /* Console */,
-				1704AE0528EBAECF00B1DF53 /* Changelog */,
-				17F1787428DE7F55001E010A /* HomeView.swift */,
+				17F1787B28DE8A1D001E010A /* Views */,
+				17F1787428DE7F55001E010A /* ConsoleView.swift */,
 			);
-			path = Home;
+			path = Console;
 			sourceTree = "<group>";
 		};
 		1704AE0828EBAFD400B1DF53 /* Settings */ = {
@@ -244,6 +260,23 @@
 				17F1789128DEB160001E010A /* SettingView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		171B23EE28ECC64B0050DAB9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				1704AE0528EBAECF00B1DF53 /* Changelog */,
+				171B23EC28ECC6440050DAB9 /* IntroView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		171B23EF28EE60BF0050DAB9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				171B23F028EE60DD0050DAB9 /* ViewExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		173CBA8B28E6577800983E18 /* CustomNavBar */ = {
@@ -274,7 +307,6 @@
 				17F1788728DE8BC7001E010A /* Protocols.swift */,
 				17F1788128DE8B5A001E010A /* PlatformType.swift */,
 				17F1788328DE8B7F001E010A /* Feature.swift */,
-				17F1788528DE8BB3001E010A /* GameType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -348,8 +380,18 @@
 			isa = PBXGroup;
 			children = (
 				17F1788B28DEB087001E010A /* Webman.swift */,
+				171B23E628ECBFBB0050DAB9 /* Webman+Enums.swift */,
+				171B23E828ECC0980050DAB9 /* Webman+Structs.swift */,
 			);
 			path = Webman;
+			sourceTree = "<group>";
+		};
+		1755336328EFBAEF00F7B503 /* FTP */ = {
+			isa = PBXGroup;
+			children = (
+				1755336428EFBB0400F7B503 /* FTP.swift */,
+			);
+			path = FTP;
 			sourceTree = "<group>";
 		};
 		17F1782828DE552A001E010A = {
@@ -375,6 +417,7 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				171B23EF28EE60BF0050DAB9 /* Extensions */,
 				174BF30F28E5398700D6DDF2 /* Info.plist */,
 				174DD77128E3F1AE007244B5 /* SimplePing */,
 				17480A9028E0B696000DF33F /* Constants */,
@@ -429,7 +472,8 @@
 		17F1787A28DE89E9001E010A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				1704AE0728EBAF8D00B1DF53 /* Home */,
+				171B23EE28ECC64B0050DAB9 /* Home */,
+				1704AE0728EBAF8D00B1DF53 /* Console */,
 				1704AE0628EBAF7800B1DF53 /* FTP */,
 				1704AE0328EBAE1B00B1DF53 /* Packages */,
 				1704AE0828EBAFD400B1DF53 /* Settings */,
@@ -438,19 +482,19 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		17F1787B28DE8A1D001E010A /* Console */ = {
+		17F1787B28DE8A1D001E010A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */,
-				174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */,
-				17480A9528E0BC33000DF33F /* ConsoleListItem.swift */,
-				17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */,
 				1704AE0228EA09C100B1DF53 /* RemotePI */,
 				174BF30B28E5186300D6DDF2 /* Goldhen */,
 				174BF30428E4F4C900D6DDF2 /* PS3M */,
 				174BF30328E4F4B400D6DDF2 /* Webman */,
+				17480A9A28E0D48D000DF33F /* ConsoleFeatureView.swift */,
+				174BF30728E5134400D6DDF2 /* ConsoleHeaderView.swift */,
+				17480A9528E0BC33000DF33F /* ConsoleListItem.swift */,
+				17480A9828E0BCBE000DF33F /* ConsoleSectionView.swift */,
 			);
-			path = Console;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		17F1787E28DE8B2B001E010A /* Models */ = {
@@ -458,8 +502,8 @@
 			children = (
 				17480A9E28E0DAEF000DF33F /* Enums */,
 				17F1787C28DE8A8F001E010A /* Console.swift */,
-				17F1787F28DE8B3A001E010A /* Game.swift */,
 				17480A8E28E0B5CD000DF33F /* Changelog.swift */,
+				171B23EA28ECC5930050DAB9 /* Article.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -467,6 +511,7 @@
 		17F1788928DEB035001E010A /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				1755336328EFBAEF00F7B503 /* FTP */,
 				17F1788A28DEB064001E010A /* Protocols */,
 				17F1788D28DEB0A8001E010A /* PSXService.swift */,
 				17F1788F28DEB0DD001E010A /* SyncService.swift */,
@@ -650,6 +695,7 @@
 				17480A9928E0BCBE000DF33F /* ConsoleSectionView.swift in Sources */,
 				174BF31228E63BD900D6DDF2 /* AppTabBarView.swift in Sources */,
 				17480A9628E0BC33000DF33F /* ConsoleListItem.swift in Sources */,
+				171B23EB28ECC5930050DAB9 /* Article.swift in Sources */,
 				17F1787D28DE8A8F001E010A /* Console.swift in Sources */,
 				174BF31428E63D2F00D6DDF2 /* CustomTabBarView.swift in Sources */,
 				17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */,
@@ -657,33 +703,39 @@
 				173CBAA028E79E6400983E18 /* PackageView.swift in Sources */,
 				174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */,
 				17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */,
+				171B23ED28ECC6440050DAB9 /* IntroView.swift in Sources */,
 				17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */,
 				174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */,
 				174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */,
 				173CBA8F28E6593100983E18 /* CustomNavBarView.swift in Sources */,
+				1755336528EFBB0400F7B503 /* FTP.swift in Sources */,
 				17F1783E28DE5532001E010A /* Persistence.swift in Sources */,
-				17F1787528DE7F55001E010A /* HomeView.swift in Sources */,
+				17F1787528DE7F55001E010A /* ConsoleView.swift in Sources */,
 				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
 				17F1784128DE5532001E010A /* Mi.xcdatamodeld in Sources */,
 				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
+				171B23F128EE60DE0050DAB9 /* ViewExtensions.swift in Sources */,
 				173CBA9B28E6972D00983E18 /* ChangelogSectionView.swift in Sources */,
+				171B23E928ECC0980050DAB9 /* Webman+Structs.swift in Sources */,
 				173CBA8A28E649F100983E18 /* TabBarItem.swift in Sources */,
 				17F1789228DEB160001E010A /* SettingView.swift in Sources */,
-				17F1788028DE8B3A001E010A /* Game.swift in Sources */,
 				173CBA9328E65DC300983E18 /* CustomNavView.swift in Sources */,
 				174BF30628E4F4EA00D6DDF2 /* PS3MControlView.swift in Sources */,
 				17F1787028DE7A17001E010A /* ChangelogFeatureView.swift in Sources */,
 				174DD77828E40421007244B5 /* PS3MAPI.swift in Sources */,
+				171B23E328ECB9CC0050DAB9 /* PackageViewItem.swift in Sources */,
 				173CBA9528E65F0F00983E18 /* CustomNavLink.swift in Sources */,
 				17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */,
+				174BAE0D28EF2F060002E2E2 /* PackageListView.swift in Sources */,
 				174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */,
-				17F1788628DE8BB3001E010A /* GameType.swift in Sources */,
 				17F1783728DE552B001E010A /* ContentView.swift in Sources */,
 				173CBA9928E6840100983E18 /* Package.swift in Sources */,
 				17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */,
 				17F1788428DE8B7F001E010A /* Feature.swift in Sources */,
 				173CBA9128E65C4100983E18 /* CustomNavBarContainerView.swift in Sources */,
 				17F1783528DE552B001E010A /* MiApp.swift in Sources */,
+				171B23E528ECBA1A0050DAB9 /* RepoListItem.swift in Sources */,
+				171B23E728ECBFBB0050DAB9 /* Webman+Enums.swift in Sources */,
 				174BF30828E5134400D6DDF2 /* ConsoleHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -855,9 +907,11 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mi/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -871,7 +925,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Mi/SimplePing/Mi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -888,9 +942,11 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mi/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -903,7 +959,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Mi/SimplePing/Mi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

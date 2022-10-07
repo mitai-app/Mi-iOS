@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-
 let grads: [LinearGradient] = [
     LinearGradient(
         gradient: Gradient(
