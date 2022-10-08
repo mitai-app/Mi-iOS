@@ -11,6 +11,16 @@ import Foundation
 
 class FTPViewModel: ObservableObject, FTPDelegate {
     
+    init () {
+        ftp.delegate = self
+    }
+    
+    func onFileSaved(action: ActionData) {
+        debugPrint("recieved \(action)")
+        delegate?.onFileSaved(action: action)
+    }
+    
+    
     @Published var dir: [FTPFile] = []
     private var target: Console? {
         return SyncServiceImpl.shared.target
@@ -36,9 +46,8 @@ class FTPViewModel: ObservableObject, FTPDelegate {
     }
     
     func connect() async -> Bool {
-        print("Attempting to connect")
+        debugPrint("Attempting to connect")
         if await SyncServiceImpl.shared.connectFtp()  {
-            ftp.delegate = self
             return await ftp.list()
         }
         return false
@@ -64,17 +73,40 @@ class FTPViewModel: ObservableObject, FTPDelegate {
 
 struct FTPView: View, FTPDelegate {
     
+    func onFileSaved(action: ActionData) {
+        let dir = getDocumentsDirectory()
+            
+        let url = dir.appendingPathComponent(URL(string: action.name)!.lastPathComponent)
+        
+        do {
+            try action.data.write(to: url, options: Data.WritingOptions.atomic)
+            //try action.data.write(to: url, atomically: true, encoding: .utf8)
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        // find all possible documents directories for this user
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+
+        // just send back the first one, which ought to be the only one
+        return paths[0]
+    }
     
     func onList(dirs: [FTPFile]) {
         vm.objectWillChange.send()
         debugPrint("recieved in vm: \(dirs.count)")
     }
-    
+    @State var isImporting = false
     @State var show: Bool = false
     @State var input: String = ""
     
     @EnvironmentObject var sync: SyncServiceImpl
     
+    @StateObject private var document: InputDoument = InputDoument()
     @StateObject var ftp: FTP = FTP.shared
     @StateObject var vm: FTPViewModel = FTPViewModel()
     
@@ -90,9 +122,9 @@ struct FTPView: View, FTPDelegate {
                     
                     Menu {
                         Button {
-                            print("Create file")
+                            print("Upload File")
                             withAnimation(.default) {
-                                show.toggle()
+                                isImporting.toggle()
                             }
                         } label: {
                             Label("New File", systemImage: "doc.badge.plus")
@@ -100,6 +132,9 @@ struct FTPView: View, FTPDelegate {
                     
                         Button {
                             print("New Folder")
+                            withAnimation(.default) {
+                                show.toggle()
+                            }
                         } label: {
                             Label("New Folder", systemImage: "folder.badge.plus")
                         }
@@ -117,6 +152,9 @@ struct FTPView: View, FTPDelegate {
                                     if !item.wrappedValue.directory {
                                         Button {
                                             print("Download File")
+                                            Task {
+                                                await ftp.download(filename: item.wrappedValue)
+                                            }
                                         } label: {
                                             Label("Download File", systemImage: "arrow.down.doc")
                                         }
@@ -146,7 +184,25 @@ struct FTPView: View, FTPDelegate {
                             debugPrint("Could not connect")
                         }
                     }
-                }
+                }.fileImporter(
+                    isPresented: $isImporting,
+                    allowedContentTypes: InputDoument.readableContentTypes,
+                    allowsMultipleSelection: true,
+                    onCompletion: { result in
+                        do {
+                            Task {
+                                for selectedFile in try result.get() {
+                                    print("uploading \(selectedFile.lastPathComponent)")
+                                    await ftp.upload(filename: selectedFile)
+                                }
+                            }
+                        } catch {
+                            // Handle failure.
+                            print("Unable to read file contents")
+                            print(error.localizedDescription)
+                        }
+                    }
+                )
                 .textFieldAlert(isShowing: $show, text: $input, title: "Create")
             }.customNavigationTitle("FTP")
             .customNavigationBarBackButtonHidden(true)

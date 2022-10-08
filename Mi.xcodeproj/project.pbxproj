@@ -50,6 +50,8 @@
 		174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */; };
 		1755336528EFBB0400F7B503 /* FTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336428EFBB0400F7B503 /* FTP.swift */; };
 		1755336828F09EBD00F7B503 /* ObservedObjectCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */; };
+		1755336B28F1FF5B00F7B503 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336A28F1FF5900F7B503 /* InputDocument.swift */; };
+		1755336D28F2098200F7B503 /* OutputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336C28F2098200F7B503 /* OutputDocument.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
@@ -139,6 +141,8 @@
 		174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Structs.swift"; sourceTree = "<group>"; };
 		1755336428EFBB0400F7B503 /* FTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTP.swift; sourceTree = "<group>"; };
 		1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedObjectCollection.swift; sourceTree = "<group>"; };
+		1755336A28F1FF5900F7B503 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
+		1755336C28F2098200F7B503 /* OutputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDocument.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -402,6 +406,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		1755336928F1FF4800F7B503 /* IO */ = {
+			isa = PBXGroup;
+			children = (
+				1755336A28F1FF5900F7B503 /* InputDocument.swift */,
+				1755336C28F2098200F7B503 /* OutputDocument.swift */,
+			);
+			path = IO;
+			sourceTree = "<group>";
+		};
 		17F1782828DE552A001E010A = {
 			isa = PBXGroup;
 			children = (
@@ -425,6 +438,7 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				1755336928F1FF4800F7B503 /* IO */,
 				1755336628F09EA200F7B503 /* Helpers */,
 				171B23EF28EE60BF0050DAB9 /* Extensions */,
 				174BF30F28E5398700D6DDF2 /* Info.plist */,
@@ -704,6 +718,7 @@
 				17480A9628E0BC33000DF33F /* ConsoleListItem.swift in Sources */,
 				171B23EB28ECC5930050DAB9 /* Article.swift in Sources */,
 				17F1787D28DE8A8F001E010A /* Console.swift in Sources */,
+				1755336B28F1FF5B00F7B503 /* InputDocument.swift in Sources */,
 				174BF31428E63D2F00D6DDF2 /* CustomTabBarView.swift in Sources */,
 				17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */,
 				17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */,
@@ -713,6 +728,7 @@
 				171B23ED28ECC6440050DAB9 /* IntroView.swift in Sources */,
 				17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */,
 				174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */,
+				1755336D28F2098200F7B503 /* OutputDocument.swift in Sources */,
 				174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */,
 				173CBA8F28E6593100983E18 /* CustomNavBarView.swift in Sources */,
 				1755336528EFBB0400F7B503 /* FTP.swift in Sources */,

@@ -14,6 +14,16 @@ struct FTPFile: Identifiable {
     var id: String {
         return "\(cwd)-\(name)"
     }
+    
+    var fullPath: String {
+        let path = "\(cwd)/\(name)"
+        if path.starts(with: "\"") {
+            print("fixing: \(path) to \(path.substring(from: String.Index(encodedOffset: 1)))")
+            return path.substring(from: String.Index(encodedOffset: 1))
+        }
+        return path
+    }
+    
     let cwd: String
     let directory: Bool
     let permissions: String
@@ -88,9 +98,29 @@ extension FTPFile {
 
 protocol FTPDelegate {
     func onList(dirs: [FTPFile])
+    func onFileSaved (action: ActionData)
 }
 
 class FTP: ObservableObject {
+    
+    var socket: Socket!
+    private var data: Socket!
+    private var dataPort: Int = 0
+    private var res: ((String) -> Void)?
+    
+    var delegate: FTPDelegate?
+    
+    @Published var dir: [FTPFile] = []
+    
+    @Published var cwd: String = "/"
+
+    var isAuthenticated: Bool = false
+    
+    var action: ActionData = ActionData.init(
+        action: .none,
+        name: "",
+        data: Data()
+    )
     
     var ip: String {
         if socket == nil {
@@ -105,7 +135,7 @@ class FTP: ObservableObject {
         }
         return Int(socket.remotePort)
     }
-    
+    var serverPort: Int = 35211
     var isConnected: Bool {
         if socket == nil {
             return false
@@ -163,20 +193,6 @@ class FTP: ObservableObject {
     }
 
 
-    var socket: Socket!
-    private var data: Socket!
-    private var dataPort: Int = 0
-    private var res: ((String) -> Void)?
-    
-    var delegate: FTPDelegate?
-    
-    @Published var dir: [FTPFile] = []
-    
-    @Published var cwd: String = "/"
-
-    var isAuthenticated: Bool = false
-    
-    
     func auth(anonymous: Bool = true) {
         do {
             var readBytes = try socket.readString()
@@ -236,14 +252,14 @@ class FTP: ObservableObject {
             print("RESONSE: \(code): \(message)")
             switch code {
             case 150: // Open Stream
-                print(message)
                 return true
             case 200: // OK
-                print(message)
                 return true
                 
             case 215:
-                print(message)
+                return true
+            case 221:
+                //Goodbye
                 return true
             case 226:
                 // transfer complete
@@ -296,6 +312,7 @@ class FTP: ObservableObject {
         }
     }
     
+    private var serverThread: Task<Bool, Never>?
     
 }
 
@@ -305,7 +322,38 @@ extension FTP {
     func pasv() async-> Bool {
         return await write("PASV\r\n")
     }
+    
+    private func format(port: Int) -> String? {
+        if let addr = SyncServiceImpl.shared.deviceIP {
+            let ipParts = addr.split(separator: ".")
+            let p1 = (port - (port % 256)) >> 8
+            let p2 = port % 256
+            return "\(ipParts[0]),\(ipParts[1]),\(ipParts[2]),\(ipParts[3]),\(p1),\(p2)"
+        }
+        return nil
+    }
 
+    func port(port: Int) async-> Bool {
+        if let string = format(port: port) {
+            if self.serverThread == nil {
+                self.serverThread = Task {
+                    await server(port: port)
+                }
+            } else {
+                self.serverThread?.cancel()
+                while self.serverThread?.isCancelled == false {
+                    
+                }
+                self.serverThread = Task {
+                    await server(port: port)
+                }
+            }
+            return await write("PORT \(string)\r\n")
+        }
+        return false
+    }
+
+    
     func list() async -> Bool {
         let a = await pasv()
         let b = await write("LIST\r\n")
@@ -367,8 +415,92 @@ extension FTP {
     func mode() async -> Bool {
         return await write("MODE S")
     }
-
-    func stor(filename: String) async -> Bool {
-        return await write("STOR \(filename)")
+    
+    func retr(filename: String) async -> Bool {
+        self.action = ActionData(action: .retrieve, name: filename, data: Data())
+        if await port(port: serverPort) {
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            let b = await write("RETR \(filename)")
+            return b
+        }
+        return false
     }
+    
+    func stor(filename: URL) async -> Bool {
+        if filename.startAccessingSecurityScopedResource() {
+            if let data = try? Data(contentsOf: filename) {
+                action = ActionData(action: .store, name: filename.absoluteString, data: data)
+                filename.stopAccessingSecurityScopedResource()
+                if await port(port: serverPort) {
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                    let b = await write("STOR \(filename.lastPathComponent)")
+                    return b
+                }
+                return false
+            }
+        }
+        return false
+    }
+}
+
+enum Action {
+    case retrieve, store, none
+}
+
+struct ActionData {
+    let action: Action
+    let name: String
+    var data: Data
+}
+
+
+extension FTP {
+    func upload(filename: URL) async -> Bool {
+        return await stor(filename: filename)
+    }
+    
+    
+    func download(filename: FTPFile) async -> Bool {
+        return await retr(filename: filename.fullPath)
+    }
+    
+    
+    func handleClient(client: Socket) async {
+        repeat {
+            switch action.action {
+            case .retrieve:
+                let count = try? client.read(into: &action.data)
+                debugPrint("Bytes read \(String(describing: count)): \(String(describing: action.data))")
+                delegate?.onFileSaved(action: action)
+                break
+            case .store:
+                debugPrint("uploading \(action.name)")
+                let written = try? client.write(from: action.data)
+                debugPrint("Bytes written & uploaded: \(String(describing: written))")
+                break
+            case .none:
+                
+                break
+            }
+            client.close()
+        } while (client.isConnected)
+    }
+    
+    func server(port: Int = 35211) async -> Bool {
+        guard let sock = try? Socket.create() else {
+            return false
+        }
+        try? sock.listen(on: port)
+        while (sock.isListening) {
+            if let client = try? sock.acceptClientConnection() {
+                Task {
+                    await handleClient(client: client)
+                }
+            }
+        }
+        
+        
+        return true
+    }
+    
 }

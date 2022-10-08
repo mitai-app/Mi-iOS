@@ -37,6 +37,9 @@ class SyncServiceImpl: ObservableObject, SyncService {
         return target?.ip
     }
     
+    var deviceIP: String? {
+        return getAddress(for: Network.wifi)
+    }
     
 
     
