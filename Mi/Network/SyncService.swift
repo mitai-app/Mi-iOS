@@ -40,17 +40,19 @@ class SyncServiceImpl: ObservableObject, SyncService {
     
 
     
-    func connectFtp() -> Bool {
+    func connectFtp() async -> Bool {
         do {
             guard let console = target else  {
                 return false
             }
-            if !self.ftp.keys.contains(console.ip) {
-                self.ftp[console.ip] = try FTP.create(ip: console.ip, port: console.isPs4 ? 2121 : 21) { str in
-                    print(str)
-                }
+            if FTP.shared.ip != console.ip {
+                FTP.shared.close()
+                return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
+            } else if !FTP.shared.isConnected {
+                return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
+            } else {
+                return FTP.shared.isConnected
             }
-            return true
         } catch {
             print(error)
         }
@@ -154,17 +156,17 @@ class SyncServiceImpl: ObservableObject, SyncService {
         let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
         print("Constructed: \(pre)")
         self.task = Task {
-            var consoles: [Console] = []
             for i in 0..<256 {
                 let ip = "\(pre)\(i)"
                 guard let console = await checkIp(ip: ip) else
                 {
                     continue
                 }
-                consoles.append(console)
-                self.active.append(console)
+                await MainActor.run {
+                    self.active.append(console)
+                }
             }
-            self.active = consoles
+            //self.active = consoles
             await MainActor.run {
                 if onCallback != nil {
                     onCallback!(self.active)

@@ -10,28 +10,38 @@ import FilesProvider
 
 struct ListItem: View {
     
-    @State var file: FTPFile!
+    @Binding var file: FTPFile
     
     var body: some View {
         HStack(alignment: .center) {
-            Image(systemName: "house")
-                .renderingMode(.original)
+            Image(systemName: file.directory ? "folder" : "doc")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 36, height: 36)
-                .background(grads[1])
-                .foregroundColor(Color.white)
-                .mask(Circle())
-            VStack(alignment: .leading, spacing: 4.0) {
+                .foregroundColor(file.directory ? Color("navcolor") : Color("foreground"))
+                .accentColor(.white)
+            VStack(alignment: .leading, spacing: 2.0) {
                 Text(file.name)
+                    .font(SwiftUI.Font.title3)
+                    .fontWeight(.bold)
+                    .foregroundColor(file.directory ? Color("navcolor") : Color("foreground"))
                 
-                Text(file.directory == true ? "Folder" : "File")
-            }.padding()
+                Text(file.date)
+                    .foregroundColor(.gray)
+            }.padding(.horizontal)
         }.frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
     }
 }
 struct ListItem_Previews: PreviewProvider {
     
+    
     static var previews: some View {
-        ListItem(file: FTPFile(id: 1, directory: false, permissions: "", nbfiles: 1, owner: "ps4", group: "", size: 100, date: "June 4", name: "golhen.bin"))
+        ListItem(file: .constant(
+            FTPFile(cwd: "/", directory: false, permissions: "", nbfiles: 1, owner: "ps4", group: "", size: 100, date: "June 4", name: "goldhen.bin")
+        ))
+        ListItem(file: .constant(
+            FTPFile(cwd: "/", directory: false, permissions: "", nbfiles: 1, owner: "ps4", group: "", size: 100, date: "June 4", name: "goldhen.bin")
+        )).preferredColorScheme(.dark)
     }
 }
 

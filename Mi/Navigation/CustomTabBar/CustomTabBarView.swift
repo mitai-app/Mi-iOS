@@ -16,9 +16,27 @@ struct CustomTabBarView: View {
     
     var body: some View {
         tabBarVersion1
-            .onChange(of: selection, perform: { value in  withAnimation(.easeInOut) {
+            .onChange(of: selection, perform: { value in
+                if localSelection != .ftp {
+                    Task {
+                        if(!FTP.shared.isConnected) {
+                            await SyncServiceImpl.shared.connectFtp()
+                        }
+                        if (FTP.shared.isConnected && FTP.shared.dir.count == 0) {
+                            switch (value) {
+                            case .ftp:
+                                await FTP.shared.list()
+                            break
+                            default:
+                                break
+                            }
+                        }
+                    }
+                }
+                withAnimation(.easeInOut) {
                     localSelection = value
                 }
+                
             })
     }
 }

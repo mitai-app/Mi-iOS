@@ -49,6 +49,7 @@
 		174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */; };
 		174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */; };
 		1755336528EFBB0400F7B503 /* FTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336428EFBB0400F7B503 /* FTP.swift */; };
+		1755336828F09EBD00F7B503 /* ObservedObjectCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
@@ -137,6 +138,7 @@
 		174DD77A28E4BF1C007244B5 /* PS3MAPI+Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Enums.swift"; sourceTree = "<group>"; };
 		174DD77C28E4C4C6007244B5 /* PS3MAPI+Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PS3MAPI+Structs.swift"; sourceTree = "<group>"; };
 		1755336428EFBB0400F7B503 /* FTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTP.swift; sourceTree = "<group>"; };
+		1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedObjectCollection.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -392,6 +394,14 @@
 			path = FTP;
 			sourceTree = "<group>";
 		};
+		1755336628F09EA200F7B503 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		17F1782828DE552A001E010A = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +425,7 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				1755336628F09EA200F7B503 /* Helpers */,
 				171B23EF28EE60BF0050DAB9 /* Extensions */,
 				174BF30F28E5398700D6DDF2 /* Info.plist */,
 				174DD77128E3F1AE007244B5 /* SimplePing */,
@@ -722,6 +733,7 @@
 				171B23E328ECB9CC0050DAB9 /* PackageViewItem.swift in Sources */,
 				173CBA9528E65F0F00983E18 /* CustomNavLink.swift in Sources */,
 				17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */,
+				1755336828F09EBD00F7B503 /* ObservedObjectCollection.swift in Sources */,
 				174BAE0D28EF2F060002E2E2 /* PackageListView.swift in Sources */,
 				174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */,
 				17F1783728DE552B001E010A /* ContentView.swift in Sources */,

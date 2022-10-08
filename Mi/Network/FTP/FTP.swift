@@ -7,10 +7,14 @@
 
 import Foundation
 import Socket
+import FileProvider
 
 struct FTPFile: Identifiable {
     
-    var id: Int
+    var id: String {
+        return "\(cwd)-\(name)"
+    }
+    let cwd: String
     let directory: Bool
     let permissions: String
     let nbfiles: Int
@@ -23,8 +27,9 @@ struct FTPFile: Identifiable {
 extension FTPFile {
     
     
-    static func parse(testString: String) -> [FTPFile] {
-        let pattern = #"^([\-ld])([\-rwxs]{9})\s+(\d+)\s+(.+)\s+(.+)\s+(\d+)\s+(\w{3}\s+\d{1,2}\s+(?:\d{1,2}:\d{1,2}|\d{4}))\s+(.+)$"#
+    static func parse(cwd: String, testString: String) -> [FTPFile] {
+        let patterns = #"^([\-ld])([\-rwxs]{9})\s+(\d+)\s+(.+)\s+(.+)\s+(\d+)\s+(\w{3}\s+\d{1,2}\s+(?:\d{1,2}:\d{1,2}|\d{4}))\s+(.+)$"#
+        let pattern =  #"^([\-ld])([\-rwxs]{9})\s+(\d+)\s+(\w+)\s+(\w+)\s+(\d+)\s+(\w{3}\s+\d{1,2}\s+(?:\d{1,2}:\d{1,2}|\d{4}))\s+(.+)$"#
         let regex = try! NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
         let stringRange = NSRange(location: 0, length: testString.utf16.count)
         let matches = regex.matches(in: testString, range: stringRange)
@@ -53,7 +58,7 @@ extension FTPFile {
             let date: String = array[6]
             let name: String = array[7]
             let file = FTPFile(
-                id: index,
+                cwd: cwd,
                 directory: directory,
                 permissions:permisions,
                 nbfiles: nbfiles,
@@ -67,7 +72,17 @@ extension FTPFile {
             return file
         }
         debugPrint(res)
-        return res
+        return res.sorted { file1, file2 in
+            if (file1.directory && file2.directory) {
+                return file1.name.compare(file2.name) == ComparisonResult.orderedAscending
+            } else if file1.directory {
+                return true
+            } else if file2.directory {
+                return false
+            } else {
+                return false
+            }
+        }
     }
 }
 
@@ -76,26 +91,93 @@ protocol FTPDelegate {
 }
 
 class FTP: ObservableObject {
-
-
-    private var socket: Socket!
-    private var data: Socket!
-    private var dataPort: Int = 0
-    private var res: ((String) -> Void)!
     
-    var delegate: FTPDelegate?
+    var ip: String {
+        if socket == nil {
+            return ""
+        }
+        return socket.remoteHostname
+    }
     
-    @Published var dir: [FTPFile] = []
+    var port: Int {
+        if socket == nil {
+            return 0
+        }
+        return Int(socket.remotePort)
+    }
     
-    @Published var cwd: String = "\\"
+    var isConnected: Bool {
+        if socket == nil {
+            return false
+        }
+        return socket.isConnected
+    }
+    
+    
+    static func create(ip: String, port: Int, res: @escaping (String) -> Void) throws -> FTP {
+        let socket = try Socket.create()
+        try socket.connect(to: ip, port: .init(port))
+        return create(socket: socket, res: res)
+    }
+    
 
+    static func create(socket: Socket, res: @escaping (String) -> Void) -> FTP {
+        return FTP(socket: socket, res: res)
+    }
+    
+    static let shared: FTP = FTP()
+    
+    init() {
+        
+    }
+    
+    func setResponse(res: @escaping (String) -> Void) {
+        self.res = res
+    }
+    
+    func setHost(ip: String, port: Int) async -> Bool {
+        guard let socket = try? Socket.create() else {
+            return false
+        }
+        try? socket.connect(to: ip, port: Int32(port))
+        
+        if(socket.isConnected){
+            self.socket = socket
+            self.auth()
+        }
+        return socket.isConnected
+    }
+
+    
+    func close() {
+        if socket != nil {
+            socket.close()
+            data.close()
+        }
+    }
+    
     init(socket: Socket, res: @escaping (String) -> Void) {
         self.socket = socket
         self.res = res
         self.auth()
     }
 
-    func auth() {
+
+    var socket: Socket!
+    private var data: Socket!
+    private var dataPort: Int = 0
+    private var res: ((String) -> Void)?
+    
+    var delegate: FTPDelegate?
+    
+    @Published var dir: [FTPFile] = []
+    
+    @Published var cwd: String = "/"
+
+    var isAuthenticated: Bool = false
+    
+    
+    func auth(anonymous: Bool = true) {
         do {
             var readBytes = try socket.readString()
             print("Intro: \(readBytes)")
@@ -116,22 +198,28 @@ class FTP: ObservableObject {
     func readFromDataSock() async {
         data = try! Socket.create()
         try! data.connect(to: socket.remoteHostname, port: Int32(dataPort))
-        print("LETS GO")
-        guard let bytes = try! data.readString() else {
+        guard let bytes = try? data.readString() else {
             data.close()
             return
         }
         await MainActor.run {
-            print(bytes)
-            self.dir = FTPFile.parse(testString: bytes)
-            delegate?.onList(dirs: dir)
+            let dir = FTPFile.parse(cwd: cwd, testString: bytes)
             data.close()
-            print("Closed")
+            if dir.count == 1 {
+                dir[0].name == "."
+                Task {
+                    await self.list()
+                }
+            } else {
+                self.dir = dir
+                delegate?.onList(dirs: dir)
+                self.objectWillChange.send()
+            }
         }
 
     }
 
-    func write(_ string: String) -> Bool {
+    func write(_ string: String) async -> Bool {
         do {
             try socket.write(from: string)
             return true
@@ -141,27 +229,24 @@ class FTP: ObservableObject {
         }
     }
 
-    func handled(_ string: String) -> Bool {
+    func handled(_ string: String) async -> Bool {
         let split = string.split(separator: " ", maxSplits: 1)
         if(split.count >= 2) {
             let code = Int.init(split[0]) ?? 0, message = split[1]
-            print(code)
-            print(message)
+            print("RESONSE: \(code): \(message)")
             switch code {
-            case 150:
+            case 150: // Open Stream
                 print(message)
                 return true
-            case 200:
+            case 200: // OK
                 print(message)
                 return true
                 
             case 215:
                 print(message)
                 return true
-                
             case 226:
                 // transfer complete
-                
                 return true
             case 227:
                 let firstBrace = message.firstIndex(of: "(")
@@ -181,115 +266,109 @@ class FTP: ObservableObject {
             case 257:
                 let firstBrace = message.firstIndex(of: "\"")!
                 let lastBrace = message.lastIndex(of: "\"")!
-                self.cwd = String(message[firstBrace..<lastBrace])
+                await MainActor.run {
+                    self.cwd = String(message[firstBrace..<lastBrace])
+                }
                 return true
-            case 502:
-                print(message)
+            case 502: // Not Implemented
                 return true
-            default:
-                print("Not Handled - $code: $message")
-                return false
+            case 550: // Invalid Dir
                 break
+            default:
+                print("Not Handled - \(code): \(message)")
+                return false
             }
         }
         return false
 
     }
 
-
     func run() async {
-        print("READING")
         while (socket.isConnected) {
             do {
-                print("Connected: \(socket.isConnected)")
                 let readAllBytes = try socket.readString()!
-
                 print("READ: \(readAllBytes)")
-                self.handled(readAllBytes)
-            }catch {
+                await self.handled(readAllBytes)
+            } catch {
                 print(error)
+                break
             }
         }
     }
     
-    
-    static func create(ip: String, port: Int, res: @escaping (String) -> Void) throws -> FTP {
-        let socket = try Socket.create()
-        try socket.connect(to: ip, port: .init(port))
-        return create(socket: socket, res: res)
-    }
-    
-
-    static func create(socket: Socket, res: @escaping (String) -> Void) -> FTP {
-        return FTP(socket: socket, res: res)
-    }
     
 }
 
 extension FTP {
     
 
-    func pasv()-> Bool {
-        return write("PASV\r\n")
+    func pasv() async-> Bool {
+        return await write("PASV\r\n")
     }
 
-    func list()-> Bool {
-        return pasv() && write("LIST\r\n")
+    func list() async -> Bool {
+        let a = await pasv()
+        let b = await write("LIST\r\n")
+        return a && b
     }
 
-    func delete(filename: String)-> Bool {
-        return write("DELE $filename\r\n")
+    func cdup() async -> Bool {
+        let a = await write("CDUP\r\n")
+        let b = await pwd()
+        return a && b
     }
 
-    func pwd()-> Bool {
-        return write("PWD\r\n")
+    func mkd(dir: String) async -> Bool {
+        let a = await write("MKD \(dir)\r\n")
+        let b = await pwd()
+        return a && b
+    }
+    func delete(filename: String) async -> Bool {
+        return await write("DELE \(filename)\r\n")
     }
 
-    func cwd(dir: String)-> Bool {
-        return write("CWD $dir\r\n")
+    func pwd() async -> Bool {
+        return await write("PWD\r\n")
     }
 
-    func cdup()-> Bool {
-        return write("CDUP\r\n") && pwd()
+    func cwd(dir: String) async -> Bool {
+        return await write("CWD \(dir)\r\n")
     }
 
-    func mkd(dir: String)-> Bool {
-        return write("MKD $dir\r\n") && pwd()
+
+    func noop()async-> Bool {
+        return await write("NOOP\r\n")
     }
 
-    func noop()-> Bool {
-        return write("NOOP\r\n")
+    func quit() async -> Bool {
+        return await write("QUIT\r\n")
     }
 
-    func quit()-> Bool {
-        return write("QUIT\r\n")
+    func rest(position: Int = 0) async -> Bool {
+        return await write("REST \(position)\r\n")
     }
 
-    func rest(position: Int = 0)-> Bool {
-        return write("REST $position\r\n")
+    func systemType() async -> Bool {
+        return await write("SYST")
     }
 
-    func systemType() -> Bool {
-        return write("SYST")
+    enum MODE: String {
+        case I = "I", F = "F", S = "S"
     }
 
-    enum MODE {
-        case I, F, S
+    func type(mode: MODE) async -> Bool {
+        return await write("TYPE \(mode.rawValue)")
     }
 
-    func type(mode: MODE) -> Bool {
-        return write("TYPE ${mode.name}")
+    func structure() async -> Bool {
+        return await write("STRU F")
     }
 
-    func structure() -> Bool {
-        return write("STRU F")
+    func mode() async -> Bool {
+        return await write("MODE S")
     }
 
-    func mode() -> Bool {
-        return write("MODE S")
-    }
-
-    func stor(filename: String)-> Bool {
-        return write("STOR $filename")
+    func stor(filename: String) async -> Bool {
+        return await write("STOR \(filename)")
     }
 }
