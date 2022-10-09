@@ -20,6 +20,9 @@ struct MiApp: App {
                     SyncServiceImpl.shared.findDevices { consoles in
                         debugPrint(consoles)
                     }
+                    Task {
+                        ok()
+                    }
                 }
         }
     }

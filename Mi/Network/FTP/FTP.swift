@@ -108,6 +108,7 @@ class FTP: ObservableObject {
     func close() async {
         return await destroy()
     }
+    
     private func destroy() async {
         runThread?.cancel()
         serverThread?.cancel()
