@@ -319,17 +319,13 @@ class FTP: ObservableObject {
         }
         self.server = sock
         try? self.server .listen(on: port)
-        do {
-            while (sock.isListening) {
-                if let client = try? sock.acceptClientConnection() {
-                    let o = Task {
-                        await handleClient(client: client)
-                    }
-                    clients[o] = client
+        while (sock.isListening) {
+            if let client = try? sock.acceptClientConnection() {
+                let o = Task {
+                    await handleClient(client: client)
                 }
+                clients[o] = client
             }
-        } catch {
-            debugPrint(error)
         }
         return true
     }

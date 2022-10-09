@@ -37,7 +37,7 @@ struct IntroView: View {
                 }
                 if let change = vm.changelogs {
                     ChangelogSectionView(change: change)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color("foreground"))
                 }
             }.onAppear {
                 vm.getChangelogs()

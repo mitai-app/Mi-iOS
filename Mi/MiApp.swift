@@ -21,7 +21,7 @@ struct MiApp: App {
                         debugPrint(consoles)
                     }
                     Task {
-                        ok()
+                        await ok()
                     }
                 }
         }
