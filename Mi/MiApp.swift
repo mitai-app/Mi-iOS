@@ -12,7 +12,7 @@ struct MiApp: App {
     let persistenceController = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
-            AppTabBarView(color: Color("navcolor"))
+            ContentView()
                 .foregroundColor(Color("foreground"))
                 .background(Color("background"))
                 .environmentObject(SyncServiceImpl.shared)

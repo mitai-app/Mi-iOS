@@ -15,21 +15,28 @@ class FTPViewModel: ObservableObject, FTPDelegate {
         ftp.delegate = self
     }
     
-    @Published var dir: [FTPFile] = []
-    private var target: Console? {
-        return SyncServiceImpl.shared.target
-    }
-    
     private var ftp: FTP = FTP.shared
     var delegate: FTPDelegate?
     private var cancellable: Any!
     
+    @Published var dir: [FTPFile] = []
+    @Published var cwd: String = ""
+    
+    private var target: Console? {
+        return SyncServiceImpl.shared.target
+    }
     func delete(file: FTPFile) async -> Bool {
         return await ftp.delete(file: file)
     }
+    func download(file: FTPFile) async -> Bool {
+        return await ftp.download(filename: file)
+    }
+    
+    func upload(url: URL) async -> Bool {
+        return await ftp.upload(filename: url)
+    }
     
     func connect() async -> Bool {
-        debugPrint("Attempting to connect")
         return await SyncServiceImpl.shared.connectFtp()
     }
    
@@ -43,6 +50,7 @@ class FTPViewModel: ObservableObject, FTPDelegate {
     
     func onList(dirs: [FTPFile]) {
         self.dir = dirs
+        self.cwd = dirs[0].cwd
         debugPrint("recieved in vm: \(dirs.count)")
         self.objectWillChange.send()
         delegate?.onList(dirs: dirs)
@@ -50,14 +58,6 @@ class FTPViewModel: ObservableObject, FTPDelegate {
     
     func onFileSaved(action: ActionData) {
         debugPrint("recieved \(action)")
-        delegate?.onFileSaved(action: action)
-    }
-    
-}
-
-struct FTPView: View, FTPDelegate {
-    
-    func onFileSaved(action: ActionData) {
         let dir = getDocumentsDirectory()
             
         let url = dir.appendingPathComponent(URL(string: action.name)!.lastPathComponent)
@@ -85,10 +85,10 @@ struct FTPView: View, FTPDelegate {
         return paths[0]
     }
     
-    func onList(dirs: [FTPFile]) {
-        vm.objectWillChange.send()
-        debugPrint("recieved in vm: \(dirs.count)")
-    }
+}
+
+struct FTPView: View {
+    
     @State var isImporting = false
     @State var show: Bool = false
     @State var input: String = ""
@@ -96,14 +96,13 @@ struct FTPView: View, FTPDelegate {
     @EnvironmentObject var sync: SyncServiceImpl
     
     @StateObject private var document: InputDoument = InputDoument()
-    @StateObject var ftp: FTP = FTP.shared
     @StateObject var vm: FTPViewModel = FTPViewModel()
     
     var body: some View {
         CustomNavView {
             VStack (spacing: 0) {
                 HStack {
-                    Text("CWD: \(ftp.cwd)")
+                    Text("CWD: \(vm.cwd)")
                         .font(.title3)
                         .foregroundColor(Color("foreground"))
                         .fontWeight(.bold)
@@ -134,43 +133,44 @@ struct FTPView: View, FTPDelegate {
                     }.foregroundColor(Color("navcolor"))
                 }.padding()
                 List {
-                    ForEach($ftp.dir) { item in
-                        withAnimation(.easeInOut(duration: 1.0)) {
-                            ListItem(file: item)
-                                .contextMenu {
-                                    if !item.wrappedValue.directory {
-                                        Button {
-                                            print("Download File")
-                                            Task {
-                                                await ftp.download(filename: item.wrappedValue)
-                                            }
-                                        } label: {
-                                            Label("Download File", systemImage: "arrow.down.doc")
-                                        }
-                                    }
-                                    
+                    ForEach($vm.dir) { item in
+                        ListItem(file: item)
+                            .contextMenu {
+                                if !item.wrappedValue.directory {
                                     Button {
                                         Task {
-                                            await vm.delete(file: item.wrappedValue)
+                                            print("Downloading \(item.wrappedValue.name)")
+                                            await vm.download(file: item.wrappedValue)
                                         }
                                     } label: {
-                                        Label("Delete \(item.wrappedValue.directory ? "Folder" : "File")", systemImage: "\(item.wrappedValue.directory ? "folder.badge.minus" : "doc.badge.minus")")
+                                        Label("Download File", systemImage: "arrow.down.doc")
                                     }
                                 }
-                                .onTapGesture {
+                                
+                                Button {
                                     Task {
-                                        await vm.changeDir(file: item.wrappedValue)
+                                        await vm.delete(file: item.wrappedValue)
                                     }
+                                } label: {
+                                    Label("Delete \(item.wrappedValue.directory ? "Folder" : "File")", systemImage: "\(item.wrappedValue.directory ? "folder.badge.minus" : "doc.badge.minus")")
                                 }
-                        }
+                            }
+                            .onTapGesture {
+                                Task {
+                                    await vm.changeDir(file: item.wrappedValue)
+                                }
+                            }
                     }
                 }.refreshable {
                     Task {
-                        debugPrint("Doing the connecting thing")
                         if await vm.connect() {
+                            #if DEBUG
                             debugPrint("Connected?")
+                            #endif
                         } else {
+                            #if DEBUG
                             debugPrint("Could not connect")
+                            #endif
                         }
                     }
                 }
@@ -179,43 +179,27 @@ struct FTPView: View, FTPDelegate {
                     allowedContentTypes: InputDoument.readableContentTypes,
                     allowsMultipleSelection: true,
                     onCompletion: { result in
-                        do {
-                            Task {
-                                for selectedFile in try result.get() {
-                                    print("uploading \(selectedFile.lastPathComponent)")
-                                    await ftp.upload(filename: selectedFile)
-                                }
+                        Task {
+                            for selectedFile in try result.get() {
+                                print("uploading \(selectedFile.lastPathComponent)")
+                                await vm.upload(url: selectedFile)
                             }
-                        } catch {
-                            // Handle failure.
-                            print("Unable to read file contents")
-                            print(error.localizedDescription)
                         }
                     }
                 )
                 .textFieldAlert(isShowing: $show, text: $input, title: "Create")
             }.customNavigationTitle("FTP")
             .customNavigationBarBackButtonHidden(true)
-            .onPreferenceChange(TabBarItemSelectedPreferenceKey.self) { item in
-                Task {
-                    print(item)
-                    switch item {
-                    case .ftp:
-                        await vm.connect()
-                        break
-                    default:
-                            break
-                    }
-                }
-            }
             .onAppear {
-                vm.delegate = self
-                debugPrint("Doing the connecting thing")
                 Task {
                     if await vm.connect() {
+                        #if DEBUG
                         debugPrint("Connected?")
+                        #endif
                     } else {
+                        #if DEBUG
                         debugPrint("Could not connect")
+                        #endif
                     }
                 }
             }

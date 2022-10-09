@@ -199,14 +199,14 @@ class FTP: ObservableObject {
         }
         let dir = FTPFile.parse(cwd: cwd, testString: bytes)
         data?.close()
-        if dir.count == 1 {
-            if dir[0].name == "." {
+        if dir.count <= 1 {
+            if dir.count == 1 && dir[0].name == "." {
                 debugPrint("Failed... retrying")
                 try? await Task.sleep(nanoseconds: self.delay)
                 let o = await self.list()
                 return o
             } else {
-                debugPrint("there is more?", dir)
+                debugPrint("there is nothing?", dir)
                 return false
             }
         } else {
@@ -367,10 +367,19 @@ extension FTP {
     
     
     func delete(file: FTPFile) async -> Bool {
-        let a = await delete(filename: file.name)
+        var a = false
+        if file.directory {
+            a = await removeFolder(folder: file.name)
+        } else {
+            a = await delete(filename: file.name)
+        }
         try? await Task.sleep(nanoseconds: 300_000_00)
         let b = await getCurrentDir()
         return a && b
+    }
+    
+    private func removeFolder(folder: String) async -> Bool {
+        return await(write("RMD \(folder)"))
     }
     
     
