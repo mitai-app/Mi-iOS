@@ -152,7 +152,7 @@ struct FTPView: View {
                                         await vm.delete(file: item.wrappedValue)
                                     }
                                 } label: {
-                                    Label("Delete \(item.wrappedValue.directory ? "Folder" : "File")", systemImage: "\(item.wrappedValue.directory ? "folder.badge.minus" : "doc.badge.minus")")
+                                    Label("Delete \(item.wrappedValue.directory ? "Folder" : "File")", systemImage: "delete.left")
                                 }
                             }
                             .onTapGesture {

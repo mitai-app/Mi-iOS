@@ -81,7 +81,7 @@ struct ExtractedView: View {
                         if img.verifyUrl() {
                             KFImage(URL(string: img))
                                 .placeholder {
-                                    Image(systemName: "money")
+                                    Image("money")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                 }
