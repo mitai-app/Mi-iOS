@@ -52,6 +52,9 @@
 		1755336828F09EBD00F7B503 /* ObservedObjectCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */; };
 		1755336B28F1FF5B00F7B503 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336A28F1FF5900F7B503 /* InputDocument.swift */; };
 		1755336D28F2098200F7B503 /* OutputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336C28F2098200F7B503 /* OutputDocument.swift */; };
+		1755336F28F2551E00F7B503 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336E28F2551D00F7B503 /* StringExtension.swift */; };
+		1787A33D28F3259200997B9E /* FTPFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A33C28F3259200997B9E /* FTPFile.swift */; };
+		1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A33E28F325B600997B9E /* FTPDelegate.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
@@ -143,6 +146,9 @@
 		1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedObjectCollection.swift; sourceTree = "<group>"; };
 		1755336A28F1FF5900F7B503 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
 		1755336C28F2098200F7B503 /* OutputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDocument.swift; sourceTree = "<group>"; };
+		1755336E28F2551D00F7B503 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		1787A33C28F3259200997B9E /* FTPFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPFile.swift; sourceTree = "<group>"; };
+		1787A33E28F325B600997B9E /* FTPDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPDelegate.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -279,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				171B23F028EE60DD0050DAB9 /* ViewExtensions.swift */,
+				1755336E28F2551D00F7B503 /* StringExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -394,6 +401,8 @@
 			isa = PBXGroup;
 			children = (
 				1755336428EFBB0400F7B503 /* FTP.swift */,
+				1787A33C28F3259200997B9E /* FTPFile.swift */,
+				1787A33E28F325B600997B9E /* FTPDelegate.swift */,
 			);
 			path = FTP;
 			sourceTree = "<group>";
@@ -721,6 +730,7 @@
 				1755336B28F1FF5B00F7B503 /* InputDocument.swift in Sources */,
 				174BF31428E63D2F00D6DDF2 /* CustomTabBarView.swift in Sources */,
 				17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */,
+				1755336F28F2551E00F7B503 /* StringExtension.swift in Sources */,
 				17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */,
 				173CBAA028E79E6400983E18 /* PackageView.swift in Sources */,
 				174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */,
@@ -737,9 +747,11 @@
 				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
 				17F1784128DE5532001E010A /* Mi.xcdatamodeld in Sources */,
 				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
+				1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */,
 				171B23F128EE60DE0050DAB9 /* ViewExtensions.swift in Sources */,
 				173CBA9B28E6972D00983E18 /* ChangelogSectionView.swift in Sources */,
 				171B23E928ECC0980050DAB9 /* Webman+Structs.swift in Sources */,
+				1787A33D28F3259200997B9E /* FTPFile.swift in Sources */,
 				173CBA8A28E649F100983E18 /* TabBarItem.swift in Sources */,
 				17F1789228DEB160001E010A /* SettingView.swift in Sources */,
 				173CBA9328E65DC300983E18 /* CustomNavView.swift in Sources */,

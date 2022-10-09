@@ -19,13 +19,12 @@ struct CustomTabBarView: View {
             .onChange(of: selection, perform: { value in
                 if localSelection != .ftp {
                     Task {
-                        if(!FTP.shared.isConnected) {
+                        if(!FTP.isConnected) {
                             await SyncServiceImpl.shared.connectFtp()
-                        }
-                        if (FTP.shared.isConnected && FTP.shared.dir.count == 0) {
+                        } else if (FTP.isConnected && FTP.shared.dir.count == 0) {
                             switch (value) {
                             case .ftp:
-                                await FTP.shared.list()
+                                await FTP.shared.getCurrentDir()
                             break
                             default:
                                 break

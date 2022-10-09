@@ -9,243 +9,235 @@ import Foundation
 import Socket
 import FileProvider
 
-struct FTPFile: Identifiable {
-    
-    var id: String {
-        return "\(cwd)-\(name)"
-    }
-    
-    var fullPath: String {
-        let path = "\(cwd)/\(name)"
-        if path.starts(with: "\"") {
-            print("fixing: \(path) to \(path.substring(from: String.Index(encodedOffset: 1)))")
-            return path.substring(from: String.Index(encodedOffset: 1))
-        }
-        return path
-    }
-    
-    let cwd: String
-    let directory: Bool
-    let permissions: String
-    let nbfiles: Int
-    let owner: String
-    let group: String
-    let size: Int
-    let date: String
-    let name: String
-}
-extension FTPFile {
-    
-    
-    static func parse(cwd: String, testString: String) -> [FTPFile] {
-        let patterns = #"^([\-ld])([\-rwxs]{9})\s+(\d+)\s+(.+)\s+(.+)\s+(\d+)\s+(\w{3}\s+\d{1,2}\s+(?:\d{1,2}:\d{1,2}|\d{4}))\s+(.+)$"#
-        let pattern =  #"^([\-ld])([\-rwxs]{9})\s+(\d+)\s+(\w+)\s+(\w+)\s+(\d+)\s+(\w{3}\s+\d{1,2}\s+(?:\d{1,2}:\d{1,2}|\d{4}))\s+(.+)$"#
-        let regex = try! NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
-        let stringRange = NSRange(location: 0, length: testString.utf16.count)
-        let matches = regex.matches(in: testString, range: stringRange)
-        var result: [[String]] = []
-        for match in matches {
-            var groups: [String] = []
-            for rangeIndex in 1 ..< match.numberOfRanges {
-                let nsRange = match.range(at: rangeIndex)
-                guard !NSEqualRanges(nsRange, NSMakeRange(NSNotFound, 0)) else { continue }
-                let string = (testString as NSString).substring(with: nsRange)
-                groups.append(string)
-            }
-            if !groups.isEmpty {
-                result.append(groups)
-            }
-        }
-        var index = 0
-        let res: [FTPFile] = result.map { array in
-            
-            let directory: Bool = array[0] == "d"
-            let permisions: String = array[1]
-            let nbfiles: Int = Int(array[2]) ?? 0
-            let owner: String = array[3]
-            let group: String = array[4]
-            let size: Int = Int(array[5]) ?? 0
-            let date: String = array[6]
-            let name: String = array[7]
-            let file = FTPFile(
-                cwd: cwd,
-                directory: directory,
-                permissions:permisions,
-                nbfiles: nbfiles,
-                owner: owner,
-                group: group,
-                size: size,
-                date: date,
-                name: name
-            )
-            index += 1
-            return file
-        }
-        debugPrint(res)
-        return res.sorted { file1, file2 in
-            if (file1.directory && file2.directory) {
-                return file1.name.compare(file2.name) == ComparisonResult.orderedAscending
-            } else if file1.directory {
-                return true
-            } else if file2.directory {
-                return false
-            } else {
-                return false
-            }
-        }
-    }
-}
-
-protocol FTPDelegate {
-    func onList(dirs: [FTPFile])
-    func onFileSaved (action: ActionData)
-}
-
 class FTP: ObservableObject {
     
-    var socket: Socket!
-    private var data: Socket!
-    private var dataPort: Int = 0
-    private var res: ((String) -> Void)?
+    
+    @Published var dir: [FTPFile] = []
+    @Published var cwd: String = "/"
     
     var delegate: FTPDelegate?
     
-    @Published var dir: [FTPFile] = []
-    
-    @Published var cwd: String = "/"
-
-    var isAuthenticated: Bool = false
-    
-    var action: ActionData = ActionData.init(
+    private var socket: Socket!
+    private var data: Socket!
+    private var server: Socket!
+    private var isAuthenticated: Bool = false
+    private var action: ActionData = ActionData.init(
         action: .none,
         name: "",
         data: Data()
     )
-    
-    var ip: String {
+    private var ip: String {
         if socket == nil {
             return ""
         }
         return socket.remoteHostname
     }
-    
-    var port: Int {
-        if socket == nil {
-            return 0
-        }
-        return Int(socket.remotePort)
-    }
-    var serverPort: Int = 35211
-    var isConnected: Bool {
+    private var isConnected: Bool {
         if socket == nil {
             return false
         }
         return socket.isConnected
     }
-    
-    
-    static func create(ip: String, port: Int, res: @escaping (String) -> Void) throws -> FTP {
-        let socket = try Socket.create()
-        try socket.connect(to: ip, port: .init(port))
-        return create(socket: socket, res: res)
+    private var port: Int {
+        if socket == nil {
+            return -1
+        }
+        return Int(socket.remotePort)
     }
+    private var serverPort: Int = 35211
+    private var dataPort: Int = 0
+    private var delay: UInt64 = 500_000_000
+    private var runThread: Task<(), Never>?
+    private var readDataThread: Task<(), Never>?
+    private var serverThread: Task<Bool, Never>?
     
-
-    static func create(socket: Socket, res: @escaping (String) -> Void) -> FTP {
-        return FTP(socket: socket, res: res)
-    }
-    
-    static let shared: FTP = FTP()
-    
-    init() {
+    init () {
         
     }
     
-    func setResponse(res: @escaping (String) -> Void) {
-        self.res = res
+    init (socket: Socket) {
+        self.socket = socket
+        self.auth()
     }
+    
     
     func setHost(ip: String, port: Int) async -> Bool {
         guard let socket = try? Socket.create() else {
             return false
         }
-        try? socket.connect(to: ip, port: Int32(port))
+        do {
+            try socket.connect(to: ip, port: Int32(port))
+            await close()
+            if(socket.isConnected){
+                self.socket = socket
+                self.auth()
+            }
+            return socket.isConnected
+        } catch {
+            #if DEBUG
+            debugPrint(error.asAFError?.errorDescription ?? "something wrong")
+            debugPrint(error.localizedDescription)
+            #endif
+        }
+        return false
+    }
+
+    func clean() async {
+        serverThread?.cancel()
+        if let server = self.server {
+            if server.isActive {
+                clients.forEach { (key: Task<(), Never>, value: Socket) in
+                    value.close()
+                    key.cancel()
+                }
+                server.close()
+                clients.removeAll()
+            }
+        }
+        self.server = nil
         
-        if(socket.isConnected){
-            self.socket = socket
-            self.auth()
-        }
-        return socket.isConnected
-    }
-
-    
-    func close() {
-        if socket != nil {
-            socket.close()
-            data.close()
+        readDataThread?.cancel()
+        if let data = self.data {
+            if data.isConnected {
+                data.close()
+            }
+            self.data = nil
         }
     }
     
-    init(socket: Socket, res: @escaping (String) -> Void) {
-        self.socket = socket
-        self.res = res
-        self.auth()
+    func close() async {
+        return await destroy()
     }
-
-
-    func auth(anonymous: Bool = true) {
+    private func destroy() async {
+        runThread?.cancel()
+        serverThread?.cancel()
+        readDataThread?.cancel()
+        isAuthenticated = false
+        if let server = self.server {
+            if server.isActive {
+                clients.forEach { (key: Task<(), Never>, value: Socket) in
+                    value.close()
+                    key.cancel()
+                }
+                server.close()
+                clients.removeAll()
+            }
+            self.server = nil
+        }
+        if let sock = self.socket {
+            if sock.isConnected {
+                do {
+                    var (r, w) = try sock.isReadableOrWritable()
+                    if (r || w) {
+                        print("Why are you still readable(\(r)) and writable(\(w))?")
+                        sock.close()
+                        (r, w) = try sock.isReadableOrWritable()
+                        print("readable(\(r))? writable(\(w))?")
+                    }
+                } catch {
+                    #if DEBUG
+                    debugPrint(error.asAFError?.errorDescription ?? "something up")
+                    debugPrint(error.localizedDescription)
+                    #endif
+                }
+            }
+            self.socket = nil
+        }
+        
+        if let data = self.data {
+            if data.isConnected {
+                data.close()
+            }
+            self.data = nil
+        }
+        
+    }
+    
+    private func auth(anonymous: Bool = true) {
         do {
             var readBytes = try socket.readString()
-            print("Intro: \(readBytes)")
+            
+            #if DEBUG
+            debugPrint("Intro: \(String(describing: readBytes))")
+            #endif
+            
             try socket.write(from: "USER anonymous\r\n")
             readBytes = try socket.readString()
-            print("USER: \(readBytes)")
+            
+            #if DEBUG
+            debugPrint("USER: \(String(describing: readBytes))")
+            #endif
+            
             try socket.write(from: "PASS anonymous\r\n")
             readBytes = try socket.readString()
-            print("PASS: \(readBytes)")
-            Task {
-                await run()
+            
+            #if DEBUG
+            debugPrint("PASS: \(String(describing: readBytes))")
+            #endif
+            
+            isAuthenticated = true
+            self.runThread = Task {
+                if await self.list() {
+                    await self.run()
+                }
             }
         } catch {
-            
+            #if DEBUG
+            debugPrint(error.asAFError?.errorDescription ?? "error connecting")
+            debugPrint(error.localizedDescription)
+            #endif
         }
     }
 
-    func readFromDataSock() async {
-        data = try! Socket.create()
+    private func readFromDataSock() async -> Bool {
+        self.data = try! Socket.create()
         try! data.connect(to: socket.remoteHostname, port: Int32(dataPort))
         guard let bytes = try? data.readString() else {
-            data.close()
-            return
+            debugPrint("unabled to read from data sock")
+            data?.close()
+            return false
         }
-        await MainActor.run {
-            let dir = FTPFile.parse(cwd: cwd, testString: bytes)
-            data.close()
-            if dir.count == 1 {
-                dir[0].name == "."
-                Task {
-                    await self.list()
-                }
+        let dir = FTPFile.parse(cwd: cwd, testString: bytes)
+        data?.close()
+        if dir.count == 1 {
+            if dir[0].name == "." {
+                debugPrint("Failed... retrying")
+                try? await Task.sleep(nanoseconds: self.delay)
+                let o = await self.list()
+                return o
             } else {
+                debugPrint("there is more?", dir)
+                return false
+            }
+        } else {
+            await MainActor.run {
                 self.dir = dir
                 delegate?.onList(dirs: dir)
                 self.objectWillChange.send()
             }
+            return true
         }
-
     }
 
-    func write(_ string: String) async -> Bool {
-        do {
-            try socket.write(from: string)
-            return true
-        } catch {
-            print(error)
+    private func write(_ string: String) async -> Bool {
+        if socket.isConnected {
+            do {
+                let (r, w) = try socket.isReadableOrWritable()
+                try socket.write(from: string)
+                debugPrint("readable: \(r), writable: \(w)")
+                return w
+            } catch {
+                print(error.localizedDescription)
+                print(error.asAFError?.errorDescription ?? "something wrong")
+                return false
+            }
+        } else {
+            debugPrint("Socket is not connected")
             return false
         }
     }
 
-    func handled(_ string: String) async -> Bool {
+    private func handled(_ string: String) async -> Bool {
         let split = string.split(separator: " ", maxSplits: 1)
         if(split.count >= 2) {
             let code = Int.init(split[0]) ?? 0, message = split[1]
@@ -272,7 +264,7 @@ class FTP: ObservableObject {
                 let ip = "\(parts[0]).\(parts[1]).\(parts[2]).\(parts[3])"
                 let port = (Int.init(parts[4]) ?? 0) * 256 + (Int.init(parts[5]) ?? 0)
                 self.dataPort = port
-                Task {
+                self.readDataThread = Task {
                     await self.readFromDataSock()
                 }
                 print("\(ip):\(port)")
@@ -280,10 +272,15 @@ class FTP: ObservableObject {
             case 250:  // Request file action okay
                 return true
             case 257:
-                let firstBrace = message.firstIndex(of: "\"")!
-                let lastBrace = message.lastIndex(of: "\"")!
+                let firstBrace = message.firstIndex(of: #"""#)!
+                let lastBrace = message.lastIndex(of: #"""#)!
                 await MainActor.run {
-                    self.cwd = String(message[firstBrace..<lastBrace])
+                    let path = String(message[firstBrace..<lastBrace])
+                    if path.starts(with: #"""#) {
+                        self.cwd = String(path[String.Index(encodedOffset: 1)..<String.Index(encodedOffset: path.count)])
+                    } else {
+                        self.cwd = path
+                    }
                 }
                 return true
             case 502: // Not Implemented
@@ -299,162 +296,50 @@ class FTP: ObservableObject {
 
     }
 
-    func run() async {
+    private func run() async {
         while (socket.isConnected) {
             do {
-                let readAllBytes = try socket.readString()!
-                print("READ: \(readAllBytes)")
-                await self.handled(readAllBytes)
+                if let readAllBytes = try socket.readString() {
+                    debugPrint("READ: \(readAllBytes)")
+                    await self.handled(readAllBytes)
+                }
             } catch {
-                print(error)
+                debugPrint(error)
                 break
             }
         }
     }
     
-    private var serverThread: Task<Bool, Never>?
+    private var clients: [Task<(), Never>: Socket] = [:]
+    
+    private func server(port: Int = 35211) async -> Bool {
+        guard let sock = try? Socket.create() else {
+            return false
+        }
+        self.server = sock
+        try? self.server .listen(on: port)
+        do {
+            while (sock.isListening) {
+                if let client = try? sock.acceptClientConnection() {
+                    let o = Task {
+                        await handleClient(client: client)
+                    }
+                    clients[o] = client
+                }
+            }
+        } catch {
+            debugPrint(error)
+        }
+        return true
+    }
+    
     
 }
+
+
 
 extension FTP {
     
-
-    func pasv() async-> Bool {
-        return await write("PASV\r\n")
-    }
-    
-    private func format(port: Int) -> String? {
-        if let addr = SyncServiceImpl.shared.deviceIP {
-            let ipParts = addr.split(separator: ".")
-            let p1 = (port - (port % 256)) >> 8
-            let p2 = port % 256
-            return "\(ipParts[0]),\(ipParts[1]),\(ipParts[2]),\(ipParts[3]),\(p1),\(p2)"
-        }
-        return nil
-    }
-
-    func port(port: Int) async-> Bool {
-        if let string = format(port: port) {
-            if self.serverThread == nil {
-                self.serverThread = Task {
-                    await server(port: port)
-                }
-            } else {
-                self.serverThread?.cancel()
-                while self.serverThread?.isCancelled == false {
-                    
-                }
-                self.serverThread = Task {
-                    await server(port: port)
-                }
-            }
-            return await write("PORT \(string)\r\n")
-        }
-        return false
-    }
-
-    
-    func list() async -> Bool {
-        let a = await pasv()
-        let b = await write("LIST\r\n")
-        return a && b
-    }
-
-    func cdup() async -> Bool {
-        let a = await write("CDUP\r\n")
-        let b = await pwd()
-        return a && b
-    }
-
-    func mkd(dir: String) async -> Bool {
-        let a = await write("MKD \(dir)\r\n")
-        let b = await pwd()
-        return a && b
-    }
-    func delete(filename: String) async -> Bool {
-        return await write("DELE \(filename)\r\n")
-    }
-
-    func pwd() async -> Bool {
-        return await write("PWD\r\n")
-    }
-
-    func cwd(dir: String) async -> Bool {
-        return await write("CWD \(dir)\r\n")
-    }
-
-
-    func noop()async-> Bool {
-        return await write("NOOP\r\n")
-    }
-
-    func quit() async -> Bool {
-        return await write("QUIT\r\n")
-    }
-
-    func rest(position: Int = 0) async -> Bool {
-        return await write("REST \(position)\r\n")
-    }
-
-    func systemType() async -> Bool {
-        return await write("SYST")
-    }
-
-    enum MODE: String {
-        case I = "I", F = "F", S = "S"
-    }
-
-    func type(mode: MODE) async -> Bool {
-        return await write("TYPE \(mode.rawValue)")
-    }
-
-    func structure() async -> Bool {
-        return await write("STRU F")
-    }
-
-    func mode() async -> Bool {
-        return await write("MODE S")
-    }
-    
-    func retr(filename: String) async -> Bool {
-        self.action = ActionData(action: .retrieve, name: filename, data: Data())
-        if await port(port: serverPort) {
-            try? await Task.sleep(nanoseconds: 500_000_000)
-            let b = await write("RETR \(filename)")
-            return b
-        }
-        return false
-    }
-    
-    func stor(filename: URL) async -> Bool {
-        if filename.startAccessingSecurityScopedResource() {
-            if let data = try? Data(contentsOf: filename) {
-                action = ActionData(action: .store, name: filename.absoluteString, data: data)
-                filename.stopAccessingSecurityScopedResource()
-                if await port(port: serverPort) {
-                    try? await Task.sleep(nanoseconds: 500_000_000)
-                    let b = await write("STOR \(filename.lastPathComponent)")
-                    return b
-                }
-                return false
-            }
-        }
-        return false
-    }
-}
-
-enum Action {
-    case retrieve, store, none
-}
-
-struct ActionData {
-    let action: Action
-    let name: String
-    var data: Data
-}
-
-
-extension FTP {
     func upload(filename: URL) async -> Bool {
         return await stor(filename: filename)
     }
@@ -464,8 +349,32 @@ extension FTP {
         return await retr(filename: filename.fullPath)
     }
     
+    func changeDir(file: FTPFile) async -> Bool {
+        if file.directory {
+            await cwd(dir: file.name)
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            await pwd()
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            await list()
+            return true
+        }
+        return false
+    }
     
-    func handleClient(client: Socket) async {
+    func getCurrentDir() async -> Bool {
+        return await list()
+    }
+    
+    
+    func delete(file: FTPFile) async -> Bool {
+        let a = await delete(filename: file.name)
+        try? await Task.sleep(nanoseconds: 300_000_00)
+        let b = await getCurrentDir()
+        return a && b
+    }
+    
+    
+    private func handleClient(client: Socket) async {
         repeat {
             switch action.action {
             case .retrieve:
@@ -486,21 +395,176 @@ extension FTP {
         } while (client.isConnected)
     }
     
-    func server(port: Int = 35211) async -> Bool {
-        guard let sock = try? Socket.create() else {
-            return false
-        }
-        try? sock.listen(on: port)
-        while (sock.isListening) {
-            if let client = try? sock.acceptClientConnection() {
-                Task {
-                    await handleClient(client: client)
-                }
-            }
-        }
-        
-        
-        return true
+    
+}
+
+extension FTP {
+    
+    static var isRunThreadAlive: Bool {
+        return shared.runThread != nil && shared.runThread?.isCancelled == false
     }
     
+    static func reinitRunThread() {
+        if !FTP.isRunThreadAlive {
+            debugPrint("Is not running")
+            FTP.shared.runThread = Task {
+                await FTP.shared.run()
+            }
+        } else {
+            debugPrint("Is running")
+        }
+    }
+    
+    static var isConnected: Bool {
+        return shared.isConnected
+    }
+    
+    static var ip: String {
+        return shared.ip
+    }
+    
+    static var isAuthenticated: Bool {
+        return shared.isAuthenticated
+    }
+    
+    static func create(ip: String, port: Int) throws -> FTP {
+        let socket = try Socket.create()
+        try socket.connect(to: ip, port: .init(port))
+        return create(socket: socket)
+    }
+
+    static func create(socket: Socket) -> FTP {
+        return FTP(socket: socket)
+    }
+    
+    static let shared: FTP = FTP()
+    
+}
+
+extension FTP {
+    
+
+    private func pasv() async-> Bool {
+        return await write("PASV\r\n")
+    }
+
+    private func port(port: Int) async-> Bool {
+        if let string = format(port: port) {
+            if self.serverThread == nil {
+                self.serverThread = Task {
+                    await server(port: port)
+                }
+            } else {
+                self.serverThread?.cancel()
+                while self.serverThread?.isCancelled == false {
+                    
+                }
+                self.serverThread = Task {
+                    await server(port: port)
+                }
+            }
+            return await write("PORT \(string)\r\n")
+        }
+        return false
+    }
+
+    
+    private func list() async -> Bool {
+        let a = await pasv()
+        let b = await write("LIST\r\n")
+        return a && b
+    }
+
+    private func cdup() async -> Bool {
+        let a = await write("CDUP\r\n")
+        let b = await pwd()
+        return a && b
+    }
+
+    private func mkd(dir: String) async -> Bool {
+        let a = await write("MKD \(dir)\r\n")
+        let b = await pwd()
+        return a && b
+    }
+    
+    private func delete(filename: String) async -> Bool {
+        return await write("DELE \(filename)\r\n")
+    }
+
+    private func pwd() async -> Bool {
+        return await write("PWD\r\n")
+    }
+
+    private func cwd(dir: String) async -> Bool {
+        return await write("CWD \(dir)\r\n")
+    }
+
+    private func noop()async-> Bool {
+        return await write("NOOP\r\n")
+    }
+
+    private func quit() async -> Bool {
+        return await write("QUIT\r\n")
+    }
+
+    private func rest(position: Int = 0) async -> Bool {
+        return await write("REST \(position)\r\n")
+    }
+
+    private func systemType() async -> Bool {
+        return await write("SYST")
+    }
+
+    private func type(mode: MODE) async -> Bool {
+        return await write("TYPE \(mode.rawValue)")
+    }
+
+    private func structure() async -> Bool {
+        return await write("STRU F")
+    }
+
+    private func mode() async -> Bool {
+        return await write("MODE S")
+    }
+    
+    private func retr(filename: String) async -> Bool {
+        self.action = ActionData(action: .retrieve, name: filename, data: Data())
+        if await port(port: serverPort) {
+            try? await Task.sleep(nanoseconds: self.delay)
+            let b = await write("RETR \(filename)")
+            return b
+        }
+        return false
+    }
+    
+    private func stor(filename: URL) async -> Bool {
+        if filename.startAccessingSecurityScopedResource() {
+            if let data = try? Data(contentsOf: filename) {
+                action = ActionData(action: .store, name: filename.absoluteString, data: data)
+                filename.stopAccessingSecurityScopedResource()
+                if await port(port: serverPort) {
+                    try? await Task.sleep(nanoseconds: self.delay)
+                    let b = await write("STOR \(filename.lastPathComponent)")
+                    return b
+                }
+                return false
+            }
+        }
+        return false
+    }
+}
+
+
+extension FTP {
+    
+    private func format(port: Int) -> String? {
+        if let addr = SyncServiceImpl.shared.deviceIP {
+            let ipParts = addr.split(separator: ".")
+            let p1 = (port - (port % 256)) >> 8
+            let p2 = port % 256
+            return "\(ipParts[0]),\(ipParts[1]),\(ipParts[2]),\(ipParts[3]),\(p1),\(p2)"
+        }
+        return nil
+    }
+
 }

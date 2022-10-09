@@ -42,19 +42,22 @@ class SyncServiceImpl: ObservableObject, SyncService {
     }
     
 
-    
     func connectFtp() async -> Bool {
         do {
             guard let console = target else  {
                 return false
             }
-            if FTP.shared.ip != console.ip {
-                FTP.shared.close()
+            if FTP.ip != console.ip {
                 return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
-            } else if !FTP.shared.isConnected {
+            } else if !FTP.isConnected {
                 return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
             } else {
-                return FTP.shared.isConnected
+                let o = FTP.isConnected
+                // keep main socket? close all others?
+                await FTP.shared.clean()
+                await FTP.shared.getCurrentDir()
+                FTP.reinitRunThread()
+                return o
             }
         } catch {
             print(error)

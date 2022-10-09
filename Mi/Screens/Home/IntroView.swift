@@ -56,16 +56,6 @@ struct IntroView_Previews: PreviewProvider {
     }
 }
 
-extension String {
-    func verifyUrl () -> Bool {
-        if let url = NSURL(string: self) {
-            return UIApplication.shared.canOpenURL(url as URL)
-        }
-        
-        return false
-    }
-}
-
 struct ExtractedView: View {
     
     @Environment(\.openURL) private var openURL

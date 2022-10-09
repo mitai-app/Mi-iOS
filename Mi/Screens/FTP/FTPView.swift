@@ -15,12 +15,6 @@ class FTPViewModel: ObservableObject, FTPDelegate {
         ftp.delegate = self
     }
     
-    func onFileSaved(action: ActionData) {
-        debugPrint("recieved \(action)")
-        delegate?.onFileSaved(action: action)
-    }
-    
-    
     @Published var dir: [FTPFile] = []
     private var target: Console? {
         return SyncServiceImpl.shared.target
@@ -30,6 +24,22 @@ class FTPViewModel: ObservableObject, FTPDelegate {
     var delegate: FTPDelegate?
     private var cancellable: Any!
     
+    func delete(file: FTPFile) async -> Bool {
+        return await ftp.delete(file: file)
+    }
+    
+    func connect() async -> Bool {
+        debugPrint("Attempting to connect")
+        return await SyncServiceImpl.shared.connectFtp()
+    }
+   
+    func changeDir(file: FTPFile) async -> Bool {
+        return await ftp.changeDir(file: file)
+    }
+    
+    func getDir() async -> Bool {
+        return await ftp.getCurrentDir()
+    }
     
     func onList(dirs: [FTPFile]) {
         self.dir = dirs
@@ -38,35 +48,9 @@ class FTPViewModel: ObservableObject, FTPDelegate {
         delegate?.onList(dirs: dirs)
     }
     
-    func delete(file: FTPFile) async -> Bool {
-        let a = await ftp.delete(filename: file.name)
-        try? await Task.sleep(nanoseconds: 100_000_00)
-        let b = await ftp.list()
-        return a && b
-    }
-    
-    func connect() async -> Bool {
-        debugPrint("Attempting to connect")
-        if await SyncServiceImpl.shared.connectFtp()  {
-            return await ftp.list()
-        }
-        return false
-    }
-   
-    func changeDir(file: FTPFile) async -> Bool {
-        if file.directory {
-            await ftp.cwd(dir: file.name)
-            try? await Task.sleep(nanoseconds: 100_000_000)
-            await ftp.pwd()
-            try? await Task.sleep(nanoseconds: 100_000_000)
-            await ftp.list()
-            return true
-        }
-        return false
-    }
-    
-    func getDir() async -> Bool {
-        return await ftp.list()
+    func onFileSaved(action: ActionData) {
+        debugPrint("recieved \(action)")
+        delegate?.onFileSaved(action: action)
     }
     
 }
@@ -82,7 +66,12 @@ struct FTPView: View, FTPDelegate {
             try action.data.write(to: url, options: Data.WritingOptions.atomic)
             //try action.data.write(to: url, atomically: true, encoding: .utf8)
             let input = try String(contentsOf: url)
-            print(input)
+            
+            #if DEBUG
+            if input.contains("content") && input.contains(""){
+                debugPrint(input)
+            }
+            #endif
         } catch {
             print(error.localizedDescription)
         }
@@ -184,7 +173,8 @@ struct FTPView: View, FTPDelegate {
                             debugPrint("Could not connect")
                         }
                     }
-                }.fileImporter(
+                }
+                .fileImporter(
                     isPresented: $isImporting,
                     allowedContentTypes: InputDoument.readableContentTypes,
                     allowsMultipleSelection: true,
