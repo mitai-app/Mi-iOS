@@ -141,9 +141,7 @@ func handleGetRequest(socket: Socket, path: String, headers: [String: String], c
         debugPrint(file)
         if let data = NSDataAsset(name: file)?.data {
             let result = String(data: data, encoding: .utf8)
-            
             try? socket.write(from: "HTTP/1.1 200 OK\r\nContent-Length: \(result!.count)\r\n\r\n\(result!)\r\n0\r\n\r\n")
-            
         } else {
             debugPrint("Eh")
         }
@@ -174,9 +172,6 @@ func handleWebClient(client: Socket) async {
                 }
             })
             
-            debugPrint(typeOfRequest)
-            debugPrint(o)
-            debugPrint(content[1])
             if typeOfRequest.starts(with: "GET") {
                 var path = typeOfRequest.replacingOccurrences(of: "GET ", with: "").replacingOccurrences(of: " HTTP/1.1", with: "")
                 handleGetRequest(socket: client, path: path, headers: o, content: content[1])

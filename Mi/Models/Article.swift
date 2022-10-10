@@ -22,23 +22,23 @@ class Constants {
         BasicViewType(
             name: "What is Mi?",
             description: "Learn more about what you can do with Mi.",
-            icon: nil,
+            icon: "question",
             link: "https://github.com/mitai-app"
         ),
         PayloadViewType(
             name: "Recommended Payload",
             description: "GoldHen, The all-time reccomended payload developed by sistro",
-            icon: "https://avatars.githubusercontent.com/u/91367123?s=200&v=4",
-            banner: "https://avatars.githubusercontent.com/u/91367123?s=200&v=4",
+            icon: nil,
+            banner: "",
             link: "https://github.com/GoldHen/GoldHen",
             source: "",
             download: [:]
         ),
-        BasicViewType(name: "Invite your friend", description: "This bad boy will send payloads to your ps4 and manage your ps3", icon: "money", link: nil),
+        BasicViewType(name: "Invite your friend", description: "This bad boy will send payloads to your ps4 and manage your ps3", icon: "help", link: nil),
         ProfileViewType(
             name: "Smithy",
             description: "Learn more about the creator of Mi",
-            icon: nil,
+            icon: "money",
             link: "https://twitter.com/MrSmithyx"
         ),
         BasicViewType(
@@ -48,10 +48,10 @@ class Constants {
             link: nil
         ),
         ReadableViewType(
-            name: "For More Information",
-            description: "Visit the project page for more information and updates.",
-            icon: "red",
-            link: "https://github.com/mitai-app",
+            name: "Support Mi",
+            description: "Visit the project page to see how you can support Mi.",
+            icon: "team",
+            link: "https://ko-fi.com/mrsmithyx",
             author: "Mr Smithy x",
             summary: "We will talk more about this",
             paragraphs: [

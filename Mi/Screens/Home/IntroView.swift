@@ -94,7 +94,7 @@ struct ExtractedView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .background(.white)
                         }
-                    }.frame(maxHeight: 240).blur(radius: 1)
+                    }.frame(maxHeight: 240)
                 }
             }
             .cornerRadius(20)
@@ -117,7 +117,7 @@ struct ExtractedView: View {
             
             if let link = article.link {
                 if let url = URL(string: link) {
-                    UIApplication.shared.open(url, options: [.universalLinksOnly: true])
+                    openURL(url)
                 }
             }
         }
