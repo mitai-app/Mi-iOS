@@ -358,6 +358,10 @@ extension FTP {
         return false
     }
     
+    func createDir(dir: String) async -> Bool {
+        return await mkd(dir: dir)
+    }
+    
     func getCurrentDir() async -> Bool {
         return await list()
     }

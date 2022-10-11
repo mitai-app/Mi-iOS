@@ -56,6 +56,10 @@ class FTPViewModel: ObservableObject, FTPDelegate {
         delegate?.onList(dirs: dirs)
     }
     
+    func makeDir(dir: String) async -> Bool {
+        return await ftp.createDir(dir: dir)
+    }
+    
     func onFileSaved(action: ActionData) {
         debugPrint("recieved \(action)")
         let dir = getDocumentsDirectory()
@@ -119,9 +123,16 @@ struct FTPView: View {
                         }
                     
                         Button {
-                            print("New Folder")
-                            withAnimation(.default) {
-                                show.toggle()
+                            alertMessage(
+                                title: "Create",
+                                message: "Create new folder",
+                                placeholder: "folder name",
+                                onConfirm: { string in
+                                    Task {
+                                        await vm.makeDir(dir: string)
+                                    }
+                                }) {
+                                    // do nothing
                             }
                         } label: {
                             Label("New Folder", systemImage: "folder.badge.plus")

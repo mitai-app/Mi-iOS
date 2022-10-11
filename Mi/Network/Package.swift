@@ -17,7 +17,6 @@ struct PackageResponse: Decodable, Identifiable {
     let banner: String
     let description: String
     let packages: [PackageModel]
-    let lastUpdated: String
 }
 
 struct PackageModel: Decodable, Identifiable {
@@ -48,6 +47,22 @@ class Package {
                 guard let changelog = response.value else {return}
                 onComplete(changelog)
             }
+    }
+    
+    static func findRepo(
+        url: String,
+        onComplete: @escaping (PackageResponse) -> Void,
+        onError: @escaping (String) -> Void
+    ) {
+        AF.request(url, method: .get)
+            .validate()
+            .responseDecodable(of: PackageResponse.self) { response in
+            guard let changelog = response.value else {
+                onError("Invalid repo")
+                return
+            }
+            onComplete(changelog)
+        }
     }
     
     static func searchBin(search: String, onComplete: @escaping (PackageResponse) -> Void) {

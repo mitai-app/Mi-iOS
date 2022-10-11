@@ -14,16 +14,39 @@ struct ConsoleSectionView: View {
     @State var consoles: Bool = false
     var body: some View {
         VStack {
-            if sync.active.count > 0 {
-                Text("Found")
-                    .font(.title).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-            } else {
-                Text("Searching...")
-                    .font(.title).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
+            HStack {
+                if sync.active.count > 0 {
+                    Text("Found")
+                        .font(.title).bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                } else {
+                    Text("Searching...")
+                        .font(.title).bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                }
+                Button(action: {
+                    alertMessage(
+                        title: "Add",
+                        message: "Add a new console via ip",
+                        placeholder: "console ip",
+                        onConfirm: { string in
+                            SyncServiceImpl.shared.active.append(Console(
+                                ip: string,
+                                name: string,
+                                wifi: "",
+                                lastKnownReachable: true, type: PlatformType.unknown(features: []),
+                                features: [],
+                                pinned: false))
+                        }) {
+                            // do nothing
+                        }
+                }, label: {
+                    Image(systemName: "plus.circle")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }).padding().foregroundColor(Color("navcolor"))
             }
             ScrollView(.vertical) {
                 ForEach($sync.active) { item in

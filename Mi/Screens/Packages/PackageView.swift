@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import FilesProvider
+import UIKit
 import Kingfisher
 
 class PackageViewModel: ObservableObject {
@@ -33,17 +33,16 @@ class PackageViewModel: ObservableObject {
     func searchPackages(search: String) {
         Package.searchBin(search: search) { [weak self] response in
             self?.response.append(response)
-            self?.response.append(PackageResponse(title: "Title", author: "Author", banner: "Banner", description: "Description", packages: [PackageModel(
-                name: "GoldHen",
-                author: "SiStRo",
-                version: "2.2.4",
-                type: PackageType.plugin,
-                icon: "https://avatars.githubusercontent.com/u/91367123?s=50&v=4",
-                link: "https://github.com/GoldHEN/GoldHEN/blob/19d768eef604b5df16f4be87755c9877c70a0b55/goldhen_2.2.4_900.bin?raw=true",
-                dl: [:])], lastUpdated: ""))
         }
     }
     
+    func addSource(source: String) {
+        Package.findRepo(url: source) { response in
+            self.response.append(response)
+        } onError: { error in
+            debugPrint(error)
+        }
+    }
     
     func searchPackages(find: String) {
         let result  = self.response.flatMap { model in model.packages}.filter { package in
@@ -81,6 +80,7 @@ struct PackageView: View {
     @State var search = ""
     @State var source = ""
     
+    @Environment(\.openURL) private var openURL
     @EnvironmentObject var sync: SyncServiceImpl
     @State var showingAlert: Bool = false
     
@@ -114,6 +114,7 @@ struct PackageView: View {
 }
 
 extension PackageView {
+
     
     var textFieldView: some View {
         VStack {
@@ -134,20 +135,22 @@ extension PackageView {
                 .padding(Edge.Set.trailing, 8)
                 Spacer()
                 Button(action: {
-                    showingAlert.toggle()
+                    alertMessage(
+                        title: "Enter repo url",
+                        message: "Add a repository",
+                        placeholder: "repository url here",
+                        onConfirm: { string in
+                            if string.verifyUrl() {
+                                vm.addSource(source: string)
+                            }
+                        }) {
+                            // do nothing
+                        }
                 }, label: {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
                 }).foregroundColor(Color("navcolor"))
-                    .alert("Source", isPresented:$showingAlert, actions: {
-                        TextField("Repo url", text: $source)
-                        Button("Add", action: {})
-                        Button("Cancel", role: .cancel, action: {})
-                    }, message: {
-                        Text("Add a repository")
-                    })
-                
             }
         }
     }

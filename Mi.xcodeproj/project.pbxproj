@@ -58,6 +58,7 @@
 		1787A36F28F36CD300997B9E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A36E28F36CD300997B9E /* File.swift */; };
 		17CB452328F4C8E500F9EE80 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452228F4C8E500F9EE80 /* ArticleView.swift */; };
 		17CB452528F4C9A000F9EE80 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452428F4C99F00F9EE80 /* LogView.swift */; };
+		17CB452728F51FB900F9EE80 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452628F51FB800F9EE80 /* AlertHelper.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
@@ -155,6 +156,7 @@
 		1787A36E28F36CD300997B9E /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		17CB452228F4C8E500F9EE80 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		17CB452428F4C99F00F9EE80 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		17CB452628F51FB800F9EE80 /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -419,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				1755336728F09EBD00F7B503 /* ObservedObjectCollection.swift */,
+				17CB452628F51FB800F9EE80 /* AlertHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -479,20 +482,19 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				17F1787A28DE89E9001E010A /* Screens */,
+				17F1788928DEB035001E010A /* Network */,
+				17F1787E28DE8B2B001E010A /* Models */,
 				1755336928F1FF4800F7B503 /* IO */,
 				1755336628F09EA200F7B503 /* Helpers */,
 				171B23EF28EE60BF0050DAB9 /* Extensions */,
-				174BF30F28E5398700D6DDF2 /* Info.plist */,
 				174DD77128E3F1AE007244B5 /* SimplePing */,
 				17480A9028E0B696000DF33F /* Constants */,
-				17F1788928DEB035001E010A /* Network */,
-				17F1787E28DE8B2B001E010A /* Models */,
-				17F1787128DE7E08001E010A /* Navigation */,
-				17F1787A28DE89E9001E010A /* Screens */,
 				17F1783428DE552B001E010A /* MiApp.swift */,
 				17F1783D28DE5532001E010A /* Persistence.swift */,
 				17F1783828DE5532001E010A /* Assets.xcassets */,
 				17F1783F28DE5532001E010A /* Mi.xcdatamodeld */,
+				174BF30F28E5398700D6DDF2 /* Info.plist */,
 				17F1783A28DE5532001E010A /* Preview Content */,
 			);
 			path = Mi;
@@ -528,7 +530,6 @@
 			children = (
 				173CBA8B28E6577800983E18 /* CustomNavBar */,
 				174BF31028E63BBB00D6DDF2 /* CustomTabBar */,
-				17F1783628DE552B001E010A /* ContentView.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -536,6 +537,8 @@
 		17F1787A28DE89E9001E010A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				17F1783628DE552B001E010A /* ContentView.swift */,
+				17F1787128DE7E08001E010A /* Navigation */,
 				171B23EE28ECC64B0050DAB9 /* Home */,
 				1704AE0728EBAF8D00B1DF53 /* Console */,
 				1704AE0628EBAF7800B1DF53 /* FTP */,
@@ -756,6 +759,7 @@
 				17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */,
 				17F1787728DE82B4001E010A /* FTPView.swift in Sources */,
 				173CBA8D28E6579E00983E18 /* AppBarNavView.swift in Sources */,
+				17CB452728F51FB900F9EE80 /* AlertHelper.swift in Sources */,
 				17480A9928E0BCBE000DF33F /* ConsoleSectionView.swift in Sources */,
 				174BF31228E63BD900D6DDF2 /* AppTabBarView.swift in Sources */,
 				17480A9628E0BC33000DF33F /* ConsoleListItem.swift in Sources */,

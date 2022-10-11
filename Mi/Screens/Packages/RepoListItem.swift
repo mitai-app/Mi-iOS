@@ -72,7 +72,7 @@ struct RepoListItem_Previews: PreviewProvider {
             type: PackageType.plugin,
             icon: "https://avatars.githubusercontent.com/u/91367123?s=50&v=4",
             link: "https://github.com/GoldHEN/GoldHEN/blob/19d768eef604b5df16f4be87755c9877c70a0b55/goldhen_2.2.4_900.bin?raw=true",
-            dl: [:])], lastUpdated: "")
+            dl: [:])])
         RepoListItem(response: response)
     }
 }
