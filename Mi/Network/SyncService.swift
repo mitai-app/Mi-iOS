@@ -63,6 +63,8 @@ class SyncServiceImpl: ObservableObject, SyncService {
     static let psx = PSXService()
     static let shared: SyncServiceImpl = SyncServiceImpl()
     
+    @Published
+    var logs: [MiResponse] = []
     
     static func test() -> SyncServiceImpl {
         let sync = SyncServiceImpl()

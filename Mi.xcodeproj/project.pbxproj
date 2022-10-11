@@ -56,6 +56,8 @@
 		1787A33D28F3259200997B9E /* FTPFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A33C28F3259200997B9E /* FTPFile.swift */; };
 		1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A33E28F325B600997B9E /* FTPDelegate.swift */; };
 		1787A36F28F36CD300997B9E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A36E28F36CD300997B9E /* File.swift */; };
+		17CB452328F4C8E500F9EE80 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452228F4C8E500F9EE80 /* ArticleView.swift */; };
+		17CB452528F4C9A000F9EE80 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452428F4C99F00F9EE80 /* LogView.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
@@ -151,6 +153,8 @@
 		1787A33C28F3259200997B9E /* FTPFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPFile.swift; sourceTree = "<group>"; };
 		1787A33E28F325B600997B9E /* FTPDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPDelegate.swift; sourceTree = "<group>"; };
 		1787A36E28F36CD300997B9E /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		17CB452228F4C8E500F9EE80 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
+		17CB452428F4C99F00F9EE80 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +281,8 @@
 		171B23EE28ECC64B0050DAB9 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				17CB452128F4C8C400F9EE80 /* Article */,
+				17CB452028F4C8B600F9EE80 /* Logging */,
 				1704AE0528EBAECF00B1DF53 /* Changelog */,
 				171B23EC28ECC6440050DAB9 /* IntroView.swift */,
 			);
@@ -432,6 +438,22 @@
 				1787A36E28F36CD300997B9E /* File.swift */,
 			);
 			path = Host;
+			sourceTree = "<group>";
+		};
+		17CB452028F4C8B600F9EE80 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				17CB452428F4C99F00F9EE80 /* LogView.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		17CB452128F4C8C400F9EE80 /* Article */ = {
+			isa = PBXGroup;
+			children = (
+				17CB452228F4C8E500F9EE80 /* ArticleView.swift */,
+			);
+			path = Article;
 			sourceTree = "<group>";
 		};
 		17F1782828DE552A001E010A = {
@@ -752,12 +774,14 @@
 				174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */,
 				1755336D28F2098200F7B503 /* OutputDocument.swift in Sources */,
 				174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */,
+				17CB452528F4C9A000F9EE80 /* LogView.swift in Sources */,
 				173CBA8F28E6593100983E18 /* CustomNavBarView.swift in Sources */,
 				1755336528EFBB0400F7B503 /* FTP.swift in Sources */,
 				17F1783E28DE5532001E010A /* Persistence.swift in Sources */,
 				17F1787528DE7F55001E010A /* ConsoleView.swift in Sources */,
 				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
 				17F1784128DE5532001E010A /* Mi.xcdatamodeld in Sources */,
+				17CB452328F4C8E500F9EE80 /* ArticleView.swift in Sources */,
 				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
 				1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */,
 				171B23F128EE60DE0050DAB9 /* ViewExtensions.swift in Sources */,
@@ -962,6 +986,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -997,6 +1022,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

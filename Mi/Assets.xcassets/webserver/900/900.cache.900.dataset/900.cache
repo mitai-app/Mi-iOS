@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# random: d42a820bab818dacd6cd97482532888c
+
+CACHE:
+index.html
+cache.html
+gh.js
+mi.js
+exploit.js
+
+NETWORK:
+*

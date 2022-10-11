@@ -17,13 +17,12 @@ class Goldhen {
     static let shared = Goldhen()
     
     static func uploadData(data: Data) -> Bool {
-        if(Goldhen.shared.write(string: data)) {
-            Goldhen.shared.socket?.close()
-            return true
-        }
-        return false
+        return Goldhen.shared.write(string: data)
     }
     
+    static func uploadData9020(data: Data) -> Bool {
+        return Goldhen.shared.write(string: data)
+    }
     
     
     private init() {
@@ -33,11 +32,12 @@ class Goldhen {
     
     func write(string: Data) -> Bool {
         print("Lets write")
-        if socket != nil {
+        if let sock = socket {
             print("Socket is not nil")
             do {
-                let bytesWritten = try socket!.write(from: string)
+                let bytesWritten = try sock.write(from: string)
                 print("Bytes: Written: \(bytesWritten)")
+                sock.close()
                 return bytesWritten > 0
             } catch {
                 print("Unable to write string:  \(error)")

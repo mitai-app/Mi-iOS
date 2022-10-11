@@ -8,6 +8,59 @@
 import Foundation
 import SwiftUI
 
+
+class Constants {
+    
+    static var goldhen: Data? = nil
+    static let TITLE = "Mi - JB Host"
+    static let BODY = "Mi"
+    static let ARTICLES = [
+        BasicViewType(
+            name: "What is Mi?",
+            description: "Learn more about what you can do with Mi.",
+            icon: "question",
+            link: "https://github.com/mitai-app"
+        ),
+        PayloadViewType(
+            name: "Recommended Payload",
+            description: "GoldHen, The all-time reccomended payload developed by sistro",
+            icon: nil,
+            banner: "",
+            link: "https://github.com/GoldHen/GoldHen",
+            source: "",
+            download: [:]
+        ),
+        BasicViewType(name: "Invite your friend", description: "This bad boy will send payloads to your ps4 and manage your ps3", icon: "help", link: nil),
+        ProfileViewType(
+            name: "Smithy",
+            description: "Learn more about the creator of Mi",
+            icon: "money",
+            link: "https://twitter.com/MrSmithyx"
+        ),
+        BasicViewType(
+            name: "Special Thanks",
+            description: "Specials thanks to the jailbreak scene developers for making this possible.",
+            icon: nil,
+            link: nil
+        ),
+        ReadableViewType(
+            name: "Support Mi",
+            description: "Visit the project page to see how you can support Mi.",
+            icon: "team",
+            link: "https://ko-fi.com/mrsmithyx",
+            author: "Mr Smithy x",
+            summary: "We will talk more about this",
+            paragraphs: [
+                "This is cool"
+            ],
+            credit: "Mr Smithy x"
+        )
+    ] as Array<Article>
+    
+    
+}
+
+
 let grads: [LinearGradient] = [
     LinearGradient(
         gradient: Gradient(

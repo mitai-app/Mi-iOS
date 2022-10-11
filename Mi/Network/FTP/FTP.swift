@@ -66,7 +66,7 @@ class FTP: ObservableObject {
             return false
         }
         do {
-            try socket.connect(to: ip, port: Int32(port))
+            try socket.connect(to: ip, port: Int32(port), timeout: 500)
             await close()
             if(socket.isConnected){
                 self.socket = socket
@@ -192,7 +192,7 @@ class FTP: ObservableObject {
 
     private func readFromDataSock() async -> Bool {
         self.data = try! Socket.create()
-        try! data.connect(to: socket.remoteHostname, port: Int32(dataPort))
+        try! data.connect(to: socket.remoteHostname, port: Int32(dataPort), timeout: 1000)
         guard let bytes = try? data.readString() else {
             debugPrint("unabled to read from data sock")
             data?.close()
