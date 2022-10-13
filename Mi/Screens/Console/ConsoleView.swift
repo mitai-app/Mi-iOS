@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-class ConsoleViewModel: ObservableObject {
-    
- 
-}
-
 struct ConsoleView: View {
     
     @StateObject private var vm: ConsoleViewModel = ConsoleViewModel()

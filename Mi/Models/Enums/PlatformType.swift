@@ -7,36 +7,63 @@
 
 import Foundation
 
-enum PlatformType: CaseIterable, Equatable {
+enum PlatformType: Int16 {
+  
+    case unknown = 0, ps3, ps4, ps5
+    
+}
+
+
+extension PlatformType: CaseIterable, Equatable {
+   
     static var allCases: [PlatformType] {
-        return [unknown(), ps3(), ps4()]
+        return [.unknown, .ps3, .ps4, .ps5]
     }
     
-    
-    case unknown(features: [Feature] = [Feature.ftp()])
-    case ps3(features: [Feature] = [
-            Feature.ps3mapi(),
-            Feature.webman(),
-            Feature.ccapi()
-        ]
-    )
-    case ps4(features: [Feature] = [
-            Feature.goldhen(),
-            Feature.netcat(),
-            Feature.orbisapi(),
-            Feature.rpi(),
-            Feature.klog()
-        ]
-    )
     
     var title: String {
         switch(self) {
-        case .unknown(_):
+        case .unknown:
             return "Unknown"
-        case .ps4(_):
+        case .ps5:
             return "PS4"
-        case .ps3(_):
+        case .ps4:
+            return "PS4"
+        case .ps3:
             return "PS3"
         }
     }
+    
+    var features: [Feature] {
+        return PlatformType.getFeature(platform: self)
+    }
+    
+    static func getFeature(platform: PlatformType) -> [Feature] {
+        switch platform {
+            
+        case .unknown:
+            return [
+                Feature.ftp
+            ]
+        case .ps3:
+            return [
+                    Feature.ps3mapi,
+                    Feature.webman,
+                    Feature.ccapi
+                ]
+        case .ps4:
+            return [
+                Feature.goldhen,
+                Feature.netcat,
+                Feature.orbisapi,
+                Feature.rpi,
+                Feature.klog
+            ]
+        case .ps5:
+            return [
+                Feature.klog
+            ]
+        }
+    }
+    
 }

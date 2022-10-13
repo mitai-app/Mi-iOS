@@ -28,16 +28,17 @@ class WebmanGameViewModel: ObservableObject {
     
     func getGames(console: Console) async {
         Webman.getGames(ip: console.ip, onComplete: { res in
-            do {
-                if let data = try res.result.get() {
-                    let games = Game.parse(ip: console.ip, data: data)
-                    DispatchQueue.main.async { [weak self] in
-                        
-                        self?.games = games
+            Task(priority: .background) {
+                do {
+                    if let data = try res.result.get() {
+                        let games = Game.parse(ip: console.ip, data: data)
+                        await MainActor.run {
+                            self.games = games
+                        }
                     }
+                }catch {
+                    
                 }
-            }catch {
-                
             }
             
         })
@@ -52,46 +53,44 @@ struct WMGameView: View {
     var console: Console = fakeConsoles[0]
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Games")
                 .font(.title2)
                 .fontWeight(.bold)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 120), spacing: 16)], spacing: 16) {
-                ForEach(vm.games) { game in
-                    VStack(spacing: 0) {
-                        VStack {
-                            KFImage(URL(string: game.icon))
-                                .placeholder {
-                                    
-                                    Image(systemName: "gear")
-                                        .resizable()
-                                        .padding()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: .infinity)
-                        }.background(Color("tertiary"))
-                        VStack {
-                            Text(game.title)
-                                .lineLimit(1)
-                                .padding()
-                                .foregroundColor(Color.white)
+            ScrollView(.horizontal) {
+                HStack(spacing: 8) {
+                    ForEach(vm.games) { game in
+                        VStack(spacing: 0) {
+                            VStack {
+                                KFImage(URL(string: game.icon))
+                                    .placeholder {
+                                        Image(systemName: "gear")
+                                            .resizable()
+                                            .padding()
+                                            .aspectRatio(contentMode: .fit)
+                                    }
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+                            VStack {
+                                Text(game.title)
+                                    .lineLimit(1)
+                                    .padding()
+                                    .foregroundColor(Color("foreground"))
+                            }
                         }
-                    }.background(Color("tertiary"))
-                    .cornerRadius(20)
-                    .shadow(color: .black, radius: 9, x: 0, y: 5)
-                    .onTapGesture {
-                        Task {
-                            await vm.playGame(console: console, game: game)
+                        .frame(maxWidth: 150)
+                        .onTapGesture {
+                            Task(priority: .background) {
+                                await vm.playGame(console: console, game: game)
+                            }
                         }
                     }
                 }
             }
-        }.padding()
+        }.padding().frame(maxHeight: 300)
             .onAppear {
-                Task {
+                Task(priority: .background) {
                     await vm.getGames(console: console)
                 }
             }

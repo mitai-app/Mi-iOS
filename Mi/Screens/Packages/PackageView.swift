@@ -19,7 +19,9 @@ class PackageViewModel: ObservableObject {
     @Published var results: [PackageModel] = []
     @Published var response: [PackageResponse] = []
     
-    init() {}
+    init() {
+        searchPackages(search: "https://raw.githubusercontent.com/mitai-app/versioning/main/packages.json")
+    }
     
     func verifyUrl (urlString: String?) -> Bool {
         if let urlString = urlString {
@@ -36,9 +38,10 @@ class PackageViewModel: ObservableObject {
         }
     }
     
-    func addSource(source: String) {
+    func addSource(source: String, onResponse: @escaping (PackageResponse) -> Void) {
         Package.findRepo(url: source) { response in
             self.response.append(response)
+            onResponse(response)
         } onError: { error in
             debugPrint(error)
         }
@@ -50,26 +53,37 @@ class PackageViewModel: ObservableObject {
         }
         self.results = result
     }
+    
+    func searchPackages(find: FetchedResults<RepositoryEntity>) {
+        find.forEach { entity in
+            if let link = entity.link {
+                searchPackages(search: link)
+            }
+        }
+    }
+    
     func startDownload(_ console: Console, _ model: PackageModel, _ version: String, _ link: String) {
         print("Downloading \(model.name): \(model.version) - \(version)")
         SyncServiceImpl.psx.getRequest(url: link) { res in
-            do {
-                if let data = try res.result.get() {
-                    print("Downloaded \(model.name): \(model.version) - \(version)")
-                    DispatchQueue.global().async {
+            Task(priority: .background) {
+                do {
+                    if let data = try res.result.get() {
+                        print("Downloaded \(model.name): \(model.version) - \(version)")
                         print("Connecting to goldenhen via \(console.ip) and sending payload")
-                        if Goldhen.uploadData(data: data) {
-                            DispatchQueue.main.async {
+                        if await Goldhen.uploadData(data: data) {
+                            await MainActor.run {
                                 print("Uploaded to goldenhen \(model.name): \(model.version) - \(version)")
                             }
                         }
+                        
                     }
+                } catch {
+                    print("Error downloading \(model.name): \(model.version) - \(version)")
+                    debugPrint(error)
                 }
-            } catch {
-                print("Error downloading \(model.name): \(model.version) - \(version)")
-                debugPrint(error)
             }
         }
+            
     }
     
 }
@@ -81,8 +95,15 @@ struct PackageView: View {
     @State var source = ""
     
     @Environment(\.openURL) private var openURL
+    @Environment(\.managedObjectContext) private var moc
     @EnvironmentObject var sync: SyncServiceImpl
     @State var showingAlert: Bool = false
+    
+    @FetchRequest<RepositoryEntity>(
+        entity: RepositoryEntity.entity(),
+        sortDescriptors: []
+    ) var savedEntities: FetchedResults<RepositoryEntity>
+    
     
     @StateObject var vm: PackageViewModel = PackageViewModel()
     
@@ -107,7 +128,7 @@ struct PackageView: View {
             }.customNavigationTitle("Packages")
             .customNavigationBarBackButtonHidden(true)
             .onAppear {
-                vm.searchPackages(search: search)
+                vm.searchPackages(find: savedEntities)
             }
         }
     }
@@ -141,7 +162,15 @@ extension PackageView {
                         placeholder: "repository url here",
                         onConfirm: { string in
                             if string.verifyUrl() {
-                                vm.addSource(source: string)
+                                vm.addSource(source: string) { response in
+                                    do {
+                                        var repo = RepositoryEntity(context: moc)
+                                        repo.link = string
+                                        try moc.save()
+                                    } catch {
+                                        print("unable to save")
+                                    }
+                                }
                             }
                         }) {
                             // do nothing

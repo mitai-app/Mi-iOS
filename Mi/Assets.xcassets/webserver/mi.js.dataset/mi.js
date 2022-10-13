@@ -75,6 +75,12 @@ function sendStart(){
     sendCommand(message, cmd)
 }
 
+function sendInitiated() {
+    var message = "Loaded home page"
+    var cmd = "jb.initiated"
+    sendCommand(message, cmd)
+}
+
 function sendMiSuccess(){
     var message = "You're all set! Special thanks to the special players in the JB Community!"
     var cmd = "jb.success"
@@ -83,14 +89,14 @@ function sendMiSuccess(){
 }
 
 function sendPayload(){
-    var message = "mi.js is requesting payload to send to port 9020"
+    var message = "mi.js is fetching payload to send to port 9020"
     var cmd = "send.pending"
     sendCommand(message, cmd)
 }
 
 
 function sendPayloadRequest(){
-    var message = "mi.js is requesting payload"
+    var message = "mi.js is fetching the payload"
     var cmd = "send.payload.request"
     sendCommand(message, cmd)
 }

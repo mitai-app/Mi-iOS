@@ -4,7 +4,7 @@ CACHE MANIFEST
 CACHE:
 index.html
 cache.html
-gh.js
+gh.bin
 mi.js
 exploit.js
 

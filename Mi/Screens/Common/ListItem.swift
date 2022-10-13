@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import FilesProvider
 
 struct ListItem: View {
     

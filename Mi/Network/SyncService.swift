@@ -9,6 +9,8 @@ import Foundation
 import Alamofire
 import Socket
 import SwiftUI
+import CoreData
+import SystemConfiguration.CaptiveNetwork
 
 protocol SyncService {
     var target: Console? { get }
@@ -17,7 +19,7 @@ protocol SyncService {
     var ftp: [String: FTP] {get set}
     
     func getPotentialClients() -> [Console]
-    func getSocket(feat: Feature) -> Socket?
+    func getSocket(feat: Feature) async -> Socket?
     func findDevices(_ onCallback: (([Console]) -> Void)?)
     func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void)
     func getRequest(url: String, params: [String:[String]], onComplete: @escaping (AFDataResponse<Data?>) -> Void)
@@ -25,13 +27,18 @@ protocol SyncService {
 
 class SyncServiceImpl: ObservableObject, SyncService {
     
-    
     @Published var target: Console?
     @Published var active: [Console] = []
-    
-    private var map: [String:[Feature:Socket]] = [:]
     @Published var ftp: [String:FTP] = [:]
+    @Published var logs: [MiResponse] = []
+    var moc: NSManagedObjectContext {
+        PersistenceController.shared.container.viewContext
+    }
+    private var map: [String:[Feature:Socket]] = [:]
     private var task: Task<(), Never>?
+    
+    static let psx = PSXService()
+    static let shared: SyncServiceImpl = SyncServiceImpl()
     
     var ip: String? {
         return target?.ip
@@ -47,9 +54,9 @@ class SyncServiceImpl: ObservableObject, SyncService {
             return false
         }
         if FTP.ip != console.ip {
-            return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
+            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
         } else if !FTP.isConnected {
-            return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
+            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
         } else {
             let o = FTP.isConnected
             // keep main socket? close all others?
@@ -60,12 +67,6 @@ class SyncServiceImpl: ObservableObject, SyncService {
         }
     }
     
-    static let psx = PSXService()
-    static let shared: SyncServiceImpl = SyncServiceImpl()
-    
-    @Published
-    var logs: [MiResponse] = []
-    
     static func test() -> SyncServiceImpl {
         let sync = SyncServiceImpl()
         sync.active = fakeConsoles
@@ -73,7 +74,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
         return sync
     }
     
-    func getSocket(feat: Feature) -> Socket? {
+    func getSocket(feat: Feature) async -> Socket? {
         if let ip = self.ip {
             if map[ip] == nil {
                 map[ip] = [:]
@@ -81,11 +82,16 @@ class SyncServiceImpl: ObservableObject, SyncService {
             var socket = map[ip]?[feat]
             if socket == nil || socket?.isConnected == false || (socket?.isConnected == true && socket?.remoteConnectionClosed == true) {
                 do {
-                    let ports = Feature.getPort(feat: feat)
-                    for port in ports {
+                    for port in feat.ports {
                         socket = try Socket.create()
                         try socket?.connect(to: ip, port: Int32(port), timeout: 200)
                         map[ip]![feat] = socket
+                        
+                        if feat == .ps3mapi {
+                            try? socket?.readString()
+                            try? socket?.readString()
+                        }
+                        
                         return socket
                     }
                 } catch  {
@@ -137,6 +143,16 @@ class SyncServiceImpl: ObservableObject, SyncService {
         return address
     }
     
+    
+    func getWiFiSsid() -> String? {
+        let interfaces = CNCopySupportedInterfaces() as [AnyObject]?
+        let interfaceNames = interfaces?.map { $0 as! CFString }
+        let interfaceDictionaries = interfaceNames?.flatMap { CNCopyCurrentNetworkInfo($0) as? [String : AnyObject] }
+        return interfaceDictionaries?.flatMap { $0[kCNNetworkInfoKeySSID as String] as? String }
+                                     .first
+    }
+    
+    
     private enum Network: String {
         case wifi = "en0"
         case cellular = "pdp_ip0"
@@ -144,6 +160,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
         case ipv6 = "ipv6"
     }
     
+
     
    /**
     * Fetch All Connected Clients on the network
@@ -158,15 +175,48 @@ class SyncServiceImpl: ObservableObject, SyncService {
         let last = localDeviceIp.lastIndex(of: ".")!
         let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
         print("Constructed: \(pre)")
-        self.task = Task {
+        self.task = Task(priority: .background) {
+            let wifi = getWiFiSsid()
+            print(wifi ?? "no wifi?")
+            var values: [ConsoleEntity] = []
+            do {
+                values = try moc.fetch(ConsoleEntity.fetchRequest())
+            } catch {
+                print("Unable to fetch: \(error.localizedDescription)")
+                print("Unable to fetch: \(error)")
+            }
             for i in 0..<256 {
                 let ip = "\(pre)\(i)"
-                guard let console = await checkIp(ip: ip) else
+                guard let console = await checkIp(ip: ip, wifi: wifi) else
                 {
                     continue
                 }
-                await MainActor.run {
-                    self.active.append(console)
+                if let exist = values.first(where: { c in
+                    c.ip == console.ip && c.wifi == console.wifi
+                }) {
+                    await MainActor.run {
+                        do {
+                            exist.features = try! JSONEncoder().encode(console.features)
+                            exist.type = console.type.rawValue
+                            exist.name = console.name
+                            exist.lastKnownReachable = true
+                            try moc.save()
+                            print("Saved content")
+                        } catch {
+                            print("Did not update: \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    await MainActor.run {
+                        do {
+                            self.active.append(console)
+                            console.toConsoleEntity(moc: moc)
+                            
+                            try moc.save()
+                        } catch {
+                            print("Did not save: \(error.localizedDescription)")
+                        }
+                    }
                 }
             }
             //self.active = consoles
@@ -178,56 +228,14 @@ class SyncServiceImpl: ObservableObject, SyncService {
         }
     }
     
-    private func checkIp(ip: String) async -> Console? {
-        var console: Console =  Console(ip: ip, name: "Device")
+    private func checkIp(ip: String, wifi: String?) async -> Console? {
+        var console: Console =  Console(id: ip, ip: ip ?? "", name: "Device")
         var name: String = ""
         var features: [Feature] = []
-        var platform = PlatformType.unknown()
+        var platform = PlatformType.unknown
         for feat in Feature.allowedToOpen {
-            var proto: Protocols
-            var ports: [Int]
-            switch(feat) {
-            case .none(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .netcat(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .goldhen(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .orbisapi(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .rpi(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .ps3mapi(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .ccapi(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .webman(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .klog(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            case .ftp(protocoll: let protocoll, port: let port):
-                proto =  protocoll
-                ports = port
-                break
-            }
+            let proto: Protocols = feat.prtcl
+            let ports: [Int] = feat.ports
             
             if (proto == Protocols.socket){
                 for port in ports {
@@ -236,15 +244,19 @@ class SyncServiceImpl: ObservableObject, SyncService {
                         try socket.connect(to: ip, port: Int32(port), timeout: 200)
                         print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
                         features.append(feat)
-                        if feat == .ps3mapi() {
+                        
+                        if feat == .ps3mapi && map[ip]?[feat] == nil {
                             name = "Playstation 3"
-                            platform = PlatformType.ps3()
+                            platform = PlatformType.ps3
                             print(try socket.readString() ?? "first")
                             print(try socket.readString() ?? "second")
+                        } else {
+                            name = "Playstation 3"
+                            platform = PlatformType.ps3
                         }
-                        if feat == .orbisapi() || feat == .klog() {
+                        if feat == .orbisapi || feat == .klog {
                             name = "Playstation 4"
-                            platform = PlatformType.ps4()
+                            platform = PlatformType.ps4
                         }
                         
                         if self.map[ip] == nil {
@@ -291,6 +303,9 @@ class SyncServiceImpl: ObservableObject, SyncService {
             console.type = platform
             console.features = features
             console.name = name
+            if wifi != nil {
+                console.wifi = wifi!
+            }
             print("Found console \(console)")
             return console
         }
@@ -305,26 +320,3 @@ class SyncServiceImpl: ObservableObject, SyncService {
         SyncServiceImpl.psx.getRequest(url: url, params: params, onComplete: onComplete)
     }
 }
-
-
-class Payload {
-    static let socket = try! Socket.create()
-    
-    static func Payload(addr: String, port: Int32, payload: Data) -> (str: String?, sucess: Bool) {
-        do {
-            try socket.connect(to: addr, port: port)
-            print("connected to PS4")
-            do {
-                print("sending payload to PS4")
-                try socket.write(from: payload)
-                socket.close()
-                return ("Sent payload to PS4", true)
-            } catch let error {
-                return ("Error sending payload to PS4 \(error)", false)
-            }
-        } catch let error {
-            return ("Cannot connect to PS4 \(error)", false)
-        }
-    }
-}
-

@@ -12,55 +12,110 @@ import Foundation
  * oneshot jb exploit. Our MiJbServer class will handle the netcat
  * payload
  */
-enum Feature: CaseIterable {
+enum Feature: Int16, CaseIterable, Codable {
+    
     static var allCases: [Feature] {
-        return [.none(), .netcat(), .goldhen(), .orbisapi(), .rpi(), .ps3mapi(), .webman(), .klog(), .ftp()]
+        return [.none, .netcat, .goldhen, .orbisapi, .rpi, .ps3mapi, .webman, .klog, .ftp]
     }
     
+    case none = 0, netcat, goldhen,orbisapi,rpi,ps3mapi,ccapi, webman,klog, ftp
     
-    case none(protocoll: Protocols = Protocols.none, port: Array<Int> = Array(arrayLiteral: 0))
-    case netcat(protocoll: Protocols = Protocols.socket, port: Array<Int> = Array(arrayLiteral: 9021, 9020))
-    case goldhen(protocoll: Protocols = Protocols.socket, port: Array<Int> = Array(arrayLiteral: 9090))
-    case orbisapi(protocoll: Protocols = Protocols.socket, port: Array<Int> = Array(arrayLiteral: 6023))
-    case rpi(protocoll: Protocols = Protocols.http, port: Array<Int> = Array(arrayLiteral: 12800))
-    case ps3mapi(protocoll: Protocols = Protocols.socket, port: Array<Int> = Array(arrayLiteral: 7887))
-    case ccapi(protocoll: Protocols = Protocols.http, port: Array<Int> = Array(arrayLiteral: 6333))
-    case webman(protocoll: Protocols = Protocols.http, port: Array<Int> = Array(arrayLiteral: 80))
-    case klog(protocoll: Protocols = Protocols.socket, port: Array<Int> = Array(arrayLiteral: 3232))
-    case ftp(protocoll: Protocols = Protocols.ftp, port: Array<Int> = Array(arrayLiteral: 21, 2121))
+}
 
-   
+extension Array where Element == Feature {
+    func commaSeperated() -> String {
+        return map { $0.title }.joined(separator: ", ").uppercased()
+    }
 }
 
 extension Feature: Hashable {
     
+    var title: String {
+        switch self {
+            
+        case .none:
+            return ""
+        case .netcat:
+            return "Netcat"
+        case .goldhen:
+            return "GoldHen"
+        case .orbisapi:
+            return "OrbisApi"
+        case .rpi:
+            return "Remote Package Installer"
+        case .ps3mapi:
+            return "PS3mapi"
+        case .ccapi:
+            return "CCAPI"
+        case .webman:
+            return "WebMan"
+        case .klog:
+            return "KLog"
+        case .ftp:
+            return "FTP"
+        }
+    }
+    
     func find(id: Int) -> Feature? {
         return Feature.allCases[id]
     }
+    
+    var ports: [Int] {
+        return Feature.getPort(feat: self)
+    }
+    
+    var prtcl: Protocols {
+        return Feature.getType(feat: self)
+    }
+
 
     static func getPort(feat: Feature) -> [Int] {
         switch feat {
-            
-        case .none(protocoll: _, port: let port):
-            return port
-        case .netcat(protocoll: _, port: let port):
-            return port
-        case .goldhen(protocoll: _, port: let port):
-            return port
-        case .orbisapi(protocoll: _, port: let port):
-            return port
-        case .rpi(protocoll: _, port: let port):
-            return port
-        case .ps3mapi(protocoll: _, port: let port):
-            return port
-        case .ccapi(protocoll: _, port: let port):
-            return port
-        case .webman(protocoll: _, port: let port):
-            return port
-        case .klog(protocoll: _, port: let port):
-            return port
-        case .ftp(protocoll: _, port: let port):
-            return port
+        case .none:
+            return []
+        case .netcat:
+            return Array(arrayLiteral: 9021, 9020)
+        case .goldhen:
+            return Array(arrayLiteral: 9090)
+        case .orbisapi:
+            return Array(arrayLiteral: 6023)
+        case .rpi:
+            return Array(arrayLiteral: 12800)
+        case .ps3mapi:
+            return Array(arrayLiteral: 7887)
+        case .ccapi:
+            return Array(arrayLiteral: 6333)
+        case .webman:
+            return Array(arrayLiteral: 80)
+        case .klog:
+            return Array(arrayLiteral: 3232)
+        case .ftp:
+            return Array(arrayLiteral: 21, 2121)
+        }
+    }
+    
+    static func getType(feat: Feature) -> Protocols {
+        switch feat {
+        case .none:
+            return Protocols.none
+        case .netcat:
+            return Protocols.socket
+        case .goldhen:
+            return Protocols.socket
+        case .orbisapi:
+            return Protocols.socket
+        case .rpi:
+            return Protocols.http
+        case .ps3mapi:
+            return Protocols.socket
+        case .ccapi:
+            return Protocols.http
+        case .webman:
+            return Protocols.http
+        case .klog:
+            return Protocols.socket
+        case .ftp:
+            return Protocols.ftp
         }
     }
     
@@ -75,25 +130,25 @@ extension Feature: Hashable {
     static var stableFeatures: [Feature]  {
         return Feature.allCases.filter { feature in
             switch(feature) {
-            case .none(_, _):
+            case .none:
                     return false
-            case .netcat(_, _):
+            case .netcat:
                     return false
-            case .goldhen(_, _):
+            case .goldhen:
                     return true
-            case .orbisapi(protocoll: _, port: _):
+            case .orbisapi:
                     return true
-            case .rpi(protocoll: _, port: _):
+            case .rpi:
                     return true
-            case .ps3mapi(protocoll: _, port: _):
+            case .ps3mapi:
                     return true
-            case .ccapi(protocoll: _, port: _):
+            case .ccapi:
                     return true
-            case .webman(protocoll: _, port: _):
+            case .webman:
                     return true
-            case .klog(protocoll: _, port: _):
+            case .klog:
                     return true
-            case .ftp(protocoll: _, port: _):
+            case .ftp:
                     return true
             }
         }
@@ -105,25 +160,25 @@ extension Feature: Hashable {
         static var allowedToOpen: [Feature]  {
             return Feature.allCases.filter { feature in
                 switch(feature) {
-                case .none(_, _):
+                case .none:
                         return false
-                case .netcat(_, _):
+                case .netcat:
                         return false
-                case .goldhen(_, _):
+                case .goldhen:
                         return false
-                case .orbisapi(protocoll: _, port: _):
+                case .orbisapi:
                         return true
-                case .rpi(protocoll: _, port: _):
+                case .rpi:
                         return false
-                case .ps3mapi(protocoll: _, port: _):
+                case .ps3mapi:
                         return true
-                case .ccapi(protocoll: _, port: _):
+                case .ccapi:
                         return true
-                case .webman(protocoll: _, port: _):
+                case .webman:
                         return true
-                case .klog(protocoll: _, port: _):
+                case .klog:
                         return true
-                case .ftp(protocoll: _, port: _):
+                case .ftp:
                         return false
                 }
             }

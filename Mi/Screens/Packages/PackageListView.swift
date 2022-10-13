@@ -16,10 +16,10 @@ class RepoPackageListViewModel: ObservableObject {
             do {
                 if let data = try res.result.get() {
                     print("Downloaded \(model.name): \(model.version) - \(version)")
-                    DispatchQueue.global().async {
+                    Task(priority: .background) {
                         print("Connecting to goldenhen via \(console.ip) and sending payload")
-                        if Goldhen.uploadData(data: data) {
-                            DispatchQueue.main.async {
+                        if await Goldhen.uploadData(data: data) {
+                            await MainActor.run {
                                 print("Uploaded to goldenhen \(model.name): \(model.version) - \(version)")
                             }
                         }

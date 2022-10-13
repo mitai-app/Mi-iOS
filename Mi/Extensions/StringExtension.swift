@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import UIKit
+import UniformTypeIdentifiers
 
 
 extension String {
+    
+    func copyToClipboard() {
+        UIPasteboard.general.setValue(self, forPasteboardType: UTType.plainText.identifier)
+    }
     
     func strip() -> String {
         return self.replacingOccurrences(of: " ", with: "")

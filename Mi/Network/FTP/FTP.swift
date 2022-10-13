@@ -177,7 +177,7 @@ class FTP: ObservableObject {
             #endif
             
             isAuthenticated = true
-            self.runThread = Task {
+            self.runThread = Task(priority: .background) {
                 if await self.list() {
                     await self.run()
                 }
@@ -265,7 +265,7 @@ class FTP: ObservableObject {
                 let ip = "\(parts[0]).\(parts[1]).\(parts[2]).\(parts[3])"
                 let port = (Int.init(parts[4]) ?? 0) * 256 + (Int.init(parts[5]) ?? 0)
                 self.dataPort = port
-                self.readDataThread = Task {
+                self.readDataThread = Task(priority: .background) {
                     await self.readFromDataSock()
                 }
                 print("\(ip):\(port)")
@@ -321,7 +321,7 @@ class FTP: ObservableObject {
         try? self.server .listen(on: port)
         while (sock.isListening) {
             if let client = try? sock.acceptClientConnection() {
-                let o = Task {
+                let o = Task(priority: .background) {
                     await handleClient(client: client)
                 }
                 clients[o] = client
@@ -417,7 +417,7 @@ extension FTP {
     static func reinitRunThread() {
         if !FTP.isRunThreadAlive {
             debugPrint("Is not running")
-            FTP.shared.runThread = Task {
+            FTP.shared.runThread = Task(priority: .background) {
                 await FTP.shared.run()
             }
         } else {

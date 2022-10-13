@@ -61,13 +61,9 @@ class WMControlViewModel: ObservableObject {
     
     func populate() {
         let enums = [
-            WebmanCommands.beep,
             WebmanCommands.reboot,
             WebmanCommands.shutdown,
             WebmanCommands.refresh,
-            WebmanCommands.insert,
-            WebmanCommands.eject,
-            WebmanCommands.unmount,
         ]
         self.controls = enums
     }
@@ -82,44 +78,46 @@ struct WMControlView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Controls")
+            Text("System Controls")
                 .font(.title2)
                 .fontWeight(.bold)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 60), spacing: 16)], spacing: 16) {
-                ForEach(vm.controls) { control in
-                    VStack {
-                        Image(systemName:control.iconName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:60)
-                        Text(control.title).lineLimit(1)
-                    }
-                    .onTapGesture {
-                        Task {
-                            switch(control) {
-                                case .beep:
-                                await vm.beep()
-                                    break;
-                                case .reboot:
-                                await vm.reboot()
-                                    break;
-                                case .shutdown:
-                                await vm.shutdown()
-                                    break;
-                                case .refresh:
-                                await vm.refresh()
-                                    break;
-                                case .insert:
-                                await vm.insert()
-                                    break;
-                                case .eject:
-                                await vm.eject()
-                                    break;
-                                case .unmount:
-                                await vm.unmount()
-                                    break;
-                                default:
-                                    break;
+            VStack(alignment: .center) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), spacing: 16, alignment: .center)], spacing: 16) {
+                    ForEach(vm.controls) { control in
+                        VStack {
+                            Image(systemName:control.iconName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:40)
+                            Text(control.title).lineLimit(1)
+                        }
+                        .onTapGesture {
+                            Task {
+                                switch(control) {
+                                    case .beep:
+                                    await vm.beep()
+                                        break;
+                                    case .reboot:
+                                    await vm.reboot()
+                                        break;
+                                    case .shutdown:
+                                    await vm.shutdown()
+                                        break;
+                                    case .refresh:
+                                    await vm.refresh()
+                                        break;
+                                    case .insert:
+                                    await vm.insert()
+                                        break;
+                                    case .eject:
+                                    await vm.eject()
+                                        break;
+                                    case .unmount:
+                                    await vm.unmount()
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
                     }

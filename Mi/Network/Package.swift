@@ -40,7 +40,7 @@ enum PackageType: String, Decodable, CodingKey {
 class Package {
     
     static func getMeta(onComplete: @escaping (Changelog) -> Void) {
-        let url = "https://raw.githubusercontent.com/Mr-Smithy-x/Mi/main/meta.json"
+        let url = "https://raw.githubusercontent.com/mitai-app/versioning/main/ios.json"
         AF.request(url, method: .get)
             .validate()
             .responseDecodable(of: Changelog.self) { response in
@@ -66,8 +66,7 @@ class Package {
     }
     
     static func searchBin(search: String, onComplete: @escaping (PackageResponse) -> Void) {
-        let url = "https://raw.githubusercontent.com/mitai-app/versioning/main/packages.json"
-        AF.request(url, method: .get)
+        AF.request(search, method: .get)
             .validate()
             .responseDecodable(of: PackageResponse.self) { response in
                 guard let changelog = response.value else {return}

@@ -7,17 +7,22 @@
 
 import SwiftUI
 
+
+
 struct ConsoleListItem: View {
     var console: Console
     @State var show: Bool = false
     @EnvironmentObject var sync: SyncServiceImpl
     
+    @StateObject private var document: InputDoument = InputDoument()
+    @State private var isImporting: Bool = false
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 HStack {
                     if console.isPs4 || console.isPs3 {
-                        Image(systemName: "antenna.radiowaves.left.and.right.circle")
+                        Image(systemName: sync.target?.ip == console.ip ? "target" : "antenna.radiowaves.left.and.right.circle")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 36, height: 36, alignment: .center)
@@ -31,24 +36,75 @@ struct ConsoleListItem: View {
                 }
                 .padding(4)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(console.name)
+                    Text("\(console.name) - \(console.ip)")
                         .font(.title3).bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(console.ip)
+                    Text(console.features.commaSeperated())
+                        .bold()
+                        .dynamicTypeSize(DynamicTypeSize.xSmall)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                }.padding(.horizontal)
+                }.padding(8)
             }.padding(.horizontal)
-            if show {
+            if show && console.isPs3 {
                 ConsoleFeatureView(item: console)
             }
-        }.foregroundColor(sync.target?.ip == console.ip ? Color("quaternary") : Color.gray)
-        .onTapGesture {
-            print("Setting Console: \(console.ip)")
+        }.onTapGesture {
             sync.target = console
-            withAnimation(Animation.easeInOut(duration: 0.5)) {
-                show.toggle()
-            }
         }
+        .foregroundColor(sync.target?.ip == console.ip ? Color("quaternary") : Color.gray)
+        .contextMenu(menuItems: {
+            Button {
+                print("Setting Console: \(console.ip)")
+                sync.target = console
+            } label: {
+                Label("Set Target", systemImage: "target")
+            }
+            if console.isPs3 {
+                Button {
+                    sync.target = console
+                    withAnimation(Animation.easeInOut(duration: 0.5)) {
+                        show.toggle()
+                    }
+                } label: {
+                    Label(show ? "Collapse" : "Expand", systemImage: show ? "rectangle.compress.vertical" : "rectangle.expand.vertical")
+                }
+            }
+            if console.isPs4 {
+                Button {
+                    sync.target = console
+                    isImporting.toggle()
+                } label: {
+                    Label("Send Payload", systemImage: "shippingbox.circle")
+                }
+            }
+        }).fileImporter(
+            isPresented: $isImporting,
+            allowedContentTypes: InputDoument.readableContentTypes,
+            allowsMultipleSelection: true,
+            onCompletion: { res in
+                Task(priority: .background) {
+                    if let selectedFile = try? res.get().first {
+                        if selectedFile.pathExtension == "bin" {
+                            if selectedFile.startAccessingSecurityScopedResource() {
+                                do {
+                                    let data = try Data(contentsOf: selectedFile)
+                                    let uploaded = await Goldhen.uploadData(data: data)
+                                    selectedFile.stopAccessingSecurityScopedResource()
+                                } catch {
+                                    print("Could not send \(error)")
+                                }
+                                selectedFile.stopAccessingSecurityScopedResource()
+                            } else {
+                                // Handle denied access
+                                print("Access denied")
+                            }
+                        } else {
+                            print("not a bin")
+                        }
+                    }
+                }
+            }
+        )
     }
 }
 

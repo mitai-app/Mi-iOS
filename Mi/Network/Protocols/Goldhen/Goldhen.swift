@@ -10,18 +10,18 @@ import Socket
 
 class Goldhen {
     
-    var socket: Socket? {
-        return SyncServiceImpl.shared.getSocket(feat: .goldhen())
+    func socket() async -> Socket? {
+        return await SyncServiceImpl.shared.getSocket(feat: .goldhen)
     }
     
     static let shared = Goldhen()
     
-    static func uploadData(data: Data) -> Bool {
-        return Goldhen.shared.write(string: data)
+    static func uploadData(data: Data) async -> Bool {
+        return await Goldhen.shared.write(string: data)
     }
     
-    static func uploadData9020(data: Data) -> Bool {
-        return Goldhen.shared.write(string: data)
+    static func uploadData9020(data: Data) async -> Bool {
+        return await Goldhen.shared.write(string: data)
     }
     
     
@@ -30,9 +30,9 @@ class Goldhen {
     }
     
     
-    func write(string: Data) -> Bool {
+    func write(string: Data) async -> Bool {
         print("Lets write")
-        if let sock = socket {
+        if let sock = await socket() {
             print("Socket is not nil")
             do {
                 let bytesWritten = try sock.write(from: string)
@@ -48,10 +48,10 @@ class Goldhen {
         return false
     }
     
-    func write(string: String) -> Bool {
-        if socket != nil {
+    func write(string: String) async -> Bool {
+        if let socket = await socket() {
             do {
-                let bytesWritten = try socket!.write(from: string)
+                let bytesWritten = try socket.write(from: string)
                 print("Bytes: Written: \(bytesWritten)")
                 return bytesWritten > 0
             } catch {
@@ -63,10 +63,10 @@ class Goldhen {
         return false
     }
     
-    func read() -> String? {
-        if socket != nil {
+    func read() async -> String? {
+        if let socket = await socket() {
             do {
-                return try socket!.readString()
+                return try socket.readString()
             } catch {
                 print("Unable to read string: \(error)")
             }

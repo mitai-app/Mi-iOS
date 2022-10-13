@@ -14,6 +14,7 @@ class Constants {
     static var goldhen: Data? = nil
     static let TITLE = "Mi - JB Host"
     static let BODY = "Mi"
+    static let ERROR_CONTENT = "Unsupported device...<p>Come back on a PS4/5</p>"
     static let ARTICLES = [
         BasicViewType(
             name: "What is Mi?",
@@ -32,9 +33,8 @@ class Constants {
         ),
         BasicViewType(name: "Invite your friend", description: "This bad boy will send payloads to your ps4 and manage your ps3", icon: "help", link: nil),
         ProfileViewType(
-            name: "Smithy",
-            description: "Learn more about the creator of Mi",
-            icon: "money",
+            name: "Follow me on Twitter!",
+            description: "Stay tuned for more updates!",
             link: "https://twitter.com/MrSmithyx"
         ),
         BasicViewType(

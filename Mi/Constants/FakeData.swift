@@ -14,10 +14,10 @@ let fakeChangeLogs: [Changelog] = [
 ]
 
 let fakeConsoles = [
-    Console(ip: "192.168.11.45", name: "PS4", wifi: "Gaoooub", type: .ps4()),
-    Console(ip: "192.168.11.46", name: "PS3", wifi: "Gaoooub", type: .ps3()),
-    Console(ip: "192.168.11.54", name: "Google Home", wifi: "Gaoooub", type: .unknown()),
-    Console(ip: "192.168.11.185", name: "Macbook", wifi: "Gaoooub", type: .unknown())
+    Console(ip: "192.168.11.45", name: "PS4", wifi: "Gaoooub", type: .ps4, features: [.orbisapi, .goldhen, .netcat]),
+    Console(ip: "192.168.11.46", name: "PS3", wifi: "Gaoooub", type: .ps3, features: [.ccapi, .ps3mapi]),
+    Console(ip: "192.168.11.54", name: "Google Home", wifi: "Gaoooub", type: .unknown),
+    Console(ip: "192.168.11.185", name: "Macbook", wifi: "Gaoooub", type: .unknown)
 ]
 
 let fakeGames = [

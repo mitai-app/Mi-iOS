@@ -19,7 +19,7 @@ struct LogView: View {
                 .padding(.horizontal)
                 .foregroundColor(Color("foreground"))
             if !logs.isEmpty {
-                ForEach($logs) { log in
+                ForEach($logs.reversed()) { log in
                     VStack(alignment: .leading) {
                         if let device = log.wrappedValue.device {
                             Text("\(device.device) (v\(device.version)): \(device.ip)")
@@ -42,7 +42,7 @@ struct LogView: View {
                 }
             } else if let localIp = SyncServiceImpl.shared.deviceIP {
                 VStack(alignment: .leading) {
-                    Text("Connect to: http://\(localIp):29999")
+                    Text(verbatim: "Connect to: http://\(localIp):\(MiServerImpl.port)")
                     .foregroundColor(Color.white)
                     .fontWeight(.bold)
                     .dynamicTypeSize(SwiftUI.DynamicTypeSize.xSmall)

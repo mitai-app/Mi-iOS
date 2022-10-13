@@ -32,10 +32,22 @@ struct Temperature {
         return String((Int(cpu) ?? 0) * 9 / 5 + 32)
     }
     
-    func getRSXCelcius() -> String {
+    func getRSXFarenheit() -> String {
         return String((Int(rsx) ?? 0) * 9 / 5 + 32)
     }
     
+    func formatCPU(farenheit: Bool) -> String {
+        return "CPU: \(farenheit ? getCPUFarenheit() : cpu)° \(farenheit ? "F" : "C")"
+    }
+    
+    func formatRSX(farenheit: Bool) -> String {
+        return "RSX: \(farenheit ? getRSXFarenheit() : rsx)° \(farenheit ? "F" : "C")"
+    }
+    
+    
+    func format(farenheit: Bool) -> String {
+        return "(\(formatCPU(farenheit: farenheit))) (\(formatRSX(farenheit: farenheit)))"
+    }
 }
 
 extension ps3mapi_response {

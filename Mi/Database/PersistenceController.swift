@@ -1,10 +1,11 @@
 //
-//  Persistence.swift
+//  PersistenceController.swift
 //  Mi
 //
-//  Created by Vonley on 9/23/22.
+//  Created by Vonley on 10/11/22.
 //
 
+import Foundation
 import CoreData
 
 struct PersistenceController {
@@ -14,8 +15,8 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            //let newItem = Item(context: viewContext)
+            //newItem.timestamp = Date()
         }
         do {
             try viewContext.save()
@@ -32,11 +33,18 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Mi")
-        if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        }
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        let storeURL = try! FileManager
+               .default
+               .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+               .appendingPathComponent("mi.sqlite")
+        print("URL :",storeURL)
+
+        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        storeDescription.shouldMigrateStoreAutomatically = true
+        //container.viewContext.automaticallyMergesChangesFromParent = true
+        container.persistentStoreDescriptions = [storeDescription]
+    
+        container.loadPersistentStores(completionHandler: { [self] (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -51,6 +59,7 @@ struct PersistenceController {
                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            container.viewContext.automaticallyMergesChangesFromParent = true
         })
     }
 }

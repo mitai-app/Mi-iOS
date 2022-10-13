@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import FilesProvider
 import Foundation
 
 class FTPViewModel: ObservableObject, FTPDelegate {
@@ -128,7 +127,7 @@ struct FTPView: View {
                                 message: "Create new folder",
                                 placeholder: "folder name",
                                 onConfirm: { string in
-                                    Task {
+                                    Task(priority: .background) {
                                         await vm.makeDir(dir: string)
                                     }
                                 }) {
@@ -149,7 +148,7 @@ struct FTPView: View {
                             .contextMenu {
                                 if !item.wrappedValue.directory {
                                     Button {
-                                        Task {
+                                        Task(priority: .background) {
                                             print("Downloading \(item.wrappedValue.name)")
                                             await vm.download(file: item.wrappedValue)
                                         }
@@ -159,7 +158,7 @@ struct FTPView: View {
                                 }
                                 
                                 Button {
-                                    Task {
+                                    Task(priority: .background) {
                                         await vm.delete(file: item.wrappedValue)
                                     }
                                 } label: {
@@ -167,13 +166,13 @@ struct FTPView: View {
                                 }
                             }
                             .onTapGesture {
-                                Task {
+                                Task(priority: .background) {
                                     await vm.changeDir(file: item.wrappedValue)
                                 }
                             }
                     }
                 }.refreshable {
-                    Task {
+                    Task(priority: .background) {
                         if await vm.connect() {
                             #if DEBUG
                             debugPrint("Connected?")
@@ -202,7 +201,7 @@ struct FTPView: View {
             }.customNavigationTitle("FTP")
             .customNavigationBarBackButtonHidden(true)
             .onAppear {
-                Task {
+                Task(priority: .background) {
                     if await vm.connect() {
                         #if DEBUG
                         debugPrint("Connected?")
@@ -224,12 +223,6 @@ struct ListView_Previews: PreviewProvider {
     }
 }
 
-
-extension FileObject: Identifiable {
-    public var id: Int {
-        return self.hash
-    }
-}
 
 struct TextFieldAlert<Presenting>: View where Presenting: View {
 

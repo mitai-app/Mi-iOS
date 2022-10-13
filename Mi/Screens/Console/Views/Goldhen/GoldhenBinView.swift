@@ -25,7 +25,6 @@ class GoldhenBinViewModel: ObservableObject {
         self.console = console
     }
     
-    
 }
 
 struct GoldhenBinView: View {

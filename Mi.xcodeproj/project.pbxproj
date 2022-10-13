@@ -23,7 +23,6 @@
 		173CBA9728E6623F00983E18 /* CustomNavBarPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9628E6623F00983E18 /* CustomNavBarPreferenceKey.swift */; };
 		173CBA9928E6840100983E18 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9828E6840100983E18 /* Package.swift */; };
 		173CBA9B28E6972D00983E18 /* ChangelogSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9A28E6972B00983E18 /* ChangelogSectionView.swift */; };
-		173CBA9E28E74DFB00983E18 /* FilesProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 173CBA9D28E74DFB00983E18 /* FilesProvider */; };
 		173CBAA028E79E6400983E18 /* PackageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173CBA9F28E79E6200983E18 /* PackageView.swift */; };
 		17480A8D28DFC3B8000DF33F /* SmallCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A8C28DFC3B8000DF33F /* SmallCardView.swift */; };
 		17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17480A8E28E0B5CD000DF33F /* Changelog.swift */; };
@@ -55,18 +54,21 @@
 		1755336F28F2551E00F7B503 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755336E28F2551D00F7B503 /* StringExtension.swift */; };
 		1787A33D28F3259200997B9E /* FTPFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A33C28F3259200997B9E /* FTPFile.swift */; };
 		1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A33E28F325B600997B9E /* FTPDelegate.swift */; };
-		1787A36F28F36CD300997B9E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A36E28F36CD300997B9E /* File.swift */; };
+		1787A36F28F36CD300997B9E /* MiServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787A36E28F36CD300997B9E /* MiServer.swift */; };
+		1797D43728F61FF5009688B1 /* Mi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1797D43528F61FF5009688B1 /* Mi.xcdatamodeld */; };
+		1797D44928F709B2009688B1 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1797D44828F709B2009688B1 /* ExternalAccessory.framework */; };
+		1797D44C28F72922009688B1 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797D44B28F72922009688B1 /* Payload.swift */; };
 		17CB452328F4C8E500F9EE80 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452228F4C8E500F9EE80 /* ArticleView.swift */; };
 		17CB452528F4C9A000F9EE80 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452428F4C99F00F9EE80 /* LogView.swift */; };
 		17CB452728F51FB900F9EE80 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB452628F51FB800F9EE80 /* AlertHelper.swift */; };
+		17CB453028F5C60600F9EE80 /* SQLiteKit in Frameworks */ = {isa = PBXBuildFile; productRef = 17CB452F28F5C60600F9EE80 /* SQLiteKit */; };
+		17CB453528F5FB2000F9EE80 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB453428F5FB2000F9EE80 /* PersistenceController.swift */; };
 		17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */; };
 		17E25B4928E646DD00C9074A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */; };
 		17F1783528DE552B001E010A /* MiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783428DE552B001E010A /* MiApp.swift */; };
 		17F1783728DE552B001E010A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783628DE552B001E010A /* ContentView.swift */; };
 		17F1783928DE5532001E010A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17F1783828DE5532001E010A /* Assets.xcassets */; };
 		17F1783C28DE5532001E010A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17F1783B28DE5532001E010A /* Preview Assets.xcassets */; };
-		17F1783E28DE5532001E010A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783D28DE5532001E010A /* Persistence.swift */; };
-		17F1784128DE5532001E010A /* Mi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 17F1783F28DE5532001E010A /* Mi.xcdatamodeld */; };
 		17F1784B28DE5532001E010A /* MiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1784A28DE5532001E010A /* MiTests.swift */; };
 		17F1785528DE5533001E010A /* MiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1785428DE5533001E010A /* MiUITests.swift */; };
 		17F1785728DE5533001E010A /* MiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1785628DE5533001E010A /* MiUITestsLaunchTests.swift */; };
@@ -153,10 +155,15 @@
 		1755336E28F2551D00F7B503 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		1787A33C28F3259200997B9E /* FTPFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPFile.swift; sourceTree = "<group>"; };
 		1787A33E28F325B600997B9E /* FTPDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPDelegate.swift; sourceTree = "<group>"; };
-		1787A36E28F36CD300997B9E /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		1787A36E28F36CD300997B9E /* MiServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiServer.swift; sourceTree = "<group>"; };
+		1797D43628F61FF5009688B1 /* Mi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Mi.xcdatamodel; sourceTree = "<group>"; };
+		1797D44628F709B2009688B1 /* Mi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mi.entitlements; sourceTree = "<group>"; };
+		1797D44828F709B2009688B1 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		1797D44B28F72922009688B1 /* Payload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		17CB452228F4C8E500F9EE80 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		17CB452428F4C99F00F9EE80 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		17CB452628F51FB800F9EE80 /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
+		17CB453428F5FB2000F9EE80 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		17E25B4628E6417B00C9074A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		17E25B4828E646DD00C9074A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		17F1783128DE552A001E010A /* Mi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,8 +171,6 @@
 		17F1783628DE552B001E010A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		17F1783828DE5532001E010A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17F1783B28DE5532001E010A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		17F1783D28DE5532001E010A /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		17F1784028DE5532001E010A /* Mi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Mi.xcdatamodel; sourceTree = "<group>"; };
 		17F1784628DE5532001E010A /* MiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F1784A28DE5532001E010A /* MiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiTests.swift; sourceTree = "<group>"; };
 		17F1785028DE5533001E010A /* MiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,10 +199,11 @@
 				17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */,
 				17F1786B28DE6F12001E010A /* SWXMLHash in Frameworks */,
 				174DD77028E3E68F007244B5 /* Socket in Frameworks */,
-				173CBA9E28E74DFB00983E18 /* FilesProvider in Frameworks */,
 				174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */,
 				174DD76E28E3E68F007244B5 /* BlueSocketTestCommonLibrary in Frameworks */,
 				17F1786828DE6EFD001E010A /* Alamofire in Frameworks */,
+				1797D44928F709B2009688B1 /* ExternalAccessory.framework in Frameworks */,
+				17CB453028F5C60600F9EE80 /* SQLiteKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,9 +444,25 @@
 		1787A34028F36B2F00997B9E /* Host */ = {
 			isa = PBXGroup;
 			children = (
-				1787A36E28F36CD300997B9E /* File.swift */,
+				1787A36E28F36CD300997B9E /* MiServer.swift */,
 			);
 			path = Host;
+			sourceTree = "<group>";
+		};
+		1797D44728F709B2009688B1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1797D44828F709B2009688B1 /* ExternalAccessory.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1797D44A28F728EE009688B1 /* Payload */ = {
+			isa = PBXGroup;
+			children = (
+				1797D44B28F72922009688B1 /* Payload.swift */,
+			);
+			path = Payload;
 			sourceTree = "<group>";
 		};
 		17CB452028F4C8B600F9EE80 /* Logging */ = {
@@ -459,6 +481,15 @@
 			path = Article;
 			sourceTree = "<group>";
 		};
+		17CB452828F52C2100F9EE80 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				17CB453428F5FB2000F9EE80 /* PersistenceController.swift */,
+				1797D43528F61FF5009688B1 /* Mi.xcdatamodeld */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		17F1782828DE552A001E010A = {
 			isa = PBXGroup;
 			children = (
@@ -466,6 +497,7 @@
 				17F1784928DE5532001E010A /* MiTests */,
 				17F1785328DE5533001E010A /* MiUITests */,
 				17F1783228DE552A001E010A /* Products */,
+				1797D44728F709B2009688B1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -482,6 +514,8 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				1797D44628F709B2009688B1 /* Mi.entitlements */,
+				17CB452828F52C2100F9EE80 /* Database */,
 				17F1787A28DE89E9001E010A /* Screens */,
 				17F1788928DEB035001E010A /* Network */,
 				17F1787E28DE8B2B001E010A /* Models */,
@@ -491,9 +525,7 @@
 				174DD77128E3F1AE007244B5 /* SimplePing */,
 				17480A9028E0B696000DF33F /* Constants */,
 				17F1783428DE552B001E010A /* MiApp.swift */,
-				17F1783D28DE5532001E010A /* Persistence.swift */,
 				17F1783828DE5532001E010A /* Assets.xcassets */,
-				17F1783F28DE5532001E010A /* Mi.xcdatamodeld */,
 				174BF30F28E5398700D6DDF2 /* Info.plist */,
 				17F1783A28DE5532001E010A /* Preview Content */,
 			);
@@ -591,6 +623,7 @@
 		17F1788A28DEB064001E010A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				1797D44A28F728EE009688B1 /* Payload */,
 				174BF30C28E52ED000D6DDF2 /* Goldhen */,
 				174DD77E28E4C4DB007244B5 /* Webman */,
 				174DD77928E4BEF2007244B5 /* PS3MAPI */,
@@ -621,7 +654,7 @@
 				174DD76A28E3E66D007244B5 /* SwiftEntryKit */,
 				174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */,
 				174DD76F28E3E68F007244B5 /* Socket */,
-				173CBA9D28E74DFB00983E18 /* FilesProvider */,
+				17CB452F28F5C60600F9EE80 /* SQLiteKit */,
 			);
 			productName = Mi;
 			productReference = 17F1783128DE552A001E010A /* Mi.app */;
@@ -702,7 +735,7 @@
 				17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 				174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */,
-				173CBA9C28E74DF900983E18 /* XCRemoteSwiftPackageReference "FileProvider" */,
+				17CB452E28F5C60600F9EE80 /* XCRemoteSwiftPackageReference "SQLiteKit" */,
 			);
 			productRefGroup = 17F1783228DE552A001E010A /* Products */;
 			projectDirPath = "";
@@ -754,7 +787,7 @@
 				17480A9B28E0D48D000DF33F /* ConsoleFeatureView.swift in Sources */,
 				17F1788828DE8BC7001E010A /* Protocols.swift in Sources */,
 				17F1788C28DEB087001E010A /* Webman.swift in Sources */,
-				1787A36F28F36CD300997B9E /* File.swift in Sources */,
+				1787A36F28F36CD300997B9E /* MiServer.swift in Sources */,
 				17F1789028DEB0DD001E010A /* SyncService.swift in Sources */,
 				17480AA328E10C6F000DF33F /* WMControlView.swift in Sources */,
 				17F1787728DE82B4001E010A /* FTPView.swift in Sources */,
@@ -773,18 +806,18 @@
 				173CBAA028E79E6400983E18 /* PackageView.swift in Sources */,
 				174DD77528E3F1CC007244B5 /* SimplePing.m in Sources */,
 				17E25B4728E6417B00C9074A /* CustomTabBarContainerView.swift in Sources */,
+				17CB453528F5FB2000F9EE80 /* PersistenceController.swift in Sources */,
 				171B23ED28ECC6440050DAB9 /* IntroView.swift in Sources */,
 				17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */,
 				174DD77B28E4BF1C007244B5 /* PS3MAPI+Enums.swift in Sources */,
 				1755336D28F2098200F7B503 /* OutputDocument.swift in Sources */,
 				174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */,
 				17CB452528F4C9A000F9EE80 /* LogView.swift in Sources */,
+				1797D43728F61FF5009688B1 /* Mi.xcdatamodeld in Sources */,
 				173CBA8F28E6593100983E18 /* CustomNavBarView.swift in Sources */,
 				1755336528EFBB0400F7B503 /* FTP.swift in Sources */,
-				17F1783E28DE5532001E010A /* Persistence.swift in Sources */,
 				17F1787528DE7F55001E010A /* ConsoleView.swift in Sources */,
 				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
-				17F1784128DE5532001E010A /* Mi.xcdatamodeld in Sources */,
 				17CB452328F4C8E500F9EE80 /* ArticleView.swift in Sources */,
 				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
 				1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */,
@@ -808,6 +841,7 @@
 				173CBA9928E6840100983E18 /* Package.swift in Sources */,
 				17F1787328DE7E26001E010A /* ChangelogCardView.swift in Sources */,
 				17F1788428DE8B7F001E010A /* Feature.swift in Sources */,
+				1797D44C28F72922009688B1 /* Payload.swift in Sources */,
 				173CBA9128E65C4100983E18 /* CustomNavBarContainerView.swift in Sources */,
 				17F1783528DE552B001E010A /* MiApp.swift in Sources */,
 				171B23E528ECBA1A0050DAB9 /* RepoListItem.swift in Sources */,
@@ -882,6 +916,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -944,6 +979,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -959,10 +995,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = (
-					"-Xlinker",
-					"-interposable",
-				);
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -976,10 +1009,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = Mi/Mi.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mi/Preview Content\"";
-				DEVELOPMENT_TEAM = Y8B82M3CHF;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mi/Info.plist;
@@ -998,6 +1034,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.mrsmyx.Mi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Mi/SimplePing/Mi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1012,6 +1049,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = Mi/Mi.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Mi/Preview Content\"";
@@ -1159,14 +1199,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		173CBA9C28E74DF900983E18 /* XCRemoteSwiftPackageReference "FileProvider" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/amosavian/FileProvider.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.0;
-			};
-		};
 		174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/huri000/SwiftEntryKit.git";
@@ -1181,6 +1213,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
+			};
+		};
+		17CB452E28F5C60600F9EE80 /* XCRemoteSwiftPackageReference "SQLiteKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/SQLiteKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.5;
 			};
 		};
 		17F1786628DE6EFD001E010A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
@@ -1210,11 +1250,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		173CBA9D28E74DFB00983E18 /* FilesProvider */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 173CBA9C28E74DF900983E18 /* XCRemoteSwiftPackageReference "FileProvider" */;
-			productName = FilesProvider;
-		};
 		174DD76A28E3E66D007244B5 /* SwiftEntryKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */;
@@ -1229,6 +1264,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */;
 			productName = Socket;
+		};
+		17CB452F28F5C60600F9EE80 /* SQLiteKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17CB452E28F5C60600F9EE80 /* XCRemoteSwiftPackageReference "SQLiteKit" */;
+			productName = SQLiteKit;
 		};
 		17F1786728DE6EFD001E010A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1248,12 +1288,12 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		17F1783F28DE5532001E010A /* Mi.xcdatamodeld */ = {
+		1797D43528F61FF5009688B1 /* Mi.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				17F1784028DE5532001E010A /* Mi.xcdatamodel */,
+				1797D43628F61FF5009688B1 /* Mi.xcdatamodel */,
 			);
-			currentVersion = 17F1784028DE5532001E010A /* Mi.xcdatamodel */;
+			currentVersion = 1797D43628F61FF5009688B1 /* Mi.xcdatamodel */;
 			path = Mi.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

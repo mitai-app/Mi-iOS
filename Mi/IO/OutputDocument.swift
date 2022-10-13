@@ -32,33 +32,6 @@ class OutputDoument: FileDocument, ObservableObject {
         }
     }
     
-    func send() {
-        DispatchQueue.global().async {
-            for (selectedFile, result) in self.files {
-                if(!result) {
-                    if selectedFile.startAccessingSecurityScopedResource() {
-                        do {
-                            let data = try Data(contentsOf: selectedFile)
-                                let uploaded = Goldhen.uploadData(data: data)
-                                debugPrint("\(String(describing: uploaded))")
-                                DispatchQueue.main.async { [weak self] in
-                                    self?.files[selectedFile] = uploaded
-                                    selectedFile.stopAccessingSecurityScopedResource()
-                                }
-                        } catch {
-                            print("Could not send \(error)")
-                        }
-                    } else {
-                        // Handle denied access
-                        print("Access denied")
-                    }
-                } else {
-                    print("Already sent, do nothing")
-                }
-            }
-        }
-    }
-    
     init() {}
 
     required init(configuration: FileDocumentReadConfiguration) throws {

@@ -200,6 +200,8 @@ extension PS3MapiCommands: Identifiable, CaseIterable {
     
     var icon: String {
         switch(self) {
+        case .buzzer:
+            return "waveform.circle"
         case .idps:
             return "lock.circle"
         case .psid:

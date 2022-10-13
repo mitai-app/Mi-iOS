@@ -20,21 +20,21 @@
         }
       },
       {
-        "package": "FilesProvider",
-        "repositoryURL": "https://github.com/amosavian/FileProvider.git",
-        "state": {
-          "branch": null,
-          "revision": "abf68a62541a4193c8d106367ddb3648e8ab693f",
-          "version": "0.26.0"
-        }
-      },
-      {
         "package": "Kingfisher",
         "repositoryURL": "https://github.com/onevcat/Kingfisher",
         "state": {
           "branch": "master",
           "revision": "5ffd3e5db7a18873a9bbaa3cea25a7ba52d7bd8a",
           "version": null
+        }
+      },
+      {
+        "package": "SQLiteKit",
+        "repositoryURL": "https://github.com/apparata/SQLiteKit.git",
+        "state": {
+          "branch": null,
+          "revision": "c5a4689053e98af660cecc79a71f06ccbbf4c4cc",
+          "version": "0.4.5"
         }
       },
       {
