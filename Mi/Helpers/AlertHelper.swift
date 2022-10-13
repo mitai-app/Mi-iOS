@@ -7,7 +7,37 @@
 
 import Foundation
 import UIKit
-
+class AlertHelper {
+    static func alert(title: String, message: String, onResult: @escaping (UIAlertAction) -> Void) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "OK",  style: .default) { action in
+            onResult(action)
+        }
+        
+        alertVC.addAction(saveAction)
+        let viewController = UIApplication.shared.windows.first!.rootViewController!
+        viewController.present(alertVC, animated: true, completion: nil)
+    }
+    
+    
+    static func alertDecision(title: String, message: String, onResult: @escaping (UIAlertAction) -> Void) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Yes",  style: .default) { action in
+            onResult(action)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",  style: .cancel) { action in
+            onResult(action)
+        }
+        
+        alertVC.addAction(saveAction)
+        alertVC.addAction(cancelAction)
+        let viewController = UIApplication.shared.windows.first!.rootViewController!
+        viewController.present(alertVC, animated: true, completion: nil)
+    }
+}
 func alertMessage(
     title: String,
     message: String,

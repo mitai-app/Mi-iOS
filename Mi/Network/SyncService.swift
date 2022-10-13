@@ -20,7 +20,8 @@ protocol SyncService {
     
     func getPotentialClients() -> [Console]
     func getSocket(feat: Feature) async -> Socket?
-    func findDevices(_ onCallback: (([Console]) -> Void)?)
+    func findDevices(_ onCallback: (([Console]) -> Void)?, onError: ((String) -> Void)?)
+    func findDevice(ip: String, onSuccess: @escaping (Console) -> Void, onError: @escaping (String) -> Void)
     func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void)
     func getRequest(url: String, params: [String:[String]], onComplete: @escaping (AFDataResponse<Data?>) -> Void)
 }
@@ -36,6 +37,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
     }
     private var map: [String:[Feature:Socket]] = [:]
     private var task: Task<(), Never>?
+    private var singleSearch: Task<Bool, Never>?
     
     static let psx = PSXService()
     static let shared: SyncServiceImpl = SyncServiceImpl()
@@ -46,32 +48,6 @@ class SyncServiceImpl: ObservableObject, SyncService {
     
     var deviceIP: String? {
         return getAddress(for: Network.wifi)
-    }
-    
-
-    func connectFtp() async -> Bool {
-        guard let console = target else  {
-            return false
-        }
-        if FTP.ip != console.ip {
-            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
-        } else if !FTP.isConnected {
-            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
-        } else {
-            let o = FTP.isConnected
-            // keep main socket? close all others?
-            await FTP.shared.clean()
-            await FTP.shared.getCurrentDir()
-            FTP.reinitRunThread()
-            return o
-        }
-    }
-    
-    static func test() -> SyncServiceImpl {
-        let sync = SyncServiceImpl()
-        sync.active = fakeConsoles
-        sync.target = fakeConsoles[0]
-        return sync
     }
     
     func getSocket(feat: Feature) async -> Socket? {
@@ -107,124 +83,93 @@ class SyncServiceImpl: ObservableObject, SyncService {
         return active
     }
     
-    
-    // Return IP address of WiFi interface (en0) as a String, or `nil`
-    private func getAddress(for network: Network) -> String? {
-        var address: String?
-
-        // Get list of all interfaces on the local machine:
-        var ifaddr: UnsafeMutablePointer<ifaddrs>?
-        guard getifaddrs(&ifaddr) == 0 else { return nil }
-        guard let firstAddr = ifaddr else { return nil }
-
-        // For each interface ...
-        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
-            let interface = ifptr.pointee
-
-            // Check for IPv4 or IPv6 interface:
-            let addrFamily = interface.ifa_addr.pointee.sa_family
-            if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
-
-                // Check interface name:
-                let name = String(cString: interface.ifa_name)
-                if name == network.rawValue {
-
-                    // Convert interface address to a human readable string:
-                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                                &hostname, socklen_t(hostname.count),
-                                nil, socklen_t(0), NI_NUMERICHOST)
-                    address = String(cString: hostname)
-                }
-            }
+    func findDevice(ip: String, onSuccess: @escaping (Console) -> Void, onError: @escaping (String) -> Void) {
+        if singleSearch != nil {
+            singleSearch?.cancel()
         }
-        freeifaddrs(ifaddr)
-
-        return address
+        if getAddress(for: Network.wifi) != nil {
+            self.singleSearch = Task(priority: .background) {
+                let wifi = getWiFiSsid()
+                print(wifi ?? "no wifi?")
+                var values: [ConsoleEntity] = []
+                do {
+                    values = try moc.fetch(ConsoleEntity.fetchRequest())
+                } catch {
+                    print("Unable to fetch: \(error.localizedDescription)")
+                    print("Unable to fetch: \(error)")
+                }
+                if let console = await validate(ip: ip, values: values, wifiNetwork: wifi) {
+                    await MainActor.run {
+                        onSuccess(console)
+                    }
+                    return true
+                }
+                await MainActor.run {
+                    onError("Unable to find console on network")
+                }
+                return false
+            }
+        } else {
+            onError("Not connected to wifi")
+        }
     }
-    
-    
-    func getWiFiSsid() -> String? {
-        let interfaces = CNCopySupportedInterfaces() as [AnyObject]?
-        let interfaceNames = interfaces?.map { $0 as! CFString }
-        let interfaceDictionaries = interfaceNames?.flatMap { CNCopyCurrentNetworkInfo($0) as? [String : AnyObject] }
-        return interfaceDictionaries?.flatMap { $0[kCNNetworkInfoKeySSID as String] as? String }
-                                     .first
-    }
-    
-    
-    private enum Network: String {
-        case wifi = "en0"
-        case cellular = "pdp_ip0"
-        case ipv4 = "ipv4"
-        case ipv6 = "ipv6"
-    }
-    
-
     
    /**
     * Fetch All Connected Clients on the network
     * for potential match (IPV4 Clients Only)
     * TODO: Accommodate for IPV6 Clients
     */
-    func findDevices(_ onCallback: (([Console]) -> Void)? = nil) {
+    func findDevices(_ onCallback: (([Console]) -> Void)? = nil, onError: ((String) -> Void)? = nil) {
         if (self.task != nil) {
             self.task!.cancel()
         }
-        let localDeviceIp = getAddress(for: Network.wifi)!
-        let last = localDeviceIp.lastIndex(of: ".")!
-        let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
-        print("Constructed: \(pre)")
-        self.task = Task(priority: .background) {
-            let wifi = getWiFiSsid()
-            print(wifi ?? "no wifi?")
-            var values: [ConsoleEntity] = []
-            do {
-                values = try moc.fetch(ConsoleEntity.fetchRequest())
-            } catch {
-                print("Unable to fetch: \(error.localizedDescription)")
-                print("Unable to fetch: \(error)")
-            }
-            for i in 0..<256 {
-                let ip = "\(pre)\(i)"
-                guard let console = await checkIp(ip: ip, wifi: wifi) else
-                {
-                    continue
+        if let localDeviceIp = getAddress(for: Network.wifi) {
+            let last = localDeviceIp.lastIndex(of: ".")!
+            let pre =  localDeviceIp.substring(to: last) + "." //localDeviceIp.substring(0, localDeviceIp.lastIndexOf(".") + 1)
+            print("Constructed: \(pre)")
+            self.task = Task(priority: .background) {
+                let wifi = getWiFiSsid()
+                print(wifi ?? "no wifi?")
+                var values: [ConsoleEntity] = []
+                do {
+                    values = try moc.fetch(ConsoleEntity.fetchRequest())
+                } catch {
+                    print("Unable to fetch: \(error.localizedDescription)")
+                    print("Unable to fetch: \(error)")
                 }
-                if let exist = values.first(where: { c in
-                    c.ip == console.ip && c.wifi == console.wifi
-                }) {
-                    await MainActor.run {
-                        do {
-                            exist.features = try! JSONEncoder().encode(console.features)
-                            exist.type = console.type.rawValue
-                            exist.name = console.name
-                            exist.lastKnownReachable = true
-                            try moc.save()
-                            print("Saved content")
-                        } catch {
-                            print("Did not update: \(error.localizedDescription)")
-                        }
-                    }
-                } else {
-                    await MainActor.run {
-                        do {
-                            self.active.append(console)
-                            console.toConsoleEntity(moc: moc)
-                            
-                            try moc.save()
-                        } catch {
-                            print("Did not save: \(error.localizedDescription)")
-                        }
+                for i in 0..<256 {
+                    let ip = "\(pre)\(i)"
+                    await validate(ip: ip, values: values, wifiNetwork: wifi)
+                }
+                //self.active = consoles
+                await MainActor.run {
+                    if onCallback != nil {
+                        onCallback!(self.active)
                     }
                 }
             }
-            //self.active = consoles
-            await MainActor.run {
-                if onCallback != nil {
-                    onCallback!(self.active)
-                }
+        } else {
+            if let e = onError {
+                e("Unable to scan devices on your network because you're not connected to Wifi")
             }
+        }
+    }
+    
+    func connectFtp() async -> Bool {
+        guard let console = target else  {
+            return false
+        }
+        if FTP.ip != console.ip {
+            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
+        } else if !FTP.isConnected {
+            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
+        } else {
+            let o = FTP.isConnected
+            // keep main socket? close all others?
+            await FTP.shared.clean()
+            await FTP.shared.getCurrentDir()
+            FTP.reinitRunThread()
+            return o
         }
     }
     
@@ -236,8 +181,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
         for feat in Feature.allowedToOpen {
             let proto: Protocols = feat.prtcl
             let ports: [Int] = feat.ports
-            
-            if (proto == Protocols.socket){
+            if (proto == Protocols.socket) {
                 for port in ports {
                     do {
                         let socket = try Socket.create()
@@ -275,28 +219,41 @@ class SyncServiceImpl: ObservableObject, SyncService {
                 continue
             }
             else if(proto == Protocols.http) {
-                if (true) {
-                    continue
-                }
                 for port in ports {
-                    SyncServiceImpl.psx.getRequest(url: "http://\(ip):\(port)/") { data in
-                        do {
-                            if let result = try data.result.get() {
-                                let response = String(decoding: result, as: UTF8.self)
-                                let validated = Feature.validateResponse(s: response)
-                                print("\(feat): validated")
-                                if(validated){
+                    do {
+                        let socket = try Socket.create()
+                        try socket.connect(to: ip, port: Int32(port), timeout: 200)
+                        print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
+                        if feat == .ccapi {
+                            features.append(feat)
+                            socket.close()
+                            name = "Playstation 3"
+                            platform = PlatformType.ps3
+                            continue
+                        } else if feat == .webman {
+                            if let result = SyncServiceImpl.psx.getRequestSync(socket: socket, path: "/index.ps3") {
+                                let validated = Feature.validateResponse(s: result)
+                                if validated {
+                                    name = "Playstation 3"
+                                    platform = PlatformType.ps3
                                     features.append(feat)
                                 }
                             }
-                        }catch {
-                            print("Error: \(error)")
+                        } else {
+                            if let result = SyncServiceImpl.psx.getRequestSync(socket: socket, path: "/") {
+                                debugPrint(result)
+                                features.append(feat)
+                            }
                         }
+                    } catch {
+                        #if DEBUG
+                        print("Failed Starting Request for")
+                        #endif
                     }
                 }
             }
             else if(proto == Protocols.ftp) {
-                    
+                
             }
         }
         if !features.isEmpty {
@@ -310,6 +267,99 @@ class SyncServiceImpl: ObservableObject, SyncService {
             return console
         }
         return nil
+    }
+    
+    private func validate(ip: String, values: [ConsoleEntity] = [], wifiNetwork: String? = nil) async -> Console? {
+        let wifi = wifiNetwork ?? getWiFiSsid()
+        guard let console = await checkIp(ip: ip, wifi: wifi) else
+        {
+            return nil
+        }
+        if let exist = values.first(where: { c in
+            c.ip == console.ip && c.wifi == console.wifi
+        }) {
+            await MainActor.run {
+                do {
+                    exist.features = try! JSONEncoder().encode(console.features)
+                    exist.type = console.type.rawValue
+                    exist.name = console.name
+                    exist.lastKnownReachable = true
+                    try moc.save()
+                    print("Saved content")
+                } catch {
+                    print("Did not update: \(error.localizedDescription)")
+                }
+            }
+        } else {
+            await MainActor.run {
+                do {
+                    self.active.append(console)
+                    console.toConsoleEntity(moc: moc)
+                    
+                    try moc.save()
+                } catch {
+                    print("Did not save: \(error.localizedDescription)")
+                }
+            }
+        }
+        return console
+    }
+    
+    // Return IP address of WiFi interface (en0) as a String, or `nil`
+    private func getAddress(for network: Network) -> String? {
+        var address: String?
+
+        // Get list of all interfaces on the local machine:
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0 else { return nil }
+        guard let firstAddr = ifaddr else { return nil }
+
+        // For each interface ...
+        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
+            let interface = ifptr.pointee
+
+            // Check for IPv4 or IPv6 interface:
+            let addrFamily = interface.ifa_addr.pointee.sa_family
+            if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+
+                // Check interface name:
+                let name = String(cString: interface.ifa_name)
+                if name == network.rawValue {
+
+                    // Convert interface address to a human readable string:
+                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
+                                &hostname, socklen_t(hostname.count),
+                                nil, socklen_t(0), NI_NUMERICHOST)
+                    address = String(cString: hostname)
+                }
+            }
+        }
+        freeifaddrs(ifaddr)
+
+        return address
+    }
+    
+    static func test() -> SyncServiceImpl {
+        let sync = SyncServiceImpl()
+        sync.active = fakeConsoles
+        sync.target = fakeConsoles[0]
+        return sync
+    }
+    
+    private func getWiFiSsid() -> String? {
+        let interfaces = CNCopySupportedInterfaces() as [AnyObject]?
+        let interfaceNames = interfaces?.map { $0 as! CFString }
+        let interfaceDictionaries = interfaceNames?.flatMap { CNCopyCurrentNetworkInfo($0) as? [String : AnyObject] }
+        return interfaceDictionaries?.flatMap { $0[kCNNetworkInfoKeySSID as String] as? String }
+                                     .first
+    }
+    
+    private enum Network: String {
+        case wifi = "en0"
+        case cellular = "pdp_ip0"
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
     }
     
     func getRequest(url: String, onComplete: @escaping (AFDataResponse<Data?>) -> Void) {

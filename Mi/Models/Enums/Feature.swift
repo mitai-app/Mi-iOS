@@ -15,7 +15,7 @@ import Foundation
 enum Feature: Int16, CaseIterable, Codable {
     
     static var allCases: [Feature] {
-        return [.none, .netcat, .goldhen, .orbisapi, .rpi, .ps3mapi, .webman, .klog, .ftp]
+        return [.none, .netcat, .goldhen, .orbisapi, .rpi, .ps3mapi, .ccapi, .webman, .klog, .ftp]
     }
     
     case none = 0, netcat, goldhen,orbisapi,rpi,ps3mapi,ccapi, webman,klog, ftp

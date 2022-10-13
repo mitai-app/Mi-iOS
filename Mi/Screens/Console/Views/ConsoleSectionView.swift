@@ -11,26 +11,48 @@ import CoreData
 class ConsoleViewModel: ObservableObject {
 
     let container: NSPersistentContainer = PersistenceController.shared.container
+    
     init() {
-        let request = ConsoleEntity.fetchRequest()
-        do {
-            let ok = FetchRequest(fetchRequest: request)
-        } catch let error {
-            print("Error fetching. \(error)")
-        }
+        
     }
     
     
     func addConsole(string: String) {
-        let console = Console(
-            ip: string,
-            name: string,
-            wifi: "",
-            lastKnownReachable: true, type: PlatformType.unknown,
-            features: [],
-            pinned: false)
-        console.toConsoleEntity(moc: container.viewContext)
-        try? container.viewContext.save()
+        SyncServiceImpl.shared.findDevice(ip: string, onSuccess: { console in
+            AlertHelper.alert(title: "Success", message: "Console added!") { action in
+                
+            }
+        }, onError: { error in
+            AlertHelper.alertDecision(title: "Warning", message: "Unable to verify that this console is on the network. Would you like to still add this console?") { action in
+                debugPrint(action.style)
+                switch action.style {
+                    
+                case .default:
+                    print("Adding")
+                    let console = Console(
+                        ip: string,
+                        name: string,
+                        wifi: "",
+                        lastKnownReachable: true, type: PlatformType.unknown,
+                        features: [],
+                        pinned: false)
+                    _ = console.toConsoleEntity(moc: self.container.viewContext)
+                    try? self.container.viewContext.save()
+                    break;
+                case .cancel:
+                    print("Canceled")
+                    break;
+                case .destructive:
+                    print("Destroyed")
+                    break;
+                @unknown default:
+                    print("Unknown Default")
+                    break;
+                }
+                
+            }
+        })
+        
     }
  
 }
@@ -59,21 +81,41 @@ struct ConsoleSectionView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                 }
-                Button(action: {
-                    alertMessage(
-                        title: "Add",
-                        message: "Add a new console via ip",
-                        placeholder: "console ip",
-                        onConfirm: { string in
-                            vm.addConsole(string: string)
-                        }) {
-                            // do nothing
+                Menu {
+                    Button(action: {
+                        alertMessage(
+                            title: "Add",
+                            message: "Add a new console via ip",
+                            placeholder: "console ip",
+                            onConfirm: { string in
+                                vm.addConsole(string: string)
+                            }) {
+                                // do nothing
+                            }
+                    }) {
+                        Text("Add Console")
+                        Image(systemName: "plus.circle")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                    
+                    Button(action: {
+                        SyncServiceImpl.shared.findDevices { consoles in
+                            print("Consoles found: \(consoles.count)")
+                        } onError: { error in
+                            print(error)
                         }
-                }, label: {
-                    Image(systemName: "plus.circle")
+                    }) {
+                        Text("Scan Network")
+                        Image(systemName: "network")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
-                }).padding().foregroundColor(Color("navcolor"))
+                }.padding().foregroundColor(Color("navcolor"))
             }
             ScrollView(.vertical) {
                 ForEach(savedEntities) { item in

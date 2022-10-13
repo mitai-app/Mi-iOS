@@ -54,10 +54,18 @@ struct ConsoleListItem: View {
         .foregroundColor(sync.target?.ip == console.ip ? Color("quaternary") : Color.gray)
         .contextMenu(menuItems: {
             Button {
-                print("Setting Console: \(console.ip)")
                 sync.target = console
+                SyncServiceImpl.shared.findDevice(ip: console.ip) { console in
+                    AlertHelper.alert(title: "Success", message: "Console rescanned") { action in
+                        
+                    }
+                } onError: { error in
+                    AlertHelper.alert(title: "Error", message: error) { action in
+                        
+                    }
+                }
             } label: {
-                Label("Set Target", systemImage: "target")
+                Label("Rescan", systemImage: "arrow.clockwise.circle")
             }
             if console.isPs3 {
                 Button {

@@ -20,8 +20,12 @@ struct MiApp: App {
                 .environmentObject(SyncServiceImpl.shared)
                 .environmentObject(mi as! MiServerImpl)
                 .onAppear {
-                    SyncServiceImpl.shared.findDevices { consoles in
+                    SyncServiceImpl.shared.findDevices ({ consoles in
                         debugPrint(consoles)
+                    }) { error in
+                        AlertHelper.alert(title: "Error", message: error) { action in
+                            debugPrint(action)
+                        }
                     }
                     mi.start()
                 }
