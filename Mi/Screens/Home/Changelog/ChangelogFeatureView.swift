@@ -44,7 +44,7 @@ struct HeaderView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Image("karl_marx")
+            Image("red")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             VStack(alignment: .leading, spacing: 8) {
