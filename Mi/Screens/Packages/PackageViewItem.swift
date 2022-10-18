@@ -30,15 +30,31 @@ struct PackageViewItem: View {
                     .padding()
                     
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("\(package.name) \(package.type.rawValue) by \(package.author)")
+                    if #available(iOS 15.0, *) {
+                        Text("\(package.name) \(package.type.rawValue) by \(package.author)")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .dynamicTypeSize(DynamicTypeSize.small)
+                            .foregroundColor(Color("navcolor"))
+                    } else {
+                        // Fallback on earlier versions
+                        Text("\(package.name) \(package.type.rawValue) by \(package.author)")
                         .font(.headline)
                         .fontWeight(.bold)
-                        .dynamicTypeSize(DynamicTypeSize.small)
                         .foregroundColor(Color("navcolor"))
+                        .sizeCategory(.small)
+                    }
                         
-                    Text("ver: \(package.version)")
-                        .foregroundColor(.gray)
-                        .dynamicTypeSize(DynamicTypeSize.small)
+                    if #available(iOS 15.0, *) {
+                        Text("ver: \(package.version)")
+                            .foregroundColor(.gray)
+                            .dynamicTypeSize(DynamicTypeSize.small)
+                    } else {
+                        // Fallback on earlier versions
+                        Text("ver: \(package.version)")
+                            .foregroundColor(.gray)
+                            .sizeCategory(.small)
+                    }
                 }
                 Spacer()
             }

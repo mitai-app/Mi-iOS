@@ -14,14 +14,12 @@ struct ConsoleView: View {
     @EnvironmentObject var sync: SyncServiceImpl
     
     var body: some View {
-        CustomNavView {
-            ScrollView {
-                ConsoleSectionView()
-            }.onAppear {
-                
-            }.customNavigationTitle("Consoles")
-                .customNavigationBarBackButtonHidden(true)
-        }
+        ScrollView {
+            ConsoleSectionView()
+        }.onAppear {
+            
+        }.customNavigationTitle("Consoles")
+            .customNavigationBarBackButtonHidden(true)
     }
 }
 

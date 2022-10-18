@@ -11,7 +11,7 @@ struct CustomTabBarContainerView<Content:View> : View {
     
     @Binding var selection: TabBarItem
     @State private var tabs: [TabBarItem] = [
-        .consoles, .package, .settings
+        .home, .consoles, .package, .ftp, .settings
     ]
     let content: Content
     var background: Color
@@ -33,7 +33,9 @@ struct CustomTabBarContainerView<Content:View> : View {
             ZStack(alignment: .bottom) {
                 content.ignoresSafeArea()
             }.onPreferenceChange(TabBarItemsPreferenceKey.self) { value in
-                self.tabs = value
+                DispatchQueue.main.async {
+                    self.tabs = value
+                }
             }
             CustomTabBarView(tabs: tabs, selection: $selection, localSelection: selection, background: background)
         }

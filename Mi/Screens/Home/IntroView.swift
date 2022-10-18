@@ -30,24 +30,22 @@ struct IntroView: View {
     @StateObject private var vm: IntroViewModel = IntroViewModel()
     
     var body: some View {
-        CustomNavView {
-            ScrollView {
-                ForEach(0..<vm.articles.count) { index in
-                    ArticleView(article: vm.articles[index])
-                }
-                
-                LogView(logs: $sync.logs)
+        ScrollView {
+            ForEach(0..<vm.articles.count) { index in
+                ArticleView(article: vm.articles[index])
+            }
+            
+            LogView(logs: $sync.logs)
+                .foregroundColor(Color("foreground"))
+            
+            if let change = vm.changelogs {
+                ChangelogSectionView(change: change)
                     .foregroundColor(Color("foreground"))
-                
-                if let change = vm.changelogs {
-                    ChangelogSectionView(change: change)
-                        .foregroundColor(Color("foreground"))
-                }
-            }.onAppear {
-                vm.getChangelogs()
-            }.customNavigationTitle("Home")
-                .customNavigationBarBackButtonHidden(true)
-        }
+            }
+        }.onAppear {
+            vm.getChangelogs()
+        }.customNavigationTitle("Home")
+            .customNavigationBarBackButtonHidden(true)
     }
 }
 

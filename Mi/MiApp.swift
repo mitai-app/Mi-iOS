@@ -11,6 +11,7 @@ import SwiftUI
 struct MiApp: App {
     let persistence = PersistenceController.shared
     let mi: MiServer = MiServerImpl()
+    let rpi: RPI = RPIImpl()
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -19,6 +20,7 @@ struct MiApp: App {
                 .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
                 .environmentObject(SyncServiceImpl.shared)
                 .environmentObject(mi as! MiServerImpl)
+                .environmentObject(rpi as! RPIImpl)
                 .onAppear {
                     SyncServiceImpl.shared.findDevices ({ consoles in
                         debugPrint(consoles)
@@ -27,7 +29,8 @@ struct MiApp: App {
                             debugPrint(action)
                         }
                     }
-                    mi.start()
+                    mi.start(port: 8080)
+                    rpi.start(port: 8081)
                 }
         }
     }

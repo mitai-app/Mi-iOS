@@ -98,11 +98,12 @@ extension MiServerResponse {
 protocol MiServer {
     var port: Int { get  }
     func handleRequest(request: MiRequest) async -> MiServerResponse
-    func start()
+    func start(port: Int)
     func stop()
 }
 
 class MiServerImpl: ObservableObject,  MiServer {
+    
     
     func stop() {
         self.server?.close()
@@ -143,7 +144,8 @@ class MiServerImpl: ObservableObject,  MiServer {
     var task: Task<(), Never>? = nil
     var server: Socket? = nil
     
-    func start () {
+    func start (port: Int = MiServerImpl.port) {
+        self.port = port
         self.task = Task(priority: .background) {
             do {
                 self.server = try Socket.create()

@@ -39,12 +39,12 @@ struct ArticleView: View {
                                 }
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .background(.white)
+                                .background(Color.white)
                         } else {
                             Image(img)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .background(.white)
+                                .background(Color.white)
                         }
                     }.frame(maxHeight: 240)
                 }

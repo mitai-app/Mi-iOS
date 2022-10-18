@@ -11,7 +11,9 @@ import CoreData
 struct ContentView: View {
     
     var body: some View {
-        AppTabBarView(color: Color("navcolor"))
+        CustomNavView {
+            AppTabBarView(color: Color("navcolor"))
+        }
     }
 
 }

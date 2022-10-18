@@ -45,11 +45,19 @@ struct RepoListItem: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color("secondary"))
                         .frame(alignment: .leading)
-                    Text("Author: \(response.author)")
-                        .fontWeight(.bold)
-                        .foregroundColor(.gray)
-                        .frame(alignment: .leading)
-                        .dynamicTypeSize(.xSmall)
+                    if #available(iOS 15.0, *) {
+                        Text("Author: \(response.author)")
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .frame(alignment: .leading)
+                            .dynamicTypeSize(.xSmall)
+                    } else {
+                        Text("Author: \(response.author)")
+                                .fontWeight(.bold)
+                                .foregroundColor(.gray)
+                                .frame(alignment: .leading)
+                                .sizeCategory(.extraSmall)
+                    }
                 }.frame(maxWidth: .infinity, alignment: .leading).padding().background(Color("background").opacity(0.2))
             }.cornerRadius(30).onTapGesture {
                 withAnimation(Animation.easeInOut(duration: 0.5)) {

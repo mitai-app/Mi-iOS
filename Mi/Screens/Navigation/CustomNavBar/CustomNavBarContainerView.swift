@@ -26,11 +26,17 @@ struct CustomNavBarContainerView<Content: View>: View {
             CustomNavBarView(showBackButton: showBackButton, title: title, subtitle: subtitle)
             content.frame(maxWidth: .infinity, maxHeight: .infinity)
         }.onPreferenceChange(CustomNavBarTitlePreferenceKey.self, perform: { value in
-            self.title = value
+            DispatchQueue.main.async {
+                self.title = value
+            }
         }).onPreferenceChange(CustomNavBarSubtitlePreferenceKey.self, perform: { value in
+            DispatchQueue.main.async {
             self.subtitle = value
+            }
         }).onPreferenceChange(CustomNavBarBackButtonHiddenPreferenceKey.self, perform: { value in
+            DispatchQueue.main.async {
             self.showBackButton = !value
+            }
         })
     }
 }

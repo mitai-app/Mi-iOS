@@ -77,10 +77,17 @@ struct PS3MControlView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 40)
-                        Text(control.getTitle())
-                            .bold()
-                            .dynamicTypeSize(.xSmall)
-                            .lineLimit(1)
+                        if #available(iOS 15.0, *) {
+                            Text(control.getTitle())
+                                .bold()
+                                .dynamicTypeSize(.xSmall)
+                                .lineLimit(1)
+                        } else {
+                            Text(control.getTitle())
+                                .bold()
+                                .sizeCategory(.extraSmall)
+                                .lineLimit(1)
+                        }
                     }
                     .onTapGesture {
                         print("tapped \(console)")

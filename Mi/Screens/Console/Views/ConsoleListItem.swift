@@ -13,6 +13,7 @@ struct ConsoleListItem: View {
     var console: Console
     @State var show: Bool = false
     @EnvironmentObject var sync: SyncServiceImpl
+    @EnvironmentObject var rpi: RPIImpl
     
     @StateObject private var document: InputDoument = InputDoument()
     @State private var isImporting: Bool = false
@@ -39,10 +40,18 @@ struct ConsoleListItem: View {
                     Text("\(console.name) - \(console.ip)")
                         .font(.title3).bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(console.features.commaSeperated())
-                        .bold()
-                        .dynamicTypeSize(DynamicTypeSize.xSmall)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if #available(iOS 15.0, *) {
+                        Text(console.features.commaSeperated())
+                            .bold()
+                            .dynamicTypeSize(DynamicTypeSize.xSmall)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } else {
+                        // Fallback on earlier versions
+                            Text(console.features.commaSeperated())
+                                .bold()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .sizeCategory(.extraSmall)
+                    }
                 }.padding(8)
             }.padding(.horizontal)
             if show && console.isPs3 {
@@ -90,7 +99,7 @@ struct ConsoleListItem: View {
             allowedContentTypes: InputDoument.readableContentTypes,
             allowsMultipleSelection: true,
             onCompletion: { res in
-                Task(priority: .background) {
+                Task {
                     if let selectedFile = try? res.get().first {
                         if selectedFile.pathExtension == "bin" {
                             if selectedFile.startAccessingSecurityScopedResource() {
@@ -106,7 +115,28 @@ struct ConsoleListItem: View {
                                 // Handle denied access
                                 print("Access denied")
                             }
-                        } else {
+                        } else if selectedFile.pathExtension == "pkg" {
+                            if selectedFile.startAccessingSecurityScopedResource() {
+                                do {
+                                    let data = try Data(contentsOf: selectedFile)
+                                    let urls = rpi.hostPackage(payloads: PKG(name: selectedFile.lastPathComponent , data: data))
+                                    rpi.sendDirectRequest(urls: urls) { response in
+                                        debugPrint(String(data: response, encoding: .utf8)!)
+                                    } onError: { errorResponse in
+                                        debugPrint(String(data: errorResponse, encoding: .utf8)!)
+                                    }
+
+                                    selectedFile.stopAccessingSecurityScopedResource()
+                                } catch {
+                                    print("Could not send \(error)")
+                                }
+                                selectedFile.stopAccessingSecurityScopedResource()
+                            } else {
+                                // Handle denied access
+                                print("Access denied")
+                            }
+                        }
+                        else {
                             print("not a bin")
                         }
                     }
@@ -123,15 +153,19 @@ struct ConsoleListItem_Previews: PreviewProvider {
         VStack {
             ConsoleListItem(console: fakeConsoles[0])
                 .environmentObject(SyncServiceImpl.test())
+                .environmentObject(RPIImpl())
             ConsoleListItem(console: fakeConsoles[1])
                 .environmentObject(SyncServiceImpl.test())
+                .environmentObject(RPIImpl())
             Spacer()
         }
         VStack {
             ConsoleListItem(console: fakeConsoles[0])
-                .environmentObject(SyncServiceImpl.test()).colorScheme(.dark)
+                .environmentObject(SyncServiceImpl.test())
+                .environmentObject(RPIImpl()).colorScheme(.dark)
             ConsoleListItem(console: fakeConsoles[1])
-                .environmentObject(SyncServiceImpl.test()).colorScheme(.dark)
+                .environmentObject(SyncServiceImpl.test())
+                .environmentObject(RPIImpl()).colorScheme(.dark)
             
         Spacer()
         }.colorScheme(.dark)

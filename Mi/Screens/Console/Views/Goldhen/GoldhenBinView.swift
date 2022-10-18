@@ -104,6 +104,9 @@ struct Row: View {
                 .resizable()
                 .frame(width: 32, height: 32)
                 .foregroundColor(.gray)
-        }.frame(maxWidth: .infinity, alignment: .leading).padding().background(.white).cornerRadius(20)
+        }.frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(Color.white)
+            .cornerRadius(20)
     }
 }

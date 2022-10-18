@@ -108,29 +108,25 @@ struct PackageView: View {
     @StateObject var vm: PackageViewModel = PackageViewModel()
     
     var body: some View {
-        CustomNavView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    textFieldView
-                    if search.isEmpty {
-                        ForEach(vm.response) { repo in
-                            RepoListItem(response: repo)
-                        }
-                    } else if !vm.results.isEmpty {
-                        PackageListView(packages: vm.results)
-                    } else if vm.verifyUrl(urlString: search) {
-                        
-                    } 
-                }.padding(20)
-            }
-            .refreshable {
-                        
-            }.customNavigationTitle("Packages")
-            .customNavigationBarBackButtonHidden(true)
-            .onAppear {
-                vm.searchPackages(find: savedEntities)
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                textFieldView
+                if search.isEmpty {
+                    ForEach(vm.response) { repo in
+                        RepoListItem(response: repo)
+                    }
+                } else if !vm.results.isEmpty {
+                    PackageListView(packages: vm.results)
+                } else if vm.verifyUrl(urlString: search) {
+                    
+                } 
+            }.padding(20)
+        }.customNavigationTitle("Packages")
+        .customNavigationBarBackButtonHidden(true)
+        .onAppear {
+            vm.searchPackages(find: savedEntities)
         }
+        
     }
 }
 

@@ -15,36 +15,34 @@ struct SettingView: View {
     @EnvironmentObject var mi: MiServerImpl
     
     var body: some View {
-        CustomNavView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    Toggle(isOn: $jbService) {
-                        HStack(alignment: .center, spacing: 20) {
-                            Image(systemName: "globe")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 24, height: 24)
-                            VStack(alignment: .leading) {
-                                if(jbService) {
-                                    Text("PS4 Mi Host Running...")
-                                } else {
-                                    Text("PS4 Mi Host Stopped...")
-                                }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 8) {
+                Toggle(isOn: $jbService) {
+                    HStack(alignment: .center, spacing: 20) {
+                        Image(systemName: "globe")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                        VStack(alignment: .leading) {
+                            if(jbService) {
+                                Text("PS4 Mi Host Running...")
+                            } else {
+                                Text("PS4 Mi Host Stopped...")
                             }
-                        }.padding(8)
-                    }.onChange(of: jbService) { newValue in
-                        print("Value: \(newValue)")
-                        if newValue {
-                            mi.start()
-                        } else {
-                            mi.stop()
                         }
+                    }.padding(8)
+                }.onChange(of: jbService) { newValue in
+                    print("Value: \(newValue)")
+                    if newValue {
+                        mi.start()
+                    } else {
+                        mi.stop()
                     }
-                }.padding()
-            }
-            .customNavigationTitle("Settings")
-            .customNavigationBarBackButtonHidden(true)
+                }
+            }.padding()
         }
+        .customNavigationTitle("Settings")
+        .customNavigationBarBackButtonHidden(true)
     }
 }
 

@@ -102,105 +102,75 @@ struct FTPView: View {
     @StateObject var vm: FTPViewModel = FTPViewModel()
     
     var body: some View {
-        CustomNavView {
-            VStack (spacing: 0) {
-                HStack {
-                    Text("CWD: \(vm.cwd)")
-                        .font(.title3)
-                        .foregroundColor(Color("foreground"))
-                        .fontWeight(.bold)
-                    Spacer()
-                    
-                    Menu {
-                        Button {
-                            print("Upload File")
-                            withAnimation(.default) {
-                                isImporting.toggle()
-                            }
-                        } label: {
-                            Label("New File", systemImage: "doc.badge.plus")
-                        }
-                    
-                        Button {
-                            alertMessage(
-                                title: "Create",
-                                message: "Create new folder",
-                                placeholder: "folder name",
-                                onConfirm: { string in
-                                    Task(priority: .background) {
-                                        await vm.makeDir(dir: string)
-                                    }
-                                }) {
-                                    // do nothing
-                            }
-                        } label: {
-                            Label("New Folder", systemImage: "folder.badge.plus")
+        VStack (spacing: 0) {
+            HStack {
+                Text("CWD: \(vm.cwd)")
+                    .font(.title3)
+                    .foregroundColor(Color("foreground"))
+                    .fontWeight(.bold)
+                Spacer()
+                
+                Menu {
+                    Button {
+                        print("Upload File")
+                        withAnimation(.default) {
+                            isImporting.toggle()
                         }
                     } label: {
-                        Image(systemName:  "plus.circle")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    }.foregroundColor(Color("navcolor"))
-                }.padding()
-                List {
-                    ForEach($vm.dir) { item in
-                        ListItem(file: item)
-                            .contextMenu {
-                                if !item.wrappedValue.directory {
-                                    Button {
-                                        Task(priority: .background) {
-                                            print("Downloading \(item.wrappedValue.name)")
-                                            await vm.download(file: item.wrappedValue)
-                                        }
-                                    } label: {
-                                        Label("Download File", systemImage: "arrow.down.doc")
-                                    }
+                        Label("New File", systemImage: "doc.badge.plus")
+                    }
+                
+                    Button {
+                        alertMessage(
+                            title: "Create",
+                            message: "Create new folder",
+                            placeholder: "folder name",
+                            onConfirm: { string in
+                                Task(priority: .background) {
+                                    await vm.makeDir(dir: string)
                                 }
-                                
+                            }) {
+                                // do nothing
+                        }
+                    } label: {
+                        Label("New Folder", systemImage: "folder.badge.plus")
+                    }
+                } label: {
+                    Image(systemName:  "plus.circle")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }.foregroundColor(Color("navcolor"))
+            }.padding()
+            List {
+                ForEach($vm.dir) { item in
+                    ListItem(file: item)
+                        .contextMenu {
+                            if !item.wrappedValue.directory {
                                 Button {
                                     Task(priority: .background) {
-                                        await vm.delete(file: item.wrappedValue)
+                                        print("Downloading \(item.wrappedValue.name)")
+                                        await vm.download(file: item.wrappedValue)
                                     }
                                 } label: {
-                                    Label("Delete \(item.wrappedValue.directory ? "Folder" : "File")", systemImage: "delete.left")
+                                    Label("Download File", systemImage: "arrow.down.doc")
                                 }
                             }
-                            .onTapGesture {
+                            
+                            Button {
                                 Task(priority: .background) {
-                                    await vm.changeDir(file: item.wrappedValue)
+                                    await vm.delete(file: item.wrappedValue)
                                 }
+                            } label: {
+                                Label("Delete \(item.wrappedValue.directory ? "Folder" : "File")", systemImage: "delete.left")
                             }
-                    }
-                }.refreshable {
-                    Task(priority: .background) {
-                        if await vm.connect() {
-                            #if DEBUG
-                            debugPrint("Connected?")
-                            #endif
-                        } else {
-                            #if DEBUG
-                            debugPrint("Could not connect")
-                            #endif
                         }
-                    }
+                        .onTapGesture {
+                            Task(priority: .background) {
+                                await vm.changeDir(file: item.wrappedValue)
+                            }
+                        }
                 }
-                .fileImporter(
-                    isPresented: $isImporting,
-                    allowedContentTypes: InputDoument.readableContentTypes,
-                    allowsMultipleSelection: true,
-                    onCompletion: { result in
-                        Task {
-                            for selectedFile in try result.get() {
-                                print("uploading \(selectedFile.lastPathComponent)")
-                                await vm.upload(url: selectedFile)
-                            }
-                        }
-                    }
-                )
-                .textFieldAlert(isShowing: $show, text: $input, title: "Create")
-            }.customNavigationTitle("FTP")
-            .customNavigationBarBackButtonHidden(true)
-            .onAppear {
+            }.refreshable {
                 Task(priority: .background) {
                     if await vm.connect() {
                         #if DEBUG
@@ -211,6 +181,34 @@ struct FTPView: View {
                         debugPrint("Could not connect")
                         #endif
                     }
+                }
+            }
+            .fileImporter(
+                isPresented: $isImporting,
+                allowedContentTypes: InputDoument.readableContentTypes,
+                allowsMultipleSelection: true,
+                onCompletion: { result in
+                    Task {
+                        for selectedFile in try result.get() {
+                            print("uploading \(selectedFile.lastPathComponent)")
+                            await vm.upload(url: selectedFile)
+                        }
+                    }
+                }
+            )
+            .textFieldAlert(isShowing: $show, text: $input, title: "Create")
+        }.customNavigationTitle("FTP")
+        .customNavigationBarBackButtonHidden(true)
+        .onAppear {
+            Task(priority: .background) {
+                if await vm.connect() {
+                    #if DEBUG
+                    debugPrint("Connected?")
+                    #endif
+                } else {
+                    #if DEBUG
+                    debugPrint("Could not connect")
+                    #endif
                 }
             }
         }

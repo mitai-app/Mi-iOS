@@ -121,10 +121,10 @@ struct ConsoleSectionView: View {
                 ForEach(savedEntities) { item in
                     ConsoleListItem(console: item.fromConsoleEntity())
                 }
-            }
-        }.refreshable {
-            sync.findDevices { consoles in
-                
+            }.refreshable {
+                await sync.findDevices(onError:  { consoles in
+                    
+                })
             }
         }.onAppear {
             

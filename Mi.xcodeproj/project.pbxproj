@@ -88,6 +88,11 @@
 		17F1788E28DEB0A8001E010A /* PSXService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788D28DEB0A8001E010A /* PSXService.swift */; };
 		17F1789028DEB0DD001E010A /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1788F28DEB0DD001E010A /* SyncService.swift */; };
 		17F1789228DEB160001E010A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1789128DEB160001E010A /* SettingView.swift */; };
+		17FCCF4928FB0D9A00231DC6 /* RPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCF4828FB0D9A00231DC6 /* RPI.swift */; };
+		17FCCF4B28FB0E0A00231DC6 /* RPIImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCF4A28FB0E0A00231DC6 /* RPIImpl.swift */; };
+		17FCCF5128FBAACA00231DC6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 17FCCF5028FBAACA00231DC6 /* Introspect */; };
+		17FCCF5328FBAAEF00231DC6 /* OnRefreshModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCF5228FBAAEF00231DC6 /* OnRefreshModifier.swift */; };
+		17FCCF5528FBAB3800231DC6 /* RefreshableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCF5428FBAB3800231DC6 /* RefreshableModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +194,10 @@
 		17F1788D28DEB0A8001E010A /* PSXService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSXService.swift; sourceTree = "<group>"; };
 		17F1788F28DEB0DD001E010A /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
 		17F1789128DEB160001E010A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		17FCCF4828FB0D9A00231DC6 /* RPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPI.swift; sourceTree = "<group>"; };
+		17FCCF4A28FB0E0A00231DC6 /* RPIImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPIImpl.swift; sourceTree = "<group>"; };
+		17FCCF5228FBAAEF00231DC6 /* OnRefreshModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnRefreshModifier.swift; sourceTree = "<group>"; };
+		17FCCF5428FBAB3800231DC6 /* RefreshableModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17F1786E28DE6F24001E010A /* Kingfisher in Frameworks */,
+				17FCCF5128FBAACA00231DC6 /* Introspect in Frameworks */,
 				17F1786B28DE6F12001E010A /* SWXMLHash in Frameworks */,
 				174DD77028E3E68F007244B5 /* Socket in Frameworks */,
 				174DD76B28E3E66D007244B5 /* SwiftEntryKit in Frameworks */,
@@ -514,6 +524,7 @@
 		17F1783328DE552A001E010A /* Mi */ = {
 			isa = PBXGroup;
 			children = (
+				17FCCF4E28FBAA9500231DC6 /* Refreshable */,
 				1797D44628F709B2009688B1 /* Mi.entitlements */,
 				17CB452828F52C2100F9EE80 /* Database */,
 				17F1787A28DE89E9001E010A /* Screens */,
@@ -623,12 +634,31 @@
 		17F1788A28DEB064001E010A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				17FCCF4C28FB0E1100231DC6 /* RPI */,
 				1797D44A28F728EE009688B1 /* Payload */,
 				174BF30C28E52ED000D6DDF2 /* Goldhen */,
 				174DD77E28E4C4DB007244B5 /* Webman */,
 				174DD77928E4BEF2007244B5 /* PS3MAPI */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		17FCCF4C28FB0E1100231DC6 /* RPI */ = {
+			isa = PBXGroup;
+			children = (
+				17FCCF4A28FB0E0A00231DC6 /* RPIImpl.swift */,
+				17FCCF4828FB0D9A00231DC6 /* RPI.swift */,
+			);
+			path = RPI;
+			sourceTree = "<group>";
+		};
+		17FCCF4E28FBAA9500231DC6 /* Refreshable */ = {
+			isa = PBXGroup;
+			children = (
+				17FCCF5228FBAAEF00231DC6 /* OnRefreshModifier.swift */,
+				17FCCF5428FBAB3800231DC6 /* RefreshableModifier.swift */,
+			);
+			path = Refreshable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -655,6 +685,7 @@
 				174DD76D28E3E68F007244B5 /* BlueSocketTestCommonLibrary */,
 				174DD76F28E3E68F007244B5 /* Socket */,
 				17CB452F28F5C60600F9EE80 /* SQLiteKit */,
+				17FCCF5028FBAACA00231DC6 /* Introspect */,
 			);
 			productName = Mi;
 			productReference = 17F1783128DE552A001E010A /* Mi.app */;
@@ -736,6 +767,7 @@
 				174DD76928E3E66D007244B5 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 				174DD76C28E3E68F007244B5 /* XCRemoteSwiftPackageReference "BlueSocket" */,
 				17CB452E28F5C60600F9EE80 /* XCRemoteSwiftPackageReference "SQLiteKit" */,
+				17FCCF4F28FBAACA00231DC6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 17F1783228DE552A001E010A /* Products */;
 			projectDirPath = "";
@@ -801,6 +833,7 @@
 				1755336B28F1FF5B00F7B503 /* InputDocument.swift in Sources */,
 				174BF31428E63D2F00D6DDF2 /* CustomTabBarView.swift in Sources */,
 				17480AA128E10AA1000DF33F /* WMGameView.swift in Sources */,
+				17FCCF5528FBAB3800231DC6 /* RefreshableModifier.swift in Sources */,
 				1755336F28F2551E00F7B503 /* StringExtension.swift in Sources */,
 				17480A9D28E0D5EA000DF33F /* FakeData.swift in Sources */,
 				173CBAA028E79E6400983E18 /* PackageView.swift in Sources */,
@@ -814,10 +847,12 @@
 				174DD77D28E4C4C6007244B5 /* PS3MAPI+Structs.swift in Sources */,
 				17CB452528F4C9A000F9EE80 /* LogView.swift in Sources */,
 				1797D43728F61FF5009688B1 /* Mi.xcdatamodeld in Sources */,
+				17FCCF5328FBAAEF00231DC6 /* OnRefreshModifier.swift in Sources */,
 				173CBA8F28E6593100983E18 /* CustomNavBarView.swift in Sources */,
 				1755336528EFBB0400F7B503 /* FTP.swift in Sources */,
 				17F1787528DE7F55001E010A /* ConsoleView.swift in Sources */,
 				17F1787928DE84C7001E010A /* ListItem.swift in Sources */,
+				17FCCF4B28FB0E0A00231DC6 /* RPIImpl.swift in Sources */,
 				17CB452328F4C8E500F9EE80 /* ArticleView.swift in Sources */,
 				17480A8F28E0B5CD000DF33F /* Changelog.swift in Sources */,
 				1787A33F28F325B600997B9E /* FTPDelegate.swift in Sources */,
@@ -835,6 +870,7 @@
 				173CBA9528E65F0F00983E18 /* CustomNavLink.swift in Sources */,
 				17F1788228DE8B5A001E010A /* PlatformType.swift in Sources */,
 				1755336828F09EBD00F7B503 /* ObservedObjectCollection.swift in Sources */,
+				17FCCF4928FB0D9A00231DC6 /* RPI.swift in Sources */,
 				174BAE0D28EF2F060002E2E2 /* PackageListView.swift in Sources */,
 				174BF30A28E5185E00D6DDF2 /* GoldhenBinView.swift in Sources */,
 				17F1783728DE552B001E010A /* ContentView.swift in Sources */,
@@ -916,7 +952,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -943,6 +979,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -979,7 +1016,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1026,12 +1063,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "0.1.0-alpha";
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.mrsmyx.Mi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1066,14 +1103,15 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "0.1.0-alpha";
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.mrsmyx.Mi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Mi/SimplePing/Mi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1167,7 +1205,7 @@
 				17F1785928DE5533001E010A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		17F1785A28DE5533001E010A /* Build configuration list for PBXNativeTarget "Mi" */ = {
 			isa = XCConfigurationList;
@@ -1176,7 +1214,7 @@
 				17F1785C28DE5533001E010A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		17F1785D28DE5533001E010A /* Build configuration list for PBXNativeTarget "MiTests" */ = {
 			isa = XCConfigurationList;
@@ -1185,7 +1223,7 @@
 				17F1785F28DE5533001E010A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		17F1786028DE5533001E010A /* Build configuration list for PBXNativeTarget "MiUITests" */ = {
 			isa = XCConfigurationList;
@@ -1194,7 +1232,7 @@
 				17F1786228DE5533001E010A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
@@ -1247,6 +1285,14 @@
 				kind = branch;
 			};
 		};
+		17FCCF4F28FBAACA00231DC6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1284,6 +1330,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 17F1786C28DE6F24001E010A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		17FCCF5028FBAACA00231DC6 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17FCCF4F28FBAACA00231DC6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 
