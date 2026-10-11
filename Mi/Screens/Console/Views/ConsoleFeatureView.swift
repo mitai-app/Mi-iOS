@@ -25,6 +25,10 @@ struct ConsoleFeatureView: View {
                     WMGameView(console: item)
                 } else if item.isPs4 {
                     GoldhenBinView(vm: GoldhenBinViewModel(console: item))
+                    if item.features.contains(.klog) {
+                        KLogView(vm: KLogViewModel(console: item))
+                            .padding(.top, 8)
+                    }
                 }
             }
             .onAppear {

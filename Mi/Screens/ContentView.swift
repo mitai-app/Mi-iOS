@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         CustomNavView {
             AppTabBarView(color: Color("navcolor"))
-        }
+        }.customNavBarItems(title: "Mi", subtitle: nil, backButtonHidden: true)
     }
 
 }

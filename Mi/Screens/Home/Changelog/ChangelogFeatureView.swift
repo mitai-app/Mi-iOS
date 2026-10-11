@@ -16,19 +16,18 @@ struct ChangelogFeatureView: View {
         ScrollView {
             HeaderView(item: item)
             
-            if let change = item {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(change.name)
+                    Text(item.name)
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    ForEach(0..<change.changes.count) { id in
-                        Text(change.changes[id])
+                    ForEach(0..<item.changes.count) { id in
+                        Text(item.changes[id])
                     }
-                    Text(change.build)
+                    Text(item.build)
                 
                 }.padding()
-            }
+            
         }
     }
 }

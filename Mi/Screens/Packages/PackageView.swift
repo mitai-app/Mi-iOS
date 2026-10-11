@@ -121,9 +121,7 @@ struct PackageView: View {
                     
                 } 
             }.padding(20)
-        }.customNavigationTitle("Packages")
-        .customNavigationBarBackButtonHidden(true)
-        .onAppear {
+        }.onAppear {
             vm.searchPackages(find: savedEntities)
         }
         

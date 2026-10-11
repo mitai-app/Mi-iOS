@@ -18,8 +18,7 @@ struct ConsoleView: View {
             ConsoleSectionView()
         }.onAppear {
             
-        }.customNavigationTitle("Consoles")
-            .customNavigationBarBackButtonHidden(true)
+        }
     }
 }
 

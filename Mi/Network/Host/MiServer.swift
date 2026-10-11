@@ -235,7 +235,7 @@ class MiServerImpl: ObservableObject,  MiServer {
                         if let gh = Constants.goldhen {
                             await Goldhen.uploadData(data: gh)
                         } else if let gh = NSDataAsset(name: "gh.bin.\(request.device.versionClean)")?.data {
-                            await Goldhen.uploadData(data: gh) // 2.2.4
+                            await Goldhen.uploadData(data: gh) // 2.3
                         }
                     }
                     break
@@ -253,7 +253,7 @@ class MiServerImpl: ObservableObject,  MiServer {
                             }
                         }
                     } else if let gh = NSDataAsset(name: "gh.bin.\(request.device.versionClean)")?.data {
-                        let result = Payload.send(addr: request.device.ip, port: 9020, payload: gh) //2.2.4
+                        let result = Payload.send(addr: request.device.ip, port: 9020, payload: gh) //2.3
                         print(result)
                         if result.1 {
                             await MainActor.run {

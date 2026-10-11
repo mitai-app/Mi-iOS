@@ -44,8 +44,7 @@ struct IntroView: View {
             }
         }.onAppear {
             vm.getChangelogs()
-        }.customNavigationTitle("Home")
-            .customNavigationBarBackButtonHidden(true)
+        }
     }
 }
 

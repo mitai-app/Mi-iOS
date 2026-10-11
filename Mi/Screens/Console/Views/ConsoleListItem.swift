@@ -54,7 +54,7 @@ struct ConsoleListItem: View {
                     }
                 }.padding(8)
             }.padding(.horizontal)
-            if show && console.isPs3 {
+            if show && (console.isPs3 || console.isPs4) {
                 ConsoleFeatureView(item: console)
             }
         }.onTapGesture {
@@ -76,7 +76,7 @@ struct ConsoleListItem: View {
             } label: {
                 Label("Rescan", systemImage: "arrow.clockwise.circle")
             }
-            if console.isPs3 {
+            if console.isPs3 || console.isPs4 {
                 Button {
                     sync.target = console
                     withAnimation(Animation.easeInOut(duration: 0.5)) {

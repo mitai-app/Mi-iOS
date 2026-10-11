@@ -19,10 +19,9 @@ struct ChangelogCardView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 32, height: 32)
                     .padding(.horizontal)
-                if let change = item {
                     VStack(alignment: .leading) {
                         
-                        Text(change.name)
+                        Text(item.name)
                             .font(.title3)
                             .fontWeight(.bold)
                             .frame(alignment: .leading)
@@ -30,7 +29,7 @@ struct ChangelogCardView: View {
                             .opacity(0.7)
                             .frame(alignment: .leading)
                     }.frame(maxWidth: .infinity, alignment: .leading)
-                }
+                
             }
         }.frame(height: 80)
         .frame(maxWidth: .infinity)

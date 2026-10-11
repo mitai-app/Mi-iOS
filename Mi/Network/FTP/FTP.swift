@@ -193,12 +193,14 @@ class FTP: ObservableObject {
     private func readFromDataSock() async -> Bool {
         self.data = try! Socket.create()
         try! data.connect(to: socket.remoteHostname, port: Int32(dataPort), timeout: 1000)
-        guard let bytes = try? data.readString() else {
+        var bytes = Data()
+        guard (try? data.read(into: &bytes)) != nil else  {
             debugPrint("unabled to read from data sock")
             data?.close()
             return false
         }
-        let dir = FTPFile.parse(cwd: cwd, testString: bytes)
+        let string = String(decoding: bytes, as: UTF8.self)
+        let dir = FTPFile.parse(cwd: cwd, testString: string)
         data?.close()
         if dir.count <= 1 {
             if dir.count == 1 && dir[0].name == "." {

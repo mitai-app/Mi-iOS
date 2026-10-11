@@ -195,11 +195,8 @@ struct FTPView: View {
                         }
                     }
                 }
-            )
-            .textFieldAlert(isShowing: $show, text: $input, title: "Create")
-        }.customNavigationTitle("FTP")
-        .customNavigationBarBackButtonHidden(true)
-        .onAppear {
+            ).textFieldAlert(isShowing: $show, text: $input, title: "Create")
+        }.onAppear {
             Task(priority: .background) {
                 if await vm.connect() {
                     #if DEBUG

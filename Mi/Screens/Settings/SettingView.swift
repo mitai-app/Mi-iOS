@@ -41,8 +41,6 @@ struct SettingView: View {
                 }
             }.padding()
         }
-        .customNavigationTitle("Settings")
-        .customNavigationBarBackButtonHidden(true)
     }
 }
 

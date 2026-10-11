@@ -11,8 +11,8 @@ struct CustomNavBarContainerView<Content: View>: View {
     
     let content: Content
     
-    @State private var showBackButton: Bool = true
-    @State private var title: String = "Title"
+    @State private var showBackButton: Bool = false
+    @State private var title: String = "Mi"
     @State private var subtitle: String? = "Subtitle"
     
     
@@ -35,7 +35,7 @@ struct CustomNavBarContainerView<Content: View>: View {
             }
         }).onPreferenceChange(CustomNavBarBackButtonHiddenPreferenceKey.self, perform: { value in
             DispatchQueue.main.async {
-            self.showBackButton = !value
+            self.showBackButton = value
             }
         })
     }

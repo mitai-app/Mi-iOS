@@ -1,70 +1,68 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
-        "state": {
-          "branch": null,
-          "revision": "8dd85aee02e39dd280c75eef88ffdb86eed4b07b",
-          "version": "5.6.2"
-        }
-      },
-      {
-        "package": "Socket",
-        "repositoryURL": "https://github.com/Kitura/BlueSocket.git",
-        "state": {
-          "branch": null,
-          "revision": "270f7bd2ea9d81878022d604f4f3577ce6c1703d",
-          "version": "2.0.3"
-        }
-      },
-      {
-        "package": "Kingfisher",
-        "repositoryURL": "https://github.com/onevcat/Kingfisher",
-        "state": {
-          "branch": "master",
-          "revision": "5ffd3e5db7a18873a9bbaa3cea25a7ba52d7bd8a",
-          "version": null
-        }
-      },
-      {
-        "package": "SQLiteKit",
-        "repositoryURL": "https://github.com/apparata/SQLiteKit.git",
-        "state": {
-          "branch": null,
-          "revision": "c5a4689053e98af660cecc79a71f06ccbbf4c4cc",
-          "version": "0.4.5"
-        }
-      },
-      {
-        "package": "SwiftEntryKit",
-        "repositoryURL": "https://github.com/huri000/SwiftEntryKit.git",
-        "state": {
-          "branch": null,
-          "revision": "5ad36cccf0c4b9fea32f4e9b17a8e38f07563ef0",
-          "version": "2.0.0"
-        }
-      },
-      {
-        "package": "Introspect",
-        "repositoryURL": "https://github.com/siteline/SwiftUI-Introspect.git",
-        "state": {
-          "branch": null,
-          "revision": "f2616860a41f9d9932da412a8978fec79c06fe24",
-          "version": "0.1.4"
-        }
-      },
-      {
-        "package": "SWXMLHash",
-        "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
-        "state": {
-          "branch": "main",
-          "revision": "eacfa68203c7595f7988e36a037a0decfc74dc33",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
+        "version" : "5.8.1"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "bluesocket",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Kitura/BlueSocket.git",
+      "state" : {
+        "revision" : "7b23a867008e0027bfd6f4d398d44720707bc8ca",
+        "version" : "2.0.4"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher",
+      "state" : {
+        "branch" : "master",
+        "revision" : "287da2589f4204a7571000d846900c61abe65540"
+      }
+    },
+    {
+      "identity" : "sqlitekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apparata/SQLiteKit.git",
+      "state" : {
+        "revision" : "d7cfcda08c112e3c259585bcf4b5b308d08d5ce6",
+        "version" : "0.4.7"
+      }
+    },
+    {
+      "identity" : "swiftentrykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/huri000/SwiftEntryKit.git",
+      "state" : {
+        "revision" : "5ad36cccf0c4b9fea32f4e9b17a8e38f07563ef0",
+        "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/SwiftUI-Introspect.git",
+      "state" : {
+        "revision" : "121c146fe591b1320238d054ae35c81ffa45f45a",
+        "version" : "0.12.0"
+      }
+    },
+    {
+      "identity" : "swxmlhash",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/drmohundro/SWXMLHash.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7226ebc24e1dc42b6a62e699bf98c6b4f7eb8f5c"
+      }
+    }
+  ],
+  "version" : 2
 }

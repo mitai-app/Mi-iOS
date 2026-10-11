@@ -38,7 +38,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
     private var map: [String:[Feature:Socket]] = [:]
     private var task: Task<(), Never>?
     private var singleSearch: Task<Bool, Never>?
-    
+    static let timeout: Int = 500
     static let psx = PSXService()
     static let shared: SyncServiceImpl = SyncServiceImpl()
     
@@ -60,7 +60,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
                 do {
                     for port in feat.ports {
                         socket = try Socket.create()
-                        try socket?.connect(to: ip, port: Int32(port), timeout: 200)
+                        try socket?.connect(to: ip, port: Int32(port), timeout: UInt(SyncServiceImpl.timeout))
                         map[ip]![feat] = socket
                         
                         if feat == .ps3mapi {
@@ -160,9 +160,9 @@ class SyncServiceImpl: ObservableObject, SyncService {
             return false
         }
         if FTP.ip != console.ip {
-            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
+            return await FTP.shared.setHost(ip: console.ip, port: console.isPs4 ? 2121 : 21)
         } else if !FTP.isConnected {
-            return await FTP.shared.setHost(ip: console.ip ?? "", port: console.isPs4 ? 2121 : 21)
+            return await FTP.shared.setHost(ip: console.ip , port: console.isPs4 ? 2121 : 21)
         } else {
             let o = FTP.isConnected
             // keep main socket? close all others?
@@ -174,7 +174,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
     }
     
     private func checkIp(ip: String, wifi: String?) async -> Console? {
-        var console: Console =  Console(id: ip, ip: ip ?? "", name: "Device")
+        var console: Console =  Console(id: ip, ip: ip , name: "Device")
         var name: String = ""
         var features: [Feature] = []
         var platform = PlatformType.unknown
@@ -185,7 +185,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
                 for port in ports {
                     do {
                         let socket = try Socket.create()
-                        try socket.connect(to: ip, port: Int32(port), timeout: 200)
+                        try socket.connect(to: ip, port: Int32(port), timeout: UInt(SyncServiceImpl.timeout))
                         print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
                         features.append(feat)
                         
@@ -222,7 +222,7 @@ class SyncServiceImpl: ObservableObject, SyncService {
                 for port in ports {
                     do {
                         let socket = try Socket.create()
-                        try socket.connect(to: ip, port: Int32(port), timeout: 200)
+                        try socket.connect(to: ip, port: Int32(port), timeout: UInt(SyncServiceImpl.timeout))
                         print("\(ip):\(port) - (Feat: \(feat) - connected?): \(socket.isConnected)")
                         if feat == .ccapi {
                             features.append(feat)
@@ -295,7 +295,6 @@ class SyncServiceImpl: ObservableObject, SyncService {
                 do {
                     self.active.append(console)
                     console.toConsoleEntity(moc: moc)
-                    
                     try moc.save()
                 } catch {
                     print("Did not save: \(error.localizedDescription)")
@@ -350,9 +349,8 @@ class SyncServiceImpl: ObservableObject, SyncService {
     private func getWiFiSsid() -> String? {
         let interfaces = CNCopySupportedInterfaces() as [AnyObject]?
         let interfaceNames = interfaces?.map { $0 as! CFString }
-        let interfaceDictionaries = interfaceNames?.flatMap { CNCopyCurrentNetworkInfo($0) as? [String : AnyObject] }
-        return interfaceDictionaries?.flatMap { $0[kCNNetworkInfoKeySSID as String] as? String }
-                                     .first
+        let interfaceDictionaries = interfaceNames?.compactMap { CNCopyCurrentNetworkInfo($0) as? [String : AnyObject] }
+        return interfaceDictionaries?.compactMap { $0[kCNNetworkInfoKeySSID as String] as? String }.first
     }
     
     private enum Network: String {

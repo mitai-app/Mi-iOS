@@ -37,8 +37,8 @@ class AppTabBarView_Previews: PreviewProvider {
         AppTabBarView(tabSelection: .home, color: Color("tabcolor"))
             .environmentObject(SyncServiceImpl.test())
         
-            AppTabBarView(tabSelection: .home, color: Color("tabcolor"))
+            /*AppTabBarView(tabSelection: .home, color: Color("tabcolor"))
                 .environmentObject(SyncServiceImpl.test())
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(.dark)*/
     }
 }
