@@ -12,6 +12,8 @@ import SwiftUI
 class Constants {
     
     static var goldhen: Data? = nil
+    /// Project source repository, opened from the nav-bar icon.
+    static let REPO_URL = "https://github.com/mitai-app/Mi-iOS"
     static let TITLE = "Mi - JB Host"
     static let BODY = "Mi"
     static let ERROR_CONTENT = "Unsupported device...<p>Come back on a PS4/5</p>"

@@ -31,9 +31,11 @@ struct CustomNavBarSubtitlePreferenceKey: PreferenceKey {
 
 
 struct CustomNavBarBackButtonHiddenPreferenceKey: PreferenceKey {
-    
-    static var defaultValue: Bool = false
-    
+
+    // Hidden by default: root/tab screens have nothing to pop, so no back
+    // button. A pushed screen opts in with customNavigationBarBackButtonHidden(false).
+    static var defaultValue: Bool = true
+
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
         value = nextValue()
     }

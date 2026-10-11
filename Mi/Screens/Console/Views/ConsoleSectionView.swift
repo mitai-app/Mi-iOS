@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import UIKit
 
 class ConsoleViewModel: ObservableObject {
 
@@ -58,76 +59,124 @@ class ConsoleViewModel: ObservableObject {
 }
 
 struct ConsoleSectionView: View {
-    
+
     @StateObject var vm = ConsoleViewModel()
     @EnvironmentObject var sync: SyncServiceImpl
-    
+
     @FetchRequest<ConsoleEntity>(
         entity: ConsoleEntity.entity(),
         sortDescriptors: []
     ) var savedEntities: FetchedResults<ConsoleEntity>
-    
+
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                if sync.active.count > 0 {
-                    Text("Found")
-                        .font(.title).bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                } else {
-                    Text("Searching...")
-                        .font(.title).bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                }
-                Menu {
-                    Button(action: {
-                        alertMessage(
-                            title: "Add",
-                            message: "Add a new console via ip",
-                            placeholder: "console ip",
-                            onConfirm: { string in
-                                vm.addConsole(string: string)
-                            }) {
-                                // do nothing
-                            }
-                    }) {
-                        Text("Add Console")
-                        Image(systemName: "plus.circle")
-                            .resizable()
-                            .frame(width: 24, height: 24)
+        VStack(alignment: .leading, spacing: 12) {
+            header
+            if savedEntities.isEmpty {
+                emptyState
+            } else {
+                LazyVStack(spacing: 10) {
+                    ForEach(savedEntities) { item in
+                        ConsoleListItem(console: item.fromConsoleEntity())
                     }
-                    
-                    Button(action: {
-                        SyncServiceImpl.shared.findDevices { consoles in
-                            print("Consoles found: \(consoles.count)")
-                        } onError: { error in
-                            print(error)
-                        }
-                    }) {
-                        Text("Scan Network")
-                        Image(systemName: "network")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }.padding().foregroundColor(Color("navcolor"))
-            }
-            ScrollView(.vertical) {
-                ForEach(savedEntities) { item in
-                    ConsoleListItem(console: item.fromConsoleEntity())
                 }
-            }.refreshable {
-                await sync.findDevices(onError:  { consoles in
-                    
-                })
             }
-        }.onAppear {
-            
+        }
+        .padding(16)
+        .onAppear {
+            if sync.active.isEmpty { sync.findDevices() }
+        }
+    }
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 10) {
+                Text("Consoles")
+                    .font(.title2).bold()
+                    .foregroundColor(.primary)
+                Spacer()
+                Button(action: scan) {
+                    Image(systemName: "arrow.clockwise")
+                        .font(.system(size: 16, weight: .semibold))
+                        .frame(width: 32, height: 32)
+                        .background(Color(.systemGray6))
+                        .foregroundColor(.secondary)
+                        .clipShape(Circle())
+                }
+                Button(action: addConsole) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 17, weight: .semibold))
+                        .frame(width: 32, height: 32)
+                        .background(Color("navcolor"))
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+                }
+                .accessibilityLabel("Add console by IP")
+            }
+            statusLine
+        }
+    }
+
+    private var statusLine: some View {
+        HStack(spacing: 6) {
+            if sync.active.isEmpty {
+                ProgressView().scaleEffect(0.7)
+                Text("Scanning your network…")
+            } else {
+                Image(systemName: "wifi")
+                Text("\(sync.active.count) found on your network")
+            }
+        }
+        .font(.caption)
+        .foregroundColor(.secondary)
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "gamecontroller")
+                .font(.system(size: 44))
+                .foregroundColor(.secondary)
+            Text("No consoles yet")
+                .font(.headline)
+                .foregroundColor(.primary)
+            Text("Put your PS4/PS3 on the same Wi-Fi, then scan — or add it by IP.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+            HStack(spacing: 10) {
+                Button(action: scan) {
+                    Label("Scan network", systemImage: "arrow.clockwise")
+                        .font(.subheadline.weight(.semibold))
+                        .padding(.horizontal, 14).padding(.vertical, 8)
+                        .overlay(Capsule().stroke(Color("navcolor"), lineWidth: 1))
+                        .foregroundColor(Color("navcolor"))
+                }
+                Button(action: addConsole) {
+                    Label("Add by IP", systemImage: "plus")
+                        .font(.subheadline.weight(.semibold))
+                        .padding(.horizontal, 14).padding(.vertical, 8)
+                        .background(Color("navcolor"))
+                        .foregroundColor(.white)
+                        .clipShape(Capsule())
+                }
+            }
+            .padding(.top, 4)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
+    }
+
+    private func scan() {
+        sync.findDevices()
+    }
+
+    private func addConsole() {
+        alertMessage(
+            title: "Add console",
+            message: "Add a console by IP",
+            placeholder: "192.168.1.42",
+            onConfirm: { string in vm.addConsole(string: string) }
+        ) {
+            // cancelled
         }
     }
 }

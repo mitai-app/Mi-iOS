@@ -109,22 +109,93 @@ struct PackageView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            LazyVStack(alignment: .leading, spacing: 14) {
                 textFieldView
                 if search.isEmpty {
-                    ForEach(vm.response) { repo in
-                        RepoListItem(response: repo)
+                    if vm.response.isEmpty {
+                        emptyState
+                    } else {
+                        ForEach(vm.response) { repo in
+                            RepoListItem(response: repo)
+                        }
                     }
                 } else if !vm.results.isEmpty {
-                    PackageListView(packages: vm.results)
-                } else if vm.verifyUrl(urlString: search) {
-                    
-                } 
-            }.padding(20)
+                    VStack(spacing: 0) {
+                        PackageListView(packages: vm.results)
+                    }
+                    .background(Color(.secondarySystemGroupedBackground))
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.separator), lineWidth: 0.5))
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                } else {
+                    noResultsState
+                }
+            }
+            .padding(16)
         }.onAppear {
             vm.searchPackages(find: savedEntities)
         }
-        
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "shippingbox")
+                .font(.system(size: 44))
+                .foregroundColor(.secondary)
+            Text("No packages yet")
+                .font(.headline)
+                .foregroundColor(.primary)
+            Text("Add a repository to browse and install payloads.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+            Button(action: addRepository) {
+                Label("Add repository", systemImage: "plus")
+                    .font(.subheadline.weight(.semibold))
+                    .padding(.horizontal, 16).padding(.vertical, 8)
+                    .background(Color("navcolor"))
+                    .foregroundColor(.white)
+                    .clipShape(Capsule())
+            }
+            .padding(.top, 4)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
+    }
+
+    private var noResultsState: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 36))
+                .foregroundColor(.secondary)
+            Text("No results for \u{201C}\(search)\u{201D}")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
+    }
+
+    private func addRepository() {
+        alertMessage(
+            title: "Add repository",
+            message: "Enter a repository URL",
+            placeholder: "https://.../packages.json",
+            onConfirm: { string in
+                if string.verifyUrl() {
+                    vm.addSource(source: string) { _ in
+                        do {
+                            let repo = RepositoryEntity(context: moc)
+                            repo.link = string
+                            try moc.save()
+                        } catch {
+                            print("unable to save")
+                        }
+                    }
+                }
+            }) {
+                // cancelled
+            }
     }
 }
 
@@ -132,49 +203,36 @@ extension PackageView {
 
     
     var textFieldView: some View {
-        VStack {
-            HStack {
-                TextField("", text: $search)
-                    .placeholder(when: search.isEmpty) {
-                        Text("Search packages...").foregroundColor(Color.gray)
+        HStack(spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.secondary)
+                TextField("Search packages", text: $search)
+                    .foregroundColor(.primary)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .onChange(of: search) { _, newValue in
+                        vm.searchPackages(find: newValue)
                     }
-                    .padding(12)
-                    .background(Color("background"))
-                    .cornerRadius(8)
-                
-                    .onChange(of: search) { newValue in
-                            vm.searchPackages(find: newValue)
-                    }.foregroundColor(.white)
-                    .accentColor(.red)
-                .shadow(color: Color.black.opacity(0.7), radius: 1, x:0, y:1)
-                .padding(Edge.Set.trailing, 8)
-                Spacer()
-                Button(action: {
-                    alertMessage(
-                        title: "Enter repo url",
-                        message: "Add a repository",
-                        placeholder: "repository url here",
-                        onConfirm: { string in
-                            if string.verifyUrl() {
-                                vm.addSource(source: string) { response in
-                                    do {
-                                        var repo = RepositoryEntity(context: moc)
-                                        repo.link = string
-                                        try moc.save()
-                                    } catch {
-                                        print("unable to save")
-                                    }
-                                }
-                            }
-                        }) {
-                            // do nothing
-                        }
-                }, label: {
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }).foregroundColor(Color("navcolor"))
+                if !search.isEmpty {
+                    Button {
+                        search = ""
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.secondary)
+                    }
+                }
             }
+            .padding(.horizontal, 12).padding(.vertical, 10)
+            .background(Color(.systemGray6))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+            Button(action: addRepository) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 28))
+                    .foregroundColor(Color("navcolor"))
+            }
+            .accessibilityLabel("Add repository")
         }
     }
     

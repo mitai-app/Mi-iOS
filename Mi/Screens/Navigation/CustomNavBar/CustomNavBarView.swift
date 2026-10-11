@@ -9,23 +9,23 @@ import SwiftUI
 
 struct CustomNavBarView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.openURL) var openURL
     let showBackButton: Bool
     let title: String
     let subtitle: String?
     let background: Color = Color("navcolor")
-    
+
     var body: some View {
-        HStack {
-            if showBackButton {
-                backButton
-                Spacer()
-            }
+        ZStack {
+            // Title stays centered regardless of the leading/trailing icons.
             titleSection
-                .frame(alignment: .center)
                 .frame(maxWidth: .infinity)
-            if showBackButton {
+            HStack {
+                if showBackButton {
+                    backButton
+                }
                 Spacer()
-                backButton.opacity(0)
+                repoButton
             }
         }
         .padding()
@@ -34,8 +34,6 @@ struct CustomNavBarView: View {
         .frame(maxWidth: .infinity)
         .font(.headline)
         .background(background.ignoresSafeArea(edges: .top))
-        
-        
     }
 }
 
@@ -57,6 +55,18 @@ extension CustomNavBarView {
         }, label:  {
             Image(systemName: "chevron.left")
         })
+    }
+
+    /// Opens the project's source repository in the browser.
+    private var repoButton: some View {
+        Button(action: {
+            if let url = URL(string: Constants.REPO_URL) {
+                openURL(url)
+            }
+        }, label: {
+            Image(systemName: "chevron.left.forwardslash.chevron.right")
+        })
+        .accessibilityLabel("Open project on GitHub")
     }
     
     private var titleSection: some View {
