@@ -13,7 +13,7 @@ struct CustomNavBarContainerView<Content: View>: View {
     
     @State private var showBackButton: Bool = false
     @State private var title: String = "Mi"
-    @State private var subtitle: String? = "Subtitle"
+    @State private var subtitle: String? = nil
     
     
     init(@ViewBuilder content: () -> Content) {
@@ -27,7 +27,8 @@ struct CustomNavBarContainerView<Content: View>: View {
             content.frame(maxWidth: .infinity, maxHeight: .infinity)
         }.onPreferenceChange(CustomNavBarTitlePreferenceKey.self, perform: { value in
             DispatchQueue.main.async {
-                self.title = value
+                // Fall back to the app name when a screen doesn't set its own title.
+                self.title = value.isEmpty ? "Mi" : value
             }
         }).onPreferenceChange(CustomNavBarSubtitlePreferenceKey.self, perform: { value in
             DispatchQueue.main.async {
@@ -35,7 +36,8 @@ struct CustomNavBarContainerView<Content: View>: View {
             }
         }).onPreferenceChange(CustomNavBarBackButtonHiddenPreferenceKey.self, perform: { value in
             DispatchQueue.main.async {
-            self.showBackButton = value
+                // `value` is "back button hidden"; show the button when not hidden.
+                self.showBackButton = !value
             }
         })
     }

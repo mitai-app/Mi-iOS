@@ -16,8 +16,9 @@ struct ConsoleView: View {
     var body: some View {
         ScrollView {
             ConsoleSectionView()
-        }.onAppear {
-            
+        }
+        .refreshable {
+            sync.findDevices()
         }
     }
 }
